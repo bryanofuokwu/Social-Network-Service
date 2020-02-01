@@ -35,4 +35,4 @@ social_server: social.pb.o social.grpc.pb.o social_server.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h social_client social_servers
+	rm -f *.o *.pb.cc *.pb.h social_client social_server
