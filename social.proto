@@ -12,17 +12,14 @@ service Social {
 
   // Accepts a FollowRequest and returns a  Reply
   rpc Follow(FollowRequest) returns (FollowReply) {
-
   }
   // Accepts a UnfollowRequest and returns a Reply
   rpc Unfollow(UnfollowRequest) returns (UnfollowReply) {
-
   }
+  // Bidirectional stream of posts and replies.
   rpc Timeline(stream Post) returns (stream PostReply ) {
-
   }
   rpc List(ListRequest) returns (ListReply) {
-
   }
 
   //TODO: figure out how to get the social network users
@@ -78,7 +75,6 @@ message ListRequest {
 message ListReply {
   repeated User following_users = 1;
   repeated User network_users = 2;
-
 }
 
 message SocialNetwork {
