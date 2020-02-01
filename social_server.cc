@@ -79,7 +79,7 @@ class SocialService final : public Social::Service {
             const social::User& user = social_network.user(i);
             // add all the users it follows
             if((user.name().compare(lrequest->mutable_user()->name())) == 0) {
-                //lreply->add_following_users()
+
             }
         }
         freply->set_status("FAILURE_INVALID_USERNAME");
