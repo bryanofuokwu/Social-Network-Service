@@ -31,7 +31,7 @@ service Social {
 
 message User {
   string name = 1;
-  repeated string  following_users = 2;
+  repeated User  following_users = 2;
   int32 num_followers = 3;
   repeated Post post = 4;
 
