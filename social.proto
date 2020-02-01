@@ -21,7 +21,7 @@ service Social {
   rpc Timeline(stream Post) returns (stream PostReply ) {
 
   }
-  rpc List(User) returns (ListReply) {
+  rpc List(ListRequest) returns (ListReply) {
 
   }
 
@@ -73,9 +73,7 @@ message TimelineRequest {
 }
 
 message ListRequest {
-  string  = 1;
-  string following = 2;
-
+  string user = 1;
 }
 message ListReply {
   repeated User following_users = 1;
