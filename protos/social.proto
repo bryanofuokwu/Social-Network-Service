@@ -1,9 +1,9 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "io.grpc.examples.routeguide";
-option java_outer_classname = "RouteGuideProto";
-option objc_class_prefix = "RTG";
+option java_package = "io.grpc.examples.social";
+option java_outer_classname = "SocialProto";
+option objc_class_prefix = "SCL";
 
 package social;
 
@@ -12,17 +12,14 @@ service Social {
 
   // Accepts a FollowRequest and returns a  Reply
   rpc Follow(FollowRequest) returns (FollowReply) {
-
   }
   // Accepts a UnfollowRequest and returns a Reply
   rpc Unfollow(UnfollowRequest) returns (UnfollowReply) {
-
   }
+  // Bidirectional stream of posts and replies.
   rpc Timeline(stream Post) returns (stream PostReply ) {
-
   }
-  rpc List(User) returns (ListReply) {
-
+  rpc List(ListRequest) returns (ListReply) {
   }
 
   //TODO: figure out how to get the social network users
@@ -34,7 +31,7 @@ service Social {
 
 message User {
   string name = 1;
-  repeated string  following_users = 2;
+  repeated User following_users = 2;
   int32 num_followers = 3;
   repeated Post post = 4;
 
@@ -73,14 +70,11 @@ message TimelineRequest {
 }
 
 message ListRequest {
-  string  = 1;
-  string following = 2;
-
+  string user = 1;
 }
 message ListReply {
   repeated User following_users = 1;
   repeated User network_users = 2;
-
 }
 
 message SocialNetwork {
