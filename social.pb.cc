@@ -440,31 +440,32 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\014social.proto\022\006social\"`\n\004User\022\014\n\004name\030\001"
-      " \001(\t\022\027\n\017following_users\030\002 \003(\t\022\025\n\rnum_fol"
-      "lowers\030\003 \001(\005\022\032\n\004post\030\004 \003(\0132\014.social.Post"
-      "\"\"\n\rFollowRequest\022\021\n\tto_follow\030\002 \001(\t\",\n\013"
-      "FollowReply\022\016\n\006status\030\001 \001(\t\022\r\n\005reply\030\002 \001"
-      "(\t\"\027\n\004Post\022\017\n\007message\030\001 \001(\t\"\?\n\tPostReply"
-      "\022\016\n\006author\030\001 \001(\t\022\017\n\007message\030\002 \001(\t\022\021\n\ttim"
-      "e_date\030\003 \001(\t\"&\n\017UnfollowRequest\022\023\n\013to_un"
-      "follow\030\001 \001(\t\".\n\rUnfollowReply\022\016\n\006status\030"
-      "\001 \001(\t\022\r\n\005reply\030\002 \001(\t\"-\n\017TimelineRequest\022"
-      "\032\n\004user\030\001 \001(\0132\014.social.User\"\033\n\013ListReque"
-      "st\022\014\n\004user\030\001 \001(\t\"W\n\tListReply\022%\n\017followi"
-      "ng_users\030\001 \003(\0132\014.social.User\022#\n\rnetwork_"
-      "users\030\002 \003(\0132\014.social.User\"+\n\rSocialNetwo"
-      "rk\022\032\n\004user\030\001 \003(\0132\014.social.User2\343\001\n\006Socia"
-      "l\0226\n\006Follow\022\025.social.FollowRequest\032\023.soc"
-      "ial.FollowReply\"\000\022<\n\010Unfollow\022\027.social.U"
-      "nfollowRequest\032\025.social.UnfollowReply\"\000\022"
-      "1\n\010Timeline\022\014.social.Post\032\021.social.PostR"
-      "eply\"\000(\0010\001\0220\n\004List\022\023.social.ListRequest\032"
-      "\021.social.ListReply\"\000B.\n\027io.grpc.examples"
-      ".socialB\013SocialProtoP\001\242\002\003SCLb\006proto3"
+      "\n\014social.proto\022\006social\"n\n\004User\022\014\n\004name\030\001"
+      " \001(\t\022%\n\017following_users\030\002 \003(\0132\014.social.U"
+      "ser\022\025\n\rnum_followers\030\003 \001(\005\022\032\n\004post\030\004 \003(\013"
+      "2\014.social.Post\"\"\n\rFollowRequest\022\021\n\tto_fo"
+      "llow\030\002 \001(\t\",\n\013FollowReply\022\016\n\006status\030\001 \001("
+      "\t\022\r\n\005reply\030\002 \001(\t\"\027\n\004Post\022\017\n\007message\030\001 \001("
+      "\t\"\?\n\tPostReply\022\016\n\006author\030\001 \001(\t\022\017\n\007messag"
+      "e\030\002 \001(\t\022\021\n\ttime_date\030\003 \001(\t\"&\n\017UnfollowRe"
+      "quest\022\023\n\013to_unfollow\030\001 \001(\t\".\n\rUnfollowRe"
+      "ply\022\016\n\006status\030\001 \001(\t\022\r\n\005reply\030\002 \001(\t\"-\n\017Ti"
+      "melineRequest\022\032\n\004user\030\001 \001(\0132\014.social.Use"
+      "r\"\033\n\013ListRequest\022\014\n\004user\030\001 \001(\t\"W\n\tListRe"
+      "ply\022%\n\017following_users\030\001 \003(\0132\014.social.Us"
+      "er\022#\n\rnetwork_users\030\002 \003(\0132\014.social.User\""
+      "+\n\rSocialNetwork\022\032\n\004user\030\001 \003(\0132\014.social."
+      "User2\343\001\n\006Social\0226\n\006Follow\022\025.social.Follo"
+      "wRequest\032\023.social.FollowReply\"\000\022<\n\010Unfol"
+      "low\022\027.social.UnfollowRequest\032\025.social.Un"
+      "followReply\"\000\0221\n\010Timeline\022\014.social.Post\032"
+      "\021.social.PostReply\"\000(\0010\001\0220\n\004List\022\023.socia"
+      "l.ListRequest\032\021.social.ListReply\"\000B.\n\027io"
+      ".grpc.examples.socialB\013SocialProtoP\001\242\002\003S"
+      "CLb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 876);
+      descriptor, 890);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "social.proto", &protobuf_RegisterTypes);
 }
@@ -593,17 +594,11 @@ bool User::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated string following_users = 2;
+      // repeated .social.User following_users = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->add_following_users()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->following_users(this->following_users_size() - 1).data(),
-            static_cast<int>(this->following_users(this->following_users_size() - 1).length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "social.User.following_users"));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_following_users()));
         } else {
           goto handle_unusual;
         }
@@ -671,14 +666,11 @@ void User::SerializeWithCachedSizes(
       1, this->name(), output);
   }
 
-  // repeated string following_users = 2;
-  for (int i = 0, n = this->following_users_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->following_users(i).data(), static_cast<int>(this->following_users(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "social.User.following_users");
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      2, this->following_users(i), output);
+  // repeated .social.User following_users = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->following_users_size()); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, this->following_users(static_cast<int>(i)), output);
   }
 
   // int32 num_followers = 3;
@@ -718,14 +710,12 @@ void User::SerializeWithCachedSizes(
         1, this->name(), target);
   }
 
-  // repeated string following_users = 2;
-  for (int i = 0, n = this->following_users_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->following_users(i).data(), static_cast<int>(this->following_users(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "social.User.following_users");
+  // repeated .social.User following_users = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->following_users_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteStringToArray(2, this->following_users(i), target);
+      InternalWriteMessageToArray(
+        2, this->following_users(static_cast<int>(i)), deterministic, target);
   }
 
   // int32 num_followers = 3;
@@ -758,12 +748,15 @@ size_t User::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated string following_users = 2;
-  total_size += 1 *
-      ::google::protobuf::internal::FromIntSize(this->following_users_size());
-  for (int i = 0, n = this->following_users_size(); i < n; i++) {
-    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
-      this->following_users(i));
+  // repeated .social.User following_users = 2;
+  {
+    unsigned int count = static_cast<unsigned int>(this->following_users_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->following_users(static_cast<int>(i)));
+    }
   }
 
   // repeated .social.Post post = 4;

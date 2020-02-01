@@ -199,27 +199,17 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 
   // accessors -------------------------------------------------------
 
-  // repeated string following_users = 2;
+  // repeated .social.User following_users = 2;
   int following_users_size() const;
   void clear_following_users();
   static const int kFollowingUsersFieldNumber = 2;
-  const ::std::string& following_users(int index) const;
-  ::std::string* mutable_following_users(int index);
-  void set_following_users(int index, const ::std::string& value);
-  #if LANG_CXX11
-  void set_following_users(int index, ::std::string&& value);
-  #endif
-  void set_following_users(int index, const char* value);
-  void set_following_users(int index, const char* value, size_t size);
-  ::std::string* add_following_users();
-  void add_following_users(const ::std::string& value);
-  #if LANG_CXX11
-  void add_following_users(::std::string&& value);
-  #endif
-  void add_following_users(const char* value);
-  void add_following_users(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& following_users() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_following_users();
+  const ::social::User& following_users(int index) const;
+  ::social::User* mutable_following_users(int index);
+  ::social::User* add_following_users();
+  ::google::protobuf::RepeatedPtrField< ::social::User >*
+      mutable_following_users();
+  const ::google::protobuf::RepeatedPtrField< ::social::User >&
+      following_users() const;
 
   // repeated .social.Post post = 4;
   int post_size() const;
@@ -257,7 +247,7 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> following_users_;
+  ::google::protobuf::RepeatedPtrField< ::social::User > following_users_;
   ::google::protobuf::RepeatedPtrField< ::social::Post > post_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::int32 num_followers_;
@@ -1463,73 +1453,34 @@ inline void User::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:social.User.name)
 }
 
-// repeated string following_users = 2;
+// repeated .social.User following_users = 2;
 inline int User::following_users_size() const {
   return following_users_.size();
 }
 inline void User::clear_following_users() {
   following_users_.Clear();
 }
-inline const ::std::string& User::following_users(int index) const {
+inline const ::social::User& User::following_users(int index) const {
   // @@protoc_insertion_point(field_get:social.User.following_users)
   return following_users_.Get(index);
 }
-inline ::std::string* User::mutable_following_users(int index) {
+inline ::social::User* User::mutable_following_users(int index) {
   // @@protoc_insertion_point(field_mutable:social.User.following_users)
   return following_users_.Mutable(index);
 }
-inline void User::set_following_users(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:social.User.following_users)
-  following_users_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-inline void User::set_following_users(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:social.User.following_users)
-  following_users_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void User::set_following_users(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  following_users_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:social.User.following_users)
-}
-inline void User::set_following_users(int index, const char* value, size_t size) {
-  following_users_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:social.User.following_users)
-}
-inline ::std::string* User::add_following_users() {
-  // @@protoc_insertion_point(field_add_mutable:social.User.following_users)
+inline ::social::User* User::add_following_users() {
+  // @@protoc_insertion_point(field_add:social.User.following_users)
   return following_users_.Add();
 }
-inline void User::add_following_users(const ::std::string& value) {
-  following_users_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:social.User.following_users)
-}
-#if LANG_CXX11
-inline void User::add_following_users(::std::string&& value) {
-  following_users_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:social.User.following_users)
-}
-#endif
-inline void User::add_following_users(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  following_users_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:social.User.following_users)
-}
-inline void User::add_following_users(const char* value, size_t size) {
-  following_users_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:social.User.following_users)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-User::following_users() const {
-  // @@protoc_insertion_point(field_list:social.User.following_users)
-  return following_users_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::social::User >*
 User::mutable_following_users() {
   // @@protoc_insertion_point(field_mutable_list:social.User.following_users)
   return &following_users_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::social::User >&
+User::following_users() const {
+  // @@protoc_insertion_point(field_list:social.User.following_users)
+  return following_users_;
 }
 
 // int32 num_followers = 3;
