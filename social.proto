@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.routeguide";
+option java_outer_classname = "RouteGuideProto";
+option objc_class_prefix = "RTG";
+
+package social;
+
+// Interface exported by the server.
+service Social {
+
+  // Accepts a FollowRequest and returns a  Reply
+  rpc Follow(FollowRequest) returns (Reply) {
+
+  }
+  // Accepts a UnfollowRequest and returns a Reply
+  rpc Unfollow(UnfollowRequest) returns (Reply) {
+
+  }
+  rpc Timeline(User) returns (stream Post ) {
+
+  }
+  rpc List(User) returns (User) {
+
+  }
+
+
+  //TODO: figure out how to get the social network users
+  // I think just doing social::SocialNetwork social_network;
+  // social_network.user_size() and social_network.user(index)
+  //  rpc List(SocialNetwork) returns (stream User) {}
+
+}
+
+message User {
+  string name = 1;
+  repeated string following_users = 2;
+
+}
+message FollowRequest {
+  User user = 1;
+  string to_follow = 2;
+}
+
+message Reply {
+  string status = 1;
+  string reply = 2;
+  repeated User following = 3; // only if it is unfollow or follow
+
+}
+
+message Post {
+  string content = 1;
+  string time_date = 2;
+
+}
+
+message UnfollowRequest {
+  User user = 1;
+  string to_unfollow = 2;
+}
+
+message TimelineRequest {
+  User user = 1;
+}
+
+message ListRequest {
+  string  = 1;
+  string following = 2;
+
+}
+
+message ListReply {
+  repeated User following_users = 1;
+  repeated User network_users = 2;
+
+}
+
+message SocialNetwork {
+  repeated User user = 1;
+}
+
+
