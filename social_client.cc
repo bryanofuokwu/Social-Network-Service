@@ -225,8 +225,7 @@ int main(int argc, char **argv)
     int opt = 0;
     while ((opt = getopt(argc, argv, "h:u:p:")) != -1)
     {
-        switch (opt)
-        {
+        switch (opt){
         case 'h':
             hostname = optarg;
             break;
@@ -269,18 +268,17 @@ int main(int argc, char **argv)
     std::strcpy(fname_user, (users).c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    if (fd_user = open(fname_user,O_RDWR| O_CREAT |  O_APPEND,S_IRWXU) < 0){
+    if (fd_user = open(fname_user,O_RDWR| O_CREAT | O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
     char buff[MAX_DATA];
     strcpy(buff, username.c_str());
-    if (( write_bytes = write(fd_user, buff, nbytes)) < 0) {
-        perror("Problem in writing the file created");
-        exit(1);
-    }
-    std::cout<< "the username " << buff << std::endl;
-
+    write_bytes  = write(fd_user, buff, nbytes));
+//    if (( write_bytes = write(fd_user, buff, nbytes)) < 0) {
+//        perror("Problem in writing the file created");
+//        exit(1);
+//    }
     // for creating to the user_timeline.txt file
     int fd_time;
     if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
