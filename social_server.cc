@@ -47,7 +47,7 @@ using std::chrono::system_clock;
 class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
-    /*Status Follow(ServerContext* context, const FollowRequest* frequest,
+    Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
         social::SocialNetwork social_network;
         for (int i = 0; i < social_network.user_size(); i++) {
@@ -77,7 +77,7 @@ class SocialService final : public Social::Service {
         }
         ufreply->set_status("FAILURE_INVALID_USERNAME");
         return Status::OK;
-    }*/
+    }
 
 //    Status List(ServerContext* context, const ListRequest* lrequest,
 //                  ListReply* lreply) override {

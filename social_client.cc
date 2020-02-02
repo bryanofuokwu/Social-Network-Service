@@ -260,7 +260,7 @@ int main(int argc, char **argv)
     strcpy(buff, username.c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    //TODO: FIX!!! WONT WRITE TO USERS.TXT FILE
+    //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
     write_bytes  = write(fd_user, "u1", sizeof(buff));
 
     /*
