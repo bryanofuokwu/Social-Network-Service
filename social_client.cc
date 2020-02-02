@@ -266,6 +266,7 @@ int main(int argc, char **argv)
     int fd_user;
     std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
+    std::strcpy(fname_user, (users).c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
     if (fd_user = open(fname_user,O_RDWR| O_APPEND,S_IRWXU) < 0){
