@@ -20,7 +20,7 @@ PROTOS_PATH = protos
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check social_client social_server
+all: social_client social_server
 
 social_client: social.pb.o social.grpc.pb.o social_client.o
 	$(CXX) $^ $(LDFLAGS) -o $@
