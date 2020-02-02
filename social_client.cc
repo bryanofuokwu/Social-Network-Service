@@ -274,7 +274,7 @@ int main(int argc, char **argv)
     };
     char buff[MAX_DATA];
     strcpy(buff, username.c_str());
-    write_bytes  = write(fd_user, buff, nbytes));
+    write_bytes  = write(fd_user, buff, nbytes);
 //    if (( write_bytes = write(fd_user, buff, nbytes)) < 0) {
 //        perror("Problem in writing the file created");
 //        exit(1);
