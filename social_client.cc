@@ -246,20 +246,6 @@ int main(int argc, char **argv)
     // for adding username to file name
     std::string fileu = file.append(username);
 
-    // adding timeline or followers
-    std::string file_timeline = fileu.append("_timeline");
-    std::string file_following = fileu.append("_following");
-
-    //adding the txt file extenstion
-    std::string file_following_txt = file_timeline.append(".txt");
-    std::string file_timeline_txt = file_following.append(".txt");
-
-    //creating the file name
-    char *fname_timeline = new char[file_timeline_txt.length() + 1];
-    char *fname_following = new char[file_following_txt.length() + 1];
-
-    std::strcpy(fname_timeline, (file_timeline_txt).c_str());
-    std::strcpy(fname_following, (file_following_txt).c_str());
 
     // for appending to the user.txt file
     int fd_user;
@@ -275,8 +261,23 @@ int main(int argc, char **argv)
     size_t nbytes = username.length();
     ssize_t write_bytes;
     //TODO: FIX!!! WONT WRITE TO USERS.TXT FILE
-    write_bytes  = write(fd_user, buff, sizeof(buff));
+    write_bytes  = write(fd_user, "u1", sizeof(buff));
 
+    /*
+     // adding timeline or followers
+    std::string file_timeline = fileu.append("_timeline");
+    std::string file_following = fileu.append("_following");
+
+    //adding the txt file extenstion
+    std::string file_following_txt = file_timeline.append(".txt");
+    std::string file_timeline_txt = file_following.append(".txt");
+
+    //creating the file name
+    char *fname_timeline = new char[file_timeline_txt.length() + 1];
+    char *fname_following = new char[file_following_txt.length() + 1];
+
+    std::strcpy(fname_timeline, (file_timeline_txt).c_str());
+    std::strcpy(fname_following, (file_following_txt).c_str());
     // for creating to the user_timeline.txt file
     int fd_time;
     if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
@@ -290,12 +291,9 @@ int main(int argc, char **argv)
         perror("Problem in opening the file for following");
         exit(1);
     };
-
+*/
 
     Client myc(hostname, username, port);
-    // dont need this already done in the connect to function
-    // TODO: update social network active users.
-
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
     return 0;
@@ -313,8 +311,7 @@ int Client::connectTo()
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
 
-    Client client(grpc::CreateChannel(
-        "localhost:3010", grpc::InsecureChannelCredentials()));
+    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     return 1; // return 1 if success, otherwise return -1
 }
