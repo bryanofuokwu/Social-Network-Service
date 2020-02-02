@@ -50,7 +50,7 @@ class SocialService final : public Social::Service {
         social::SocialNetwork social_network;
         for (int i = 0; i < social_network.user_size(); i++) {
             const social::User& user = social_network.user(i);
-            if((user.name().compare(frequest->name())) == 0) {
+            if((user.name().compare(frequest->to_follow())) == 0) {
                 freply->set_status("SUCCESS");
                 // will return the user just followed
                 freply->set_reply(user.name());
@@ -67,7 +67,7 @@ class SocialService final : public Social::Service {
         social::SocialNetwork social_network;
         for (int i = 0; i < social_network.user_size(); i++) {
             const social::User& user = social_network.user(i);
-            if((user.name().compare(ufrequest->name())) == 0) {
+            if((user.name().compare(ufrequest->to_unfollow())) == 0) {
                 ufreply->set_status("SUCCESS");
                 ufreply->set_reply(user.name());
                 return Status::OK;
@@ -77,18 +77,15 @@ class SocialService final : public Social::Service {
         return Status::OK;
     }
 
-    Status List(ServerContext* context, const ListRequest* lrequest,
-                  ListReply* lreply) override {
-        social::SocialNetwork social_network;
-        for (int i = 0; i < lrequest->mutable_user()->following_users_size(); i++) {
-            lreply->add_following_users(user);
-        }
-        freply->set_status("SUCCESS");
-        return Status::OK;
-    }
-
-    }
-
+//    Status List(ServerContext* context, const ListRequest* lrequest,
+//                  ListReply* lreply) override {
+//        social::SocialNetwork social_network;
+//        for (int i = 0; i < lrequest->user()->following_users_size(); i++) {
+//            lreply->add_following_users(user);
+//        }
+//        freply->set_status("SUCCESS");
+//        return Status::OK;
+//    }
 
 };
 

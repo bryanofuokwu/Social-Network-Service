@@ -70,7 +70,7 @@ message TimelineRequest {
 }
 
 message ListRequest {
-  string user = 1;
+  User user = 1;
 }
 message ListReply {
   repeated User following_users = 1;
