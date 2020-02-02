@@ -18,6 +18,7 @@
 #include <memory>
 #include <grpc++/grpc++.h>
 
+
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
 #else
@@ -46,8 +47,54 @@ public:
     Client(const std::string &hname,
            const std::string &uname,
            const std::string &p)
-        : hostname(hname), username(uname), port(p)
+        : hostname(hname), username(uname), port(p){}
+    Client(shared_ptr<channel> channel)
+        : stub_(Client::NewStub(channel)) {}
+    void Follow(string &user)
     {
+        FollowRequest followreq;  // data sending to the server
+        FollowReply followreply; // data recieving from the server
+        followreq.set_name(user);
+
+        /* TODO: update the current user's following vector
+         * TODO: update the current user's following number
+         * The reply already has the user name it just followed.
+        */
+        ClientContext context;
+
+        Status status = stub_->Follow(&context, followreq, &followreply);
+
+        if (status.ok())
+        {
+            cout << "Follow rpc succeeded." << endl;
+        }
+        else
+        {
+            cout << "Follow rpc failed." << endl;
+        }
+    }
+    void Unfollow(string &user)
+    {
+        UnfollowRequest unfollowreq;  // data sending to the server
+        UnfollowReply unfollowreply; // data recieving from the server
+        unfollowreq.set_name(user);
+
+        ClientContext context;
+        /* TODO: update the current user's following vector
+         * TODO: update the current user's following number
+        * The reply already has the user name it just unfollowed.
+       */
+
+        Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
+
+        if (status.ok())
+        {
+            cout << "Unfollow rpc succeeded." << endl;
+        }
+        else
+        {
+            cout << "Unfollow rpc failed." << endl;
+        }
     }
 
 protected:
@@ -62,7 +109,7 @@ private:
 
     // You can have an instance of the client stub
     // as a member variable.
-    //std::unique_ptr<NameOfYourStubClass::Stub> stub_;
+    std::unique_ptr<Social::Stub> stub_;
 };
 
 string trim(string input)
@@ -214,6 +261,10 @@ int main(int argc, char **argv)
     }
 
     Client myc(hostname, username, port);
+    Client guide(
+            grpc::CreateChannel("localhost:50051",
+                                grpc::InsecureChannelCredentials()),
+            db);
 
     // TODO: update social network active users.
     // You MUST invoke "run_client" function to start business logic
@@ -223,7 +274,7 @@ int main(int argc, char **argv)
 
 int Client::connectTo()
 {
-    SocialClient social(grpc::CreateChannel(
+    Client client(grpc::CreateChannel(
         "localhost:3010", grpc::InsecureChannelCredentials()));
     // ------------------------------------------------------------
     // In this function, you are supposed to create a stub so that
@@ -354,56 +405,11 @@ void Client::processTimeline()
     // ------------------------------------------------------------
 }
 
-class SocialClient
-{
-public:
-    SocialClient(shared_ptr<channel> channel)
-        : stub_(Social::NewStub(channel)) {}
-
-    void Follow(string &user)
-    {
-        FolowRequest followreq;  // data sending to the server
-        FollowReply followreply; // data recieving from the server
-        followreq.set_name(user);
-
-        /* TODO: update the current user's following vector
-         * TODO: update the current user's following number
-         * The reply already has the user name it just followed.
-        */
-        ClientContext context;
-
-        Status status = stub_->Follow(&context, followreq, &followreply);
-
-        if (status.ok())
-        {
-            cout << "Follow rpc succeeded." << endl;
-        }
-        else
-        {
-            cout << "Follow rpc failed." << endl;
-        }
-    }
-    void Unfollow(string &user)
-    {
-        FolowRequest unfollowreq;  // data sending to the server
-        FollowReply unfollowreply; // data recieving from the server
-        unfollowreq.set_name(user);
-
-        ClientContext context;
-        /* TODO: update the current user's following vector
-         * TODO: update the current user's following number
-        * The reply already has the user name it just unfollowed.
-       */
-
-        Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
-
-        if (status.ok())
-        {
-            cout << "Unfollow rpc succeeded." << endl;
-        }
-        else
-        {
-            cout << "Unfollow rpc failed." << endl;
-        }
-    }
-}
+//class SocialClient
+//{
+//public:
+//    SocialClient(shared_ptr<channel> channel)
+//        : stub_(SocialClient::NewStub(channel)) {}
+//
+//
+//}
