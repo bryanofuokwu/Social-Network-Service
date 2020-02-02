@@ -264,7 +264,7 @@ int main(int argc, char **argv)
 
     // for appending to the user.txt file
     int fd_user;
-    std::string users = "users.txt";
+    std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
     size_t nbytes = username.length();
     ssize_t write_bytes;
