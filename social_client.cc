@@ -50,7 +50,7 @@ public:
         : hostname(hname), username(uname), port(p){}
     Client(shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
-    void Follow(string &user)
+    string Follow(string &user)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
@@ -64,14 +64,14 @@ public:
 
         if (status.ok())
         {
-            cout << "Follow rpc succeeded." << endl;
+            return "SUCCESS";
         }
         else
         {
-            cout << "Follow rpc failed." << endl;
+            return "FAILURE";
         }
     }
-    void Unfollow(string &user)
+    string Unfollow(string &user)
     {
         UnfollowRequest unfollowreq;  // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
@@ -85,11 +85,11 @@ public:
 
         if (status.ok())
         {
-            cout << "Unfollow rpc succeeded." << endl;
+            return "SUCCESS";
         }
         else
         {
-            cout << "Unfollow rpc failed." << endl;
+            return "FAILURE";
         }
     }
 
@@ -245,21 +245,22 @@ int main(int argc, char **argv)
     int fd;
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    if (fd = open(fname,O_RDWR|O_CREAT | O_APPEND,S_IRWXU) <){
+    if (fd = open(fname,O_RDWR|O_CREAT | O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
 
 
-    if (( write_bytes = write(fd, username, nbytes)) < 0) {
+    if (( write_bytes = write(fd, (void *) username, nbytes)) < 0) {
         perror("Problem in writing the file created");
         exit(1);
     }
 
     Client myc(hostname, username, port);
-    myc(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
-
+    // dont need this already done in the connect to function
+    // myc(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // TODO: update social network active users.
+
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
     return 0;
@@ -267,8 +268,6 @@ int main(int argc, char **argv)
 
 int Client::connectTo()
 {
-    Client client(grpc::CreateChannel(
-        "localhost:3010", grpc::InsecureChannelCredentials()));
     // ------------------------------------------------------------
     // In this function, you are supposed to create a stub so that
     // you call service methods in the processCommand/porcessTimeline
@@ -278,6 +277,9 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
+
+    Client client(grpc::CreateChannel(
+        "localhost:3010", grpc::InsecureChannelCredentials()));
 
     return 1; // return 1 if success, otherwise return -1
 }
