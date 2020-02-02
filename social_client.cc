@@ -83,6 +83,9 @@ public:
 
         Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
 
+        // TODO: figure out what other cases we will get
+        // TODO: look at https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
+        // for all the kinds of status we can receive from the server
         if (status.ok())
         {
             return "SUCCESS";
@@ -103,8 +106,7 @@ private:
     std::string username;
     std::string port;
 
-    // You can have an instance of the client stub
-    // as a member variable.
+    // You can have an instance of the client stub as a member variable.
     std::unique_ptr<Social::Stub> stub_;
 };
 
@@ -244,7 +246,6 @@ int main(int argc, char **argv)
 
     // for adding username to file name
     std::string fileu = file.append(username);
-
 
     // adding timeline or followers
     std::string file_timeline = fileu.append("_timeline");
