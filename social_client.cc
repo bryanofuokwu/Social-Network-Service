@@ -48,16 +48,14 @@ public:
            const std::string &uname,
            const std::string &p)
         : hostname(hname), username(uname), port(p){}
-    Client(shared_ptr<channel> channel)
-        : stub_(Client::NewStub(channel)) {}
+    Client(shared_ptr<Channel> channel)
+        : stub_(Social::NewStub(channel)) {}
     void Follow(string &user)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
-        followreq.set_name(user);
 
-        /* TODO: update the current user's following vector
-         * TODO: update the current user's following number
+        /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
         */
         ClientContext context;
@@ -77,11 +75,9 @@ public:
     {
         UnfollowRequest unfollowreq;  // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
-        unfollowreq.set_name(user);
 
         ClientContext context;
-        /* TODO: update the current user's following vector
-         * TODO: update the current user's following number
+        /* TODO: update the current user's following text file
         * The reply already has the user name it just unfollowed.
        */
 
@@ -255,16 +251,13 @@ int main(int argc, char **argv)
     };
 
 
-    if (( write_bytes = write(fd, buf, nbytes)) < 0) {
+    if (( write_bytes = write(fd, username, nbytes)) < 0) {
         perror("Problem in writing the file created");
         exit(1);
     }
 
     Client myc(hostname, username, port);
-    Client guide(
-            grpc::CreateChannel("localhost:50051",
-                                grpc::InsecureChannelCredentials()),
-            db);
+    myc(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     // TODO: update social network active users.
     // You MUST invoke "run_client" function to start business logic
@@ -310,20 +303,20 @@ IReply Client::processCommand(std::string &input)
 
     if (command[0] == "FOLLOW")
     {
-        string response = social.Follow(command[1]);
+        string response = this->Follow(command[1]);
     }
     else if (command[0] == "UNFOLLOW")
     {
-        string response = social.Unfollow(command[1]);
+        string response = this->Unfollow(command[1]);
     }
-    else if (command[0] == "LIST")
-    {
-        string response = social.List();
-    }
-    else if (command[0] == "TIMELINE")
-    {
-        string response = social.Timeline();
-    }
+//    else if (command[0] == "LIST")
+//    {
+//        string response = social.List();
+//    }
+//    else if (command[0] == "TIMELINE")
+//    {
+//        string response = social.Timeline();
+//    }
 
     // ------------------------------------------------------------
     // GUIDE 2:
