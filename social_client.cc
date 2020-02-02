@@ -276,14 +276,12 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-
     // for creating to the user_timeline.txt file
     int fd_time;
     if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file for timeline");
         exit(1);
     };
-
 
     // for creating to the user_following.txt file
     int fd_follow;
@@ -295,7 +293,6 @@ int main(int argc, char **argv)
 
     Client myc(hostname, username, port);
     // dont need this already done in the connect to function
-    // myc(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // TODO: update social network active users.
 
     // You MUST invoke "run_client" function to start business logic
@@ -340,6 +337,7 @@ IReply Client::processCommand(std::string &input)
 
     vector<string> command = split(input);
 
+    // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
         string response = this->Follow(command[1]);
@@ -348,6 +346,7 @@ IReply Client::processCommand(std::string &input)
     {
         string response = this->Unfollow(command[1]);
     }
+    //TODO: comment this out once unfollow and follow work perfectly
 //    else if (command[0] == "LIST")
 //    {
 //        string response = social.List();
