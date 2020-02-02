@@ -280,7 +280,7 @@ int main(int argc, char **argv)
     // for creating to the user_timeline.txt file
     int fd_time;
     if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
-        perror("Problem in opening the file");
+        perror("Problem in opening the file for timeline");
         exit(1);
     };
 
@@ -288,7 +288,7 @@ int main(int argc, char **argv)
     // for creating to the user_following.txt file
     int fd_follow;
     if (fd_follow = open(fname_following,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
-        perror("Problem in opening the file");
+        perror("Problem in opening the file for following");
         exit(1);
     };
 
