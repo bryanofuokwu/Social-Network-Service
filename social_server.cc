@@ -91,13 +91,15 @@ class SocialService final : public Social::Service {
 
 };
 
-void RunServer(int port) {
-    std::string server_address("localhost");
+void RunServer(std::string port) {
+    std::string host = "localhost";
+    std::string s_addr = host.append(host);
+    std::string server_address(s_addr);
     SocialService service;
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
-    std::unique_ptr<Server> server(builder.BuildAndStart(), &port);
+    std::unique_ptr<Server> server(builder.BuildAndStart(),;
     std::cout << "Server listening on " << server_address << std::endl;
     server->Wait();
 }
@@ -119,7 +121,7 @@ int main(int argc, char** argv) {
                 std::cerr << "Invalid Command Line Argument\n";
         }
     }
-    RunServer(p);
+    RunServer(port);
 
     return 0;
 }
