@@ -273,10 +273,13 @@ int main(int argc, char **argv)
         perror("Problem in opening the file");
         exit(1);
     };
-    if (( write_bytes = write(fd_user, &username, nbytes)) < 0) {
+    char * buff[MAX_DATA];
+    strcpy(buff, username.c_str());
+    if (( write_bytes = write(fd_user, buff, nbytes)) < 0) {
         perror("Problem in writing the file created");
         exit(1);
     }
+    std::cout<< buff << std::endl;
 
     // for creating to the user_timeline.txt file
     int fd_time;
