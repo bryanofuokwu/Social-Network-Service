@@ -92,8 +92,8 @@ class SocialService final : public Social::Service {
 };
 
 void RunServer(std::string port) {
-    std::string host = "localhost";
-    std::string s_addr = host.append(host);
+    std::string host = "localhost:";
+    std::string s_addr = host.append("3010");
     std::string server_address(s_addr);
     SocialService service;
     ServerBuilder builder;
@@ -115,12 +115,12 @@ int main(int argc, char** argv) {
                 break;
             case 'p':
                 port = optarg;
-                p = atoi(optarg);
                 break;
             default:
                 std::cerr << "Invalid Command Line Argument\n";
         }
     }
+    std::cout<< "After getting opt " << std::endl;
     RunServer(port);
 
     return 0;
