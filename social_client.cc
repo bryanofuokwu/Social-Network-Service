@@ -351,17 +351,19 @@ public:
 
         ClientContext context;
 
+        string response;
         Status status = stub_->Follow(&context, followreq, &followreply);
 
+        response.append(status);
+        response.append(";");
         if (status.ok())
         {
-            return reply.message();
+            response.append("SUCCESS");
         }
         else
         {
-            std::cout << status.error_code() << ": " << status.error_message()
-                      << std::endl;
-            return "RPC failed";
+            response.append("FAILURE_NOT_EXISTS");
         }
+        return response;
     }
 }
