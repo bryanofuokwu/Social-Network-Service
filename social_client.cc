@@ -7,11 +7,15 @@
 #include <grpc++/grpc++.h>
 #include "client.h"
 #include <vector>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
 #include <iostream>
 #include <memory>
-#include <string>
-
 #include <grpcpp/grpcpp.h>
 
 #ifdef BAZEL_BUILD
@@ -192,16 +196,28 @@ int main(int argc, char **argv)
         }
     }
 
+    //TODO: create three files here for users.txt, user_timeline.txt, user_followers.txt
+    char *fname = new char[username.length() + 1];
+    std::strcpy(fname, (username).c_str());
+    int fd;
+    size_t nbytes = username.length();
+    ssize_t write_bytes;
+    if (fd = open(fname,O_RDWR|O_CREAT | O_APPEND,S_IRWXU) <){
+        perror("Problem in opening the file");
+        exit(1);
+    };
+
+
+    if (( write_bytes = write(fd, buf, nbytes)) < 0) {
+        perror("Problem in writing the file created");
+        exit(1);
+    }
+
     Client myc(hostname, username, port);
+
     // TODO: update social network active users.
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
-    displayTitle();
-
-    string input = getCommand();
-    touppercase(input, strlen(input) - 1);
-    processCommand(input);
-
     return 0;
 }
 

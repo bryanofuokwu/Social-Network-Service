@@ -105,17 +105,13 @@ void RunServer(port) {
 }
 int main(int argc, char** argv) {
     std::string hostname = "localhost";
-    std::string username = "default";
     std::string port = "3010";
     int p = 0;
     int opt = 0;
-    while ((opt = getopt(argc, argv, "h:u:p:")) != -1){
+    while ((opt = getopt(argc, argv, "h:p:")) != -1){
         switch(opt) {
             case 'h':
                 hostname = optarg;
-                break;
-            case 'u':
-                username = optarg;
                 break;
             case 'p':
                 port = optarg;
