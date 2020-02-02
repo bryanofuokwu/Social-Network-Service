@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <stdio.h>
+#include <unistd.h>
 
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
@@ -89,7 +91,7 @@ class SocialService final : public Social::Service {
 
 };
 
-void RunServer(port) {
+void RunServer(string port) {
     std::string server_address("localhost");
     GreeterServiceImpl service;
     ServerBuilder builder;
@@ -117,8 +119,7 @@ int main(int argc, char** argv) {
                 std::cerr << "Invalid Command Line Argument\n";
         }
     }
-    std::string server_address(p);
-    RunServer(db);
+    RunServer(p);
 
     return 0;
 }
