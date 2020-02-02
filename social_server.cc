@@ -91,7 +91,7 @@ class SocialService final : public Social::Service {
 
 };
 
-void RunServer(string port) {
+void RunServer(std::string port) {
     std::string server_address("localhost");
     GreeterServiceImpl service;
     ServerBuilder builder;
@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
                 break;
             case 'p':
                 port = optarg;
-                p = atoi(optarg)
+                p = atoi(optarg);
                 break;
             default:
                 std::cerr << "Invalid Command Line Argument\n";
