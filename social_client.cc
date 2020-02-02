@@ -197,18 +197,17 @@ int main(int argc, char **argv)
     myc.run_client();
     displayTitle();
 
-    while (1)
-    {
-        string input = getCommand();
-        touppercase(input, strlen(input) - 1);
-        processCommand(input);
-    }
+    string input = getCommand();
+    touppercase(input, strlen(input) - 1);
+    processCommand(input);
 
     return 0;
 }
 
 int Client::connectTo()
 {
+    SocialClient social(grpc::CreateChannel(
+        "localhost:3010", grpc::InsecureChannelCredentials()));
     // ------------------------------------------------------------
     // In this function, you are supposed to create a stub so that
     // you call service methods in the processCommand/porcessTimeline
@@ -266,7 +265,7 @@ IReply Client::processCommand(std::string &input)
     // the IReply.
     // ------------------------------------------------------------
 
-    if (response == "SUCCESS")
+    /* if (response == "SUCCESS")
     {
         enum IStatus comm_status = SUCCESS;
     }
@@ -287,6 +286,7 @@ IReply Client::processCommand(std::string &input)
     {
         enum IStatus comm_status = FAILURE_UNKNOWN;
     }
+    */
 
     IReply ire;
 
@@ -343,7 +343,7 @@ public:
     SocialClient(shared_ptr<channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
-    string Follow(string &user)
+    void Follow(string &user)
     {
         FolowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
@@ -351,19 +351,34 @@ public:
 
         ClientContext context;
 
-        string response;
         Status status = stub_->Follow(&context, followreq, &followreply);
 
-        response.append(status);
-        response.append(";");
         if (status.ok())
         {
-            response.append("SUCCESS");
+            cout << "Follow rpc succeeded." << endl;
         }
         else
         {
-            response.append("FAILURE_NOT_EXISTS");
+            cout << "Follow rpc failed." << endl;
         }
-        return response;
+    }
+    void Unfollow(string &user)
+    {
+        FolowRequest unfollowreq;  // data sending to the server
+        FollowReply unfollowreply; // data recieving from the server
+        unfollowreq.set_name(user);
+
+        ClientContext context;
+
+        Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
+
+        if (status.ok())
+        {
+            cout << "Unfollow rpc succeeded." << endl;
+        }
+        else
+        {
+            cout << "Unfollow rpc failed." << endl;
+        }
     }
 }
