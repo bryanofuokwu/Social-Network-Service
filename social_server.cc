@@ -91,9 +91,9 @@ class SocialService final : public Social::Service {
 
 };
 
-void RunServer(std::string port) {
+void RunServer(int port) {
     std::string server_address("localhost");
-    GreeterServiceImpl service;
+    SocialService service;
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
