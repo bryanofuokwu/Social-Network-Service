@@ -10,7 +10,6 @@
 #include <grpc++/server_builder.h>
 #include <grpc++/server_context.h>
 #include <grpc++/security/server_credentials.h>
-#include "helper.h"
 #include "route_guide.grpc.pb.h"
 
 using grpc::Server;
