@@ -240,21 +240,58 @@ int main(int argc, char **argv)
     }
 
     //TODO: create three files here for users.txt, user_timeline.txt, user_followers.txt
-    char *fname = new char[username.length() + 1];
-    std::strcpy(fname, (username).c_str());
-    int fd;
+    std::string file = "user_data/";
+
+    // for adding username to file name
+    std::string fileu = file.append(username);
+
+
+    // adding timeline or followers
+    std::string file_timeline = fileu.append("_timeline");
+    std::string file_following = fileu.append("_following");
+
+    //adding the txt file extenstion
+    std::string file_following_txt = file_timeline.append(".txt");
+    std::string file_timeline_txt = file_following.append(".txt");
+
+    //creating the file name
+    char *fname_timeline = new char[file_timeline_txt.length() + 1];
+    char *fname_following = new char[file_following_txt.length() + 1];
+
+    std::strcpy(fname_timeline, (file_timeline_txt).c_str());
+    std::strcpy(fname_following, (file_following_txt).c_str());
+
+    // for appending to the user.txt file
+    int fd_user;
+    std::string users = "users.txt";
+    char *fname_user = new char[users.length() + 1];
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    if (fd = open(fname,O_RDWR|O_CREAT | O_APPEND,S_IRWXU) < 0){
+    if (fd_user = open(fname_user,O_RDWR| O_APPEND,S_IRWXU) < 0){
+        perror("Problem in opening the file");
+        exit(1);
+    };
+    if (( write_bytes = write(fd, &username, nbytes)) < 0) {
+        perror("Problem in writing the file created");
+        exit(1);
+    }
+
+
+    // for creating to the user_timeline.txt file
+    int fd_time;
+    if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
 
 
-    if (( write_bytes = write(fd, &username, nbytes)) < 0) {
-        perror("Problem in writing the file created");
+    // for creating to the user_following.txt file
+    int fd_follow;
+    if (fd_follow = open(fname_following,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
+        perror("Problem in opening the file");
         exit(1);
-    }
+    };
+
 
     Client myc(hostname, username, port);
     // dont need this already done in the connect to function
