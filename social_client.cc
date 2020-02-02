@@ -271,7 +271,7 @@ int main(int argc, char **argv)
         perror("Problem in opening the file");
         exit(1);
     };
-    if (( write_bytes = write(fd, &username, nbytes)) < 0) {
+    if (( write_bytes = write(fd_user, &username, nbytes)) < 0) {
         perror("Problem in writing the file created");
         exit(1);
     }
