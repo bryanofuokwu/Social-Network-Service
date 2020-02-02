@@ -16,7 +16,7 @@
 #include <string.h>
 #include <iostream>
 #include <memory>
-#include <grpcpp/grpcpp.h>
+#include <grpc++/grpc++.h>
 
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
