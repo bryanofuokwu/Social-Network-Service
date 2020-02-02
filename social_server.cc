@@ -45,6 +45,7 @@ using std::chrono::system_clock;
 
 class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
+    // we want to make sure that username exists
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
         social::SocialNetwork social_network;
@@ -52,6 +53,9 @@ class SocialService final : public Social::Service {
             const social::User& user = social_network.user(i);
             if((user.name().compare(frequest->name())) == 0) {
                 freply->set_status("SUCCESS");
+                // will return the user just followed
+                freply->set_reply(user.name());
+                return Status::OK;
                 }
             }
         freply->set_status("FAILURE_INVALID_USERNAME");
@@ -66,6 +70,8 @@ class SocialService final : public Social::Service {
             const social::User& user = social_network.user(i);
             if((user.name().compare(ufrequest->name())) == 0) {
                 ufreply->set_status("SUCCESS");
+                ufreply->set_reply(user.name());
+                return Status::OK;
             }
         }
         ufreply->set_status("FAILURE_INVALID_USERNAME");
@@ -75,17 +81,12 @@ class SocialService final : public Social::Service {
     Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
         social::SocialNetwork social_network;
-        for (int i = 0; i < social_network.user_size(); i++) {
-            const social::User& user = social_network.user(i);
-            // add all the users it follows
-            if((user.name().compare(lrequest->mutable_user()->name())) == 0) {
-
-            }
+        for (int i = 0; i < lrequest->mutable_user()->following_users_size(); i++) {
+            lreply->add_following_users(user);
         }
-        freply->set_status("FAILURE_INVALID_USERNAME");
+        freply->set_status("SUCCESS");
         return Status::OK;
     }
-
 
     }
 

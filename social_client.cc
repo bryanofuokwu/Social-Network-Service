@@ -193,6 +193,7 @@ int main(int argc, char **argv)
     }
 
     Client myc(hostname, username, port);
+    // TODO: update social network active users.
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
     displayTitle();
@@ -349,6 +350,10 @@ public:
         FollowReply followreply; // data recieving from the server
         followreq.set_name(user);
 
+        /* TODO: update the current user's following vector
+         * TODO: update the current user's following number
+         * The reply already has the user name it just followed.
+        */
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -369,6 +374,10 @@ public:
         unfollowreq.set_name(user);
 
         ClientContext context;
+        /* TODO: update the current user's following vector
+         * TODO: update the current user's following number
+        * The reply already has the user name it just unfollowed.
+       */
 
         Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
 
