@@ -251,7 +251,7 @@ int main(int argc, char **argv)
     };
 
 
-    if (( write_bytes = write(fd, (void *) username, nbytes)) < 0) {
+    if (( write_bytes = write(fd, &username, nbytes)) < 0) {
         perror("Problem in writing the file created");
         exit(1);
     }
