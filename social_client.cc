@@ -266,19 +266,17 @@ int main(int argc, char **argv)
     std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
-    size_t nbytes = username.length();
-    ssize_t write_bytes;
     if (fd_user = open(fname_user,O_RDWR| O_CREAT | O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
     char buff[MAX_DATA];
     strcpy(buff, username.c_str());
-    write_bytes  = write(fd_user, buff, nbytes);
-//    if (( write_bytes = write(fd_user, buff, nbytes)) < 0) {
-//        perror("Problem in writing the file created");
-//        exit(1);
-//    }
+    size_t nbytes = username.length();
+    ssize_t write_bytes;
+    //TODO: FIX!!! WONT WRITE TO USERS.TXT FILE
+    write_bytes  = write(fd_user, buff, sizeof(buff));
+
     // for creating to the user_timeline.txt file
     int fd_time;
     if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
