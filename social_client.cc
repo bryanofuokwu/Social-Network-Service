@@ -269,7 +269,7 @@ int main(int argc, char **argv)
     std::strcpy(fname_user, (users).c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    if (fd_user = open(fname_user,O_RDWR| O_APPEND,S_IRWXU) < 0){
+    if (fd_user = open(fname_user,O_RDWR| O_CREAT |  O_APPEND,S_IRWXU) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
@@ -279,7 +279,7 @@ int main(int argc, char **argv)
         perror("Problem in writing the file created");
         exit(1);
     }
-    std::cout<< buff << std::endl;
+    std::cout<< "the username " << buff << std::endl;
 
     // for creating to the user_timeline.txt file
     int fd_time;
