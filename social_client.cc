@@ -85,7 +85,7 @@ public:
             user_following.append(this->username);
             user_following.append(".txt");
             int filewrite = open("user_data/users.txt", O_WRONLY);
-            write(filewrite, user_to_follow, user_to_follow.length());
+            write(filewrite, user_to_follow.c_str(), user_to_follow.length());
             return "SUCCESS";
         }
         else
