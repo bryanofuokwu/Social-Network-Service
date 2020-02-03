@@ -253,10 +253,10 @@ int main(int argc, char **argv)
     std::strcpy(fname_user, (users).c_str());
     int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_APPEND,0666);
     char buff[MAX_DATA];
-    std::string semi = ";"
+    std::string semi = ";";
     char semi[MAX_DATA];
     strcpy(buff, username.c_str());
-    strcpy(semi, string.c_str());
+    strcpy(semi, semi.c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
     //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
