@@ -41,8 +41,7 @@ using social::UnfollowRequest;
 using social::User;
 
 using namespace std;
-class Client : public IClient
-{
+class Client : public IClient{
 public:
     Client(const std::string &hname,
            const std::string &uname,
@@ -70,11 +69,11 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::INVALID_ARGUMENT
+            reply->grpc_status = Status::INVALID_ARGUMENT;
             return "FAILURE";
         }
     }
-    string Unfollow(string &user, IReply * reply))
+    string Unfollow(string &user, IReply * reply)
     {
         UnfollowRequest unfollowreq;  // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
