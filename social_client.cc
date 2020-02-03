@@ -252,7 +252,7 @@ int main(int argc, char **argv)
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
 
-    int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_TRUNC,0666);
+    int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_APPEND,0);
     char buff[MAX_DATA];
     strcpy(buff, username.c_str());
     size_t nbytes = username.length();
