@@ -252,7 +252,7 @@ int main(int argc, char **argv)
     std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
-    if (fd_user = open(fname_user,O_WRONLY | O_CREAT,0) < 0){
+    if (fd_user = open(fname_user,O_WRONLY | O_CREAT | O_TRUNC,0) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
