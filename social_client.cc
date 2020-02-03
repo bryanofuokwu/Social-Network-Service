@@ -62,7 +62,7 @@ public:
         */
         ClientContext context;
 
-        Status status = stub_->Follow(&context, &followreq, &followreply);
+        Status status = stub_->Follow(&context, followreq, &followreply);
 
         if (status.ok())
         {
