@@ -261,7 +261,7 @@ int main(int argc, char **argv)
     write(fd_user, buff, strlen(buff));
     write(fd_user, semi, strlen(semi));
     close(fd_user);
-
+/*
      // adding timeline or followers
     std::string file_timeline = fileu.append("_timeline");
     std::string file_following = fileu.append("_following");
@@ -291,7 +291,7 @@ int main(int argc, char **argv)
         exit(1);
     };
     close(fd_follow);
-
+*/
     Client myc(hostname, username, port);
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
