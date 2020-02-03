@@ -81,7 +81,7 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
-            std::string user_following = "user_following/";
+            std::string user_following = "users_following/";
             user_following.append(this->username);
             user_following.append(".txt");
             int filewrite = open("user_data/users.txt", O_WRONLY);
