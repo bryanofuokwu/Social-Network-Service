@@ -80,7 +80,7 @@ class SocialService final : public Social::Service {
         char buffer[MAX_DATA];
         ssize_t inlen;
         std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
-        while(inlen = read(fileread, buffer, sizeof(buffer)) > 0) {
+        while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
             std::cout << "what I read in: " <<  strlen(buffer) << std::endl;
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
