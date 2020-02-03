@@ -77,7 +77,7 @@ class SocialService final : public Social::Service {
             char cstr[frequest->to_follow().size() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
             std::cout << cstr << std::endl;
-            if(strcmp(cstr, buffer))== 0{
+            if((strcmp(cstr, buffer))== 0){
                 std::cout << "they are the same!" << std::endl;
             }
         }
