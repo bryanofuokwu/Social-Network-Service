@@ -336,20 +336,6 @@ int Client::connectTo()
 
 IReply Client::processCommand(std::string &input)
 {
-    // ------------------------------------------------------------
-    // GUIDE 1:
-    // In this function, you are supposed to parse the given input
-    // command and create your own message so that you call an
-    // appropriate service method. The input command will be one
-    // of the followings:
-    //
-    // FOLLOW <username>
-    // UNFOLLOW <username>
-    // LIST
-    // TIMELINE
-    //
-    // - JOIN/LEAVE and "<username>" are separated by one space.
-    // ------------------------------------------------------------
 
     vector<string> command = split(input);
     IReply ire;
@@ -360,29 +346,13 @@ IReply Client::processCommand(std::string &input)
     if (command[0] == "FOLLOW")
     {
         response = client.Follow(command[1], &ire);
-       /* FollowRequest followreq;  // data sending to the server
-        FollowReply followreply; // data recieving from the server
-        followreq.set_to_follow(command[1]);
-
-        ClientContext context;
-        Status status = stub_->Follow(&context, followreq, &followreply);
-
-        if (status.ok())
-        {
-            ire.grpc_status = Status::OK;
-            response = "SUCCESS";
-        }
-        else
-        {
-            ire.grpc_status = Status::CANCELLED;
-            response =  "FAILURE";
-        }*/
     }
-    /*
+
     else if (command[0] == "UNFOLLOW")
     {
         response = client.Unfollow(command[1], &ire);
     }
+    /*
     //TODO: comment this out once unfollow and follow work perfectly
     else if (command[0] == "LIST")
     {
@@ -391,8 +361,8 @@ IReply Client::processCommand(std::string &input)
     else if (command[0] == "TIMELINE")
     {
         string response = social.Timeline();
-    }
-*/
+    }*/
+
     // ------------------------------------------------------------
     // GUIDE 2:
     // Then, you should create a variable of IReply structure
