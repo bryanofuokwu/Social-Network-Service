@@ -330,7 +330,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 
@@ -354,27 +354,48 @@ IReply Client::processCommand(std::string &input)
     vector<string> command = split(input);
     IReply ire;
     std::string response;
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = client.Follow(command[1], &ire);
+        //response = client.Follow(command[1], &ire);
+        FollowRequest followreq;  // data sending to the server
+        FollowReply followreply; // data recieving from the server
+        followreq.set_to_follow(command[1]);
+
+        /* TODO: update the current user's following text file
+         * The reply already has the user name it just followed.
+        */
+        ClientContext context;
+        Status status = stub_->Follow(&context, followreq, &followreply);
+
+        if (status.ok())
+        {
+            ire.grpc_status = Status::OK;
+            response = "SUCCESS";
+        }
+        else
+        {
+            ire.grpc_status = Status::CANCELLED;
+            response =  "FAILURE";
+        }
     }
+    /*
     else if (command[0] == "UNFOLLOW")
     {
         response = client.Unfollow(command[1], &ire);
     }
     //TODO: comment this out once unfollow and follow work perfectly
-//    else if (command[0] == "LIST")
-//    {
-//        string response = social.List();
-//    }
-//    else if (command[0] == "TIMELINE")
-//    {
-//        string response = social.Timeline();
-//    }
-
+    else if (command[0] == "LIST")
+    {
+        string response = social.List();
+    }
+    else if (command[0] == "TIMELINE")
+    {
+        string response = social.Timeline();
+    }
+*/
     // ------------------------------------------------------------
     // GUIDE 2:
     // Then, you should create a variable of IReply structure
@@ -385,24 +406,23 @@ IReply Client::processCommand(std::string &input)
 
     if (response == "SUCCESS")
     {
-        enum IStatus comm_status = SUCCESS;
+        ire.comm_status = IStatus::SUCCESS;
     }
     else if (response == "FAILURE_ALREADY_EXISTS")
     {
-        enum IStatus comm_status = FAILURE_ALREADY_EXISTS;
+        ire.comm_status = IStatus::FAILURE_ALREADY_EXISTS;
     }
     else if (response == "FAILURE_NOT_EXISTS")
     {
-        enum IStatus comm_status = FAILURE_NOT_EXISTS;
+        ire.comm_status = IStatus::FAILURE_NOT_EXISTS;
     }
     else if (response == "FAILURE_INVALID")
     {
-
-        enum IStatus comm_status = FAILURE_INVALID;
+        ire.comm_status = IStatus::FAILURE_INVALID;
     }
     else if (response == "FAILURE_UNKNOWN")
     {
-        enum IStatus comm_status = FAILURE_UNKNOWN;
+        ire.comm_status = IStatus::FAILURE_UNKNOWN;
     }
 
 
