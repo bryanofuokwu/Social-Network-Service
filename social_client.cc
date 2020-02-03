@@ -84,7 +84,7 @@ public:
             reply->grpc_status = Status::OK;
             std::string user_following = "users_following/";
             user_following.append(from_user);
-            user_following.append(".txt");
+            user_following.append("_following.txt");
             std::cout<< "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
