@@ -252,7 +252,7 @@ int main(int argc, char **argv)
     std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
-    if (fd_user = open(fname_user,O_RDWR| O_CREAT | O_APPEND,S_IRWXU) < 0){
+    if (fd_user = open(fname_user,O_WRONLY | O_CREAT | O_APPEND,0) < 0){
         perror("Problem in opening the file");
         exit(1);
     };
@@ -261,8 +261,8 @@ int main(int argc, char **argv)
     size_t nbytes = username.length();
     ssize_t write_bytes;
     //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
-    write_bytes  = write(fd_user, "u1", sizeof(buff));
-
+    write_bytes  = write(fd_user, "u1", 2);
+    close(fd_user);
     /*
      // adding timeline or followers
     std::string file_timeline = fileu.append("_timeline");
