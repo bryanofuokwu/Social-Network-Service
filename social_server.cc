@@ -93,7 +93,7 @@ class SocialService final : public Social::Service {
     }
 
 
-    Status Unfollow(ServerContext* context, const UnfollowRequest* ufrequest,
+   /* Status Unfollow(ServerContext* context, const UnfollowRequest* ufrequest,
                   UnfollowReply* ufreply) override {
         social::SocialNetwork social_network;
         for (int i = 0; i < social_network.user_size(); i++) {
@@ -106,7 +106,7 @@ class SocialService final : public Social::Service {
         }
         ufreply->set_status("FAILURE_INVALID_USERNAME");
         return Status::OK;
-    }
+    }*/
 
 //    Status List(ServerContext* context, const ListRequest* lrequest,
 //                  ListReply* lreply) override {

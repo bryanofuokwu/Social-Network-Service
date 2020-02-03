@@ -54,6 +54,8 @@ using social::UnfollowRequest;
 using social::User;
 
 using namespace std;
+
+Client client;
 class Client : public IClient{
 public:
     Client(const std::string &hname,
@@ -329,8 +331,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
-
+    client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 
@@ -354,15 +355,16 @@ IReply Client::processCommand(std::string &input)
     vector<string> command = split(input);
     IReply ire;
     std::string response;
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = this->Follow(command[1], &ire);
+        response = client->Follow(command[1], &ire);
     }
     else if (command[0] == "UNFOLLOW")
     {
-        response = this->Unfollow(command[1], &ire);
+        response = client->Unfollow(command[1], &ire);
     }
     //TODO: comment this out once unfollow and follow work perfectly
 //    else if (command[0] == "LIST")
