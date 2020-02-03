@@ -65,7 +65,8 @@ public:
     Client(std::shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
-    string Follow(string user_to_follow, IReply * reply)
+    std::string get_user() { return username; }
+    string Follow(string user_to_follow, IReply * reply, string from_user)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
@@ -82,7 +83,7 @@ public:
         {
             reply->grpc_status = Status::OK;
             std::string user_following = "users_following/";
-            user_following.append(username);
+            user_following.append(from_user);
             user_following.append(".txt");
             std::cout<< "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
@@ -355,7 +356,7 @@ IReply Client::processCommand(std::string &input)
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = client.Follow(command[1], &ire);
+        response = client.Follow(command[1], &ire, client.get_user());
     }
 
     else if (command[0] == "UNFOLLOW")
