@@ -261,8 +261,9 @@ int main(int argc, char **argv)
     size_t nbytes = username.length();
     ssize_t write_bytes;
     //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
-    write_bytes  = write(fd_user, "u1", 5);
-    close(fd_user);
+    //write_bytes  = write(fd_user, "u1", 5);
+    lseek(fd_user,0, SEEK_SET);
+    close(fd_user);*/
     /*
      // adding timeline or followers
     std::string file_timeline = fileu.append("_timeline");
