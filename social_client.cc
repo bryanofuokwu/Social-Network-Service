@@ -50,7 +50,8 @@ public:
         : hostname(hname), username(uname), port(p){}
     Client(shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
-    string Follow(string &user)
+
+    string Follow(string &user, IReply * reply)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
@@ -64,14 +65,16 @@ public:
 
         if (status.ok())
         {
+            reply->grpc_status = Status::OK
             return "SUCCESS";
         }
         else
         {
+            reply->grpc_status = Status::INVALID_ARGUMENT
             return "FAILURE";
         }
     }
-    string Unfollow(string &user)
+    string Unfollow(string &user, IReply * reply))
     {
         UnfollowRequest unfollowreq;  // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
@@ -88,10 +91,12 @@ public:
         // for all the kinds of status we can receive from the server
         if (status.ok())
         {
+            reply->grpc_status = Status::OK
             return "SUCCESS";
         }
         else
         {
+            reply->grpc_status = Status::INVALID_ARGUMENT
             return "FAILURE";
         }
     }
@@ -248,6 +253,7 @@ int main(int argc, char **argv)
 
     // for appending to the user.txt file
     std::string users = "user_data/users.txt";
+
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
     int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_APPEND,0666);
@@ -261,10 +267,19 @@ int main(int argc, char **argv)
     write(fd_user, buff, strlen(buff));
     write(fd_user, semi, strlen(semi));
     close(fd_user);
-/*
-     // adding timeline or followers
-    std::string file_timeline = fileu.append("_timeline");
-    std::string file_following = fileu.append("_following");
+
+     // creating following directory
+    std::string file_2 = "user_following/";
+    std::string filef = file_2.append(username);
+
+    // creating timeline directory
+    std::string file_3 = "user_timeline/";
+    std::string filet = file_3.append(username);
+
+    // for appending to the user.txt file
+    std::string users = "user_data/users.txt";
+    std::string file_timeline = filet.append("_timeline");
+    std::string file_following = filef.append("_following");
 
     //adding the txt file extenstion
     std::string file_following_txt = file_timeline.append(".txt");
@@ -276,22 +291,15 @@ int main(int argc, char **argv)
 
     std::strcpy(fname_timeline, (file_timeline_txt).c_str());
     std::strcpy(fname_following, (file_following_txt).c_str());
+
     // for creating to the user_timeline.txt file
-    int fd_time;
-    if (fd_time = open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
-        perror("Problem in opening the file for timeline");
-        exit(1);
-    };
+    int fd_time =  open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU);
     close(fd_time);
 
     // for creating to the user_following.txt file
-    int fd_follow;
-    if (fd_follow = open(fname_following,O_RDWR | O_CREAT | O_APPEND,S_IRWXU) < 0){
-        perror("Problem in opening the file for following");
-        exit(1);
-    };
+    int fd_follow = open(fname_following,O_RDWR | O_CREAT | O_APPEND,S_IRWXU);
     close(fd_follow);
-*/
+
     Client myc(hostname, username, port);
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
@@ -333,15 +341,16 @@ IReply Client::processCommand(std::string &input)
     // ------------------------------------------------------------
 
     vector<string> command = split(input);
+    IReply ire;
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        string response = this->Follow(command[1]);
+        string response = this->Follow(command[1], &ire);
     }
     else if (command[0] == "UNFOLLOW")
     {
-        string response = this->Unfollow(command[1]);
+        string response = this->Unfollow(command[1], &ire);
     }
     //TODO: comment this out once unfollow and follow work perfectly
 //    else if (command[0] == "LIST")
@@ -361,7 +370,7 @@ IReply Client::processCommand(std::string &input)
     // the IReply.
     // ------------------------------------------------------------
 
-    /* if (response == "SUCCESS")
+    if (response == "SUCCESS")
     {
         enum IStatus comm_status = SUCCESS;
     }
@@ -382,9 +391,8 @@ IReply Client::processCommand(std::string &input)
     {
         enum IStatus comm_status = FAILURE_UNKNOWN;
     }
-    */
 
-    IReply ire;
+
 
     // ------------------------------------------------------------
     // HINT: How to set the IReply?
