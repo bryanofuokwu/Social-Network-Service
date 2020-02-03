@@ -356,7 +356,7 @@ IReply Client::processCommand(std::string &input)
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = myc->Follow(command[1], &ire, client.get_user());
+        response = myc->Follow(command[1], &ire, myc->get_user());
     }
 
     else if (command[0] == "UNFOLLOW")
