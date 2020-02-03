@@ -82,7 +82,7 @@ public:
         {
             reply->grpc_status = Status::OK;
             std::string user_following = "users_following/";
-            user_following.append(this->username);
+            user_following.append(username);
             user_following.append(".txt");
             std::cout<< "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
