@@ -84,6 +84,7 @@ public:
             std::string user_following = "users_following/";
             user_following.append(this->username);
             user_following.append(".txt");
+            std::cout<< "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
