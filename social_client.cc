@@ -291,11 +291,11 @@ int main(int argc, char **argv)
     std::strcpy(fname_following, (file_following_txt).c_str());
 
     // for creating to the user_timeline.txt file
-    int fd_time =  open(fname_timeline,O_RDWR | O_CREAT | O_APPEND,S_IRWXU);
+    int fd_time =  open(fname_timeline,O_WRONLY | O_CREAT| O_APPEND,0666);
     close(fd_time);
 
     // for creating to the user_following.txt file
-    int fd_follow = open(fname_following,O_RDWR | O_CREAT | O_APPEND,S_IRWXU);
+    int fd_follow = open(fname_following,O_WRONLY | O_CREAT| O_APPEND,0666);
     close(fd_follow);
 
     Client myc(hostname, username, port);
