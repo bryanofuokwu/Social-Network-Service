@@ -47,6 +47,7 @@ public:
            const std::string &uname,
            const std::string &p)
         : hostname(hname), username(uname), port(p){}
+
     Client(std::shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
@@ -54,6 +55,7 @@ public:
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
+        followreq.set_to_follow(*user_to_follow);
 
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
@@ -111,7 +113,7 @@ private:
     std::string port;
 
     // You can have an instance of the client stub as a member variable.
-    std::shared_ptr<Social::Stub> stub_;
+    std::unique_ptr<Social::Stub> stub_;
 };
 
 string trim(string input)
@@ -315,7 +317,6 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-
     Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     return 1; // return 1 if success, otherwise return -1
