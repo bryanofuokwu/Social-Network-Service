@@ -258,7 +258,7 @@ int main(int argc, char **argv)
     size_t nbytes = username.length();
     ssize_t write_bytes;
     //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
-    write_bytes  = write(fd_user, "u1", 2);
+    write(fd_user, "u1", 2);
     //lseek(fd_user,0, SEEK_SET);
     //write(fd_user, "hello",5);
     close(fd_user);
