@@ -12,12 +12,19 @@
 #include <string.h>
 #include <iostream>
 #include <memory>
+
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <iostream>
+
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
 #include <grpc++/server_builder.h>
 #include <grpc++/server_context.h>
 #include <grpc++/security/server_credentials.h>
 #include "social.grpc.pb.h"
+using std::chrono::system_clock;
 
 #define MAX_DATA 256
 
@@ -48,7 +55,6 @@ using std::chrono::system_clock;
 #include <grpc++/server_context.h>
 #include <grpc++/security/server_credentials.h>
 #include "social.grpc.pb.h"
-
 
 
 class SocialService final : public Social::Service {

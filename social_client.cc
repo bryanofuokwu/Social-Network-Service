@@ -18,6 +18,19 @@
 #include <memory>
 #include <grpc++/grpc++.h>
 
+#include <chrono>
+#include <iostream>
+#include <memory>
+#include <random>
+#include <string>
+#include <thread>
+
+#include <grpc/grpc.h>
+#include <grpc++/channel.h>
+#include <grpc++/client_context.h>
+#include <grpc++/create_channel.h>
+#include <grpc++/security/credentials.h>
+
 
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
@@ -111,7 +124,6 @@ private:
     std::string hostname;
     std::string username;
     std::string port;
-
     // You can have an instance of the client stub as a member variable.
     std::unique_ptr<Social::Stub> stub_;
 };
