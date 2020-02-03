@@ -48,7 +48,7 @@ public:
            const std::string &p)
         : hostname(hname), username(uname), port(p){}
 
-    Client(std::shared_ptr<Channel> channel)
+    Client(std::shared_ptr<Channel> & channel)
         : stub_(Social::NewStub(channel)) {}
 
     string Follow(string user_to_follow, IReply * reply)
