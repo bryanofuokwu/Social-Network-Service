@@ -90,12 +90,12 @@ public:
         // for all the kinds of status we can receive from the server
         if (status.ok())
         {
-            reply->grpc_status = Status::OK
+            reply->grpc_status = Status::OK;
             return "SUCCESS";
         }
         else
         {
-            reply->grpc_status = Status::INVALID_ARGUMENT
+            reply->grpc_status = Status::CANCELLED
             return "FAILURE";
         }
     }
@@ -276,7 +276,6 @@ int main(int argc, char **argv)
     std::string filet = file_3.append(username);
 
     // for appending to the user.txt file
-    std::string users = "user_data/users.txt";
     std::string file_timeline = filet.append("_timeline");
     std::string file_following = filef.append("_following");
 
@@ -341,15 +340,16 @@ IReply Client::processCommand(std::string &input)
 
     vector<string> command = split(input);
     IReply ire;
+    std::string response;
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        string response = this->Follow(command[1], &ire);
+        response = this->Follow(command[1], &ire);
     }
     else if (command[0] == "UNFOLLOW")
     {
-        string response = this->Unfollow(command[1], &ire);
+        response = this->Unfollow(command[1], &ire);
     }
     //TODO: comment this out once unfollow and follow work perfectly
 //    else if (command[0] == "LIST")
