@@ -49,7 +49,7 @@ class SocialService final : public Social::Service {
     // we want to make sure that username exists
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
-        social::SocialNetwork social_network;
+        /*social::SocialNetwork social_network;
         for (int i = 0; i < social_network.user_size(); i++) {
             const social::User& user = social_network.user(i);
             if((user.name().compare(frequest->to_follow())) == 0) {
@@ -60,8 +60,10 @@ class SocialService final : public Social::Service {
                 }
             }
         freply->set_status("FAILURE_INVALID_USERNAME");
-        return Status::OK;
-        }
+        return Status::OK;*/
+
+
+    }
 
 
     Status Unfollow(ServerContext* context, const UnfollowRequest* ufrequest,

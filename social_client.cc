@@ -50,7 +50,7 @@ public:
     Client(shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
-    string Follow(string &user, IReply * reply)
+    string Follow(string &user_to_follow, IReply * reply)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
@@ -73,7 +73,7 @@ public:
             return "FAILURE";
         }
     }
-    string Unfollow(string &user, IReply * reply)
+    string Unfollow(string &user_to_follow, IReply * reply)
     {
         UnfollowRequest unfollowreq;  // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
@@ -257,7 +257,7 @@ int main(int argc, char **argv)
     std::strcpy(fname_user, (users).c_str());
     int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_APPEND,0666);
     char buff[MAX_DATA];
-    std::string smc = ";";
+    std::string smc = "\n";
     char semi[MAX_DATA];
     strcpy(buff, username.c_str());
     strcpy(semi, smc.c_str());
