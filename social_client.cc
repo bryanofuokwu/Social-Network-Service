@@ -246,7 +246,6 @@ int main(int argc, char **argv)
     // for adding username to file name
     std::string fileu = file.append(username);
 
-
     // for appending to the user.txt file
     std::string users = "user_data/users.txt";
     char *fname_user = new char[users.length() + 1];
@@ -259,11 +258,10 @@ int main(int argc, char **argv)
     strcpy(semi, smc.c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
-    //TODO: FIX THIS FIRST BEFORE MOVING ON. WONT WRITE TO USERS.TXT FILE
     write(fd_user, buff, strlen(buff));
     write(fd_user, semi, strlen(semi));
     close(fd_user);
-    /*
+
      // adding timeline or followers
     std::string file_timeline = fileu.append("_timeline");
     std::string file_following = fileu.append("_following");
@@ -291,11 +289,10 @@ int main(int argc, char **argv)
         perror("Problem in opening the file for following");
         exit(1);
     };
-*/
 
-    //Client myc(hostname, username, port);
+    Client myc(hostname, username, port);
     // You MUST invoke "run_client" function to start business logic
-    //myc.run_client();
+    myc.run_client();
     return 0;
 }
 
