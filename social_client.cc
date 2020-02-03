@@ -282,6 +282,7 @@ int main(int argc, char **argv)
         perror("Problem in opening the file for timeline");
         exit(1);
     };
+    close(fd_time);
 
     // for creating to the user_following.txt file
     int fd_follow;
@@ -289,6 +290,7 @@ int main(int argc, char **argv)
         perror("Problem in opening the file for following");
         exit(1);
     };
+    close(fd_follow);
 
     Client myc(hostname, username, port);
     // You MUST invoke "run_client" function to start business logic
