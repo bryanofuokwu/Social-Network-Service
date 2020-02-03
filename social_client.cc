@@ -47,7 +47,7 @@ public:
            const std::string &uname,
            const std::string &p)
         : hostname(hname), username(uname), port(p){}
-    Client(std::unique_ptr<Channel> channel)
+    Client(std::shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
     string Follow(string &user_to_follow, IReply * reply)
@@ -111,7 +111,7 @@ private:
     std::string port;
 
     // You can have an instance of the client stub as a member variable.
-    std::unique_ptr<Social::Stub> stub_;
+    std::shared_ptr<Social::Stub> stub_;
 };
 
 string trim(string input)
