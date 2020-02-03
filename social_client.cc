@@ -330,7 +330,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 
@@ -354,19 +354,16 @@ IReply Client::processCommand(std::string &input)
     vector<string> command = split(input);
     IReply ire;
     std::string response;
-    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        //response = client.Follow(command[1], &ire);
-        FollowRequest followreq;  // data sending to the server
+        response = client.Follow(command[1], &ire);
+       /* FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(command[1]);
 
-        /* TODO: update the current user's following text file
-         * The reply already has the user name it just followed.
-        */
         ClientContext context;
         Status status = stub_->Follow(&context, followreq, &followreply);
 
@@ -379,7 +376,7 @@ IReply Client::processCommand(std::string &input)
         {
             ire.grpc_status = Status::CANCELLED;
             response =  "FAILURE";
-        }
+        }*/
     }
     /*
     else if (command[0] == "UNFOLLOW")
