@@ -326,7 +326,7 @@ int main(int argc, char **argv)
 
     myc = new Client (hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
-    myc.run_client();
+    myc->run_client();
     return 0;
 }
 
