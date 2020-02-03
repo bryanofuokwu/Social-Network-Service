@@ -51,11 +51,11 @@ public:
     Client(std::shared_ptr<Channel> channel)
         : stub_(Social::NewStub(channel)) {}
 
-    string Follow(string &user_to_follow, IReply * reply)
+    string Follow(string user_to_follow, IReply * reply)
     {
         FollowRequest followreq;  // data sending to the server
         FollowReply followreply; // data recieving from the server
-        followreq.set_to_follow(*user_to_follow);
+        followreq.set_to_follow(user_to_follow);
 
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
