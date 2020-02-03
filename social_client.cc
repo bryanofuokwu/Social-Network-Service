@@ -84,8 +84,12 @@ public:
             std::string user_following = "users_following/";
             user_following.append(this->username);
             user_following.append(".txt");
-            int filewrite = open(user_following, O_WRONLY);
-            write(filewrite, user_to_follow.c_str(), user_to_follow.length());
+            char *fname_f = new char[user_following.length() + 1];
+            strcpy(fname_f, user_following.c_str());
+            char buff[MAX_DATA];
+            strcpy(buff, user_to_follow.c_str());
+            int filewrite = open(fname_f, O_WRONLY);
+            write(filewrite, buff, user_to_follow.length());
             return "SUCCESS";
         }
         else
