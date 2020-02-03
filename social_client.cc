@@ -268,11 +268,11 @@ int main(int argc, char **argv)
     close(fd_user);
 
      // creating following directory
-    std::string file_2 = "user_following/";
+    std::string file_2 = "users_following/";
     std::string filef = file_2.append(username);
 
     // creating timeline directory
-    std::string file_3 = "user_timeline/";
+    std::string file_3 = "users_timeline/";
     std::string filet = file_3.append(username);
 
     // for appending to the user.txt file
