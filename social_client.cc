@@ -59,11 +59,11 @@ class Client : public IClient{
 public:
     Client(const std::string &hname,
            const std::string &uname,
-           const std::string &p)
-        : hostname(hname), username(uname), port(p){}
+           const std::string &p, std::shared_ptr<Channel> channel)
+        : hostname(hname), username(uname), port(p), stub_(Social::NewStub(channel)){}
 
-    Client(std::shared_ptr<Channel> channel)
-        : stub_(Social::NewStub(channel)) {}
+//    Client(std::shared_ptr<Channel> channel)
+//        : stub_(Social::NewStub(channel)) {}
 
     std::string get_user() { return username; }
     string Follow(string user_to_follow, IReply * reply, string from_user)
@@ -246,6 +246,7 @@ vector<string> split(string line, string separator = " ")
     return result;
 }
 
+Client * myc;
 int main(int argc, char **argv)
 {
 
@@ -324,7 +325,7 @@ int main(int argc, char **argv)
     int fd_follow = open(fname_following,O_WRONLY | O_CREAT| O_APPEND,0666);
     close(fd_follow);
 
-    Client myc(hostname, username, port);
+    myc = new Client (hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
     myc.run_client();
     return 0;
@@ -351,17 +352,17 @@ IReply Client::processCommand(std::string &input)
     vector<string> command = split(input);
     IReply ire;
     std::string response;
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
 
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = client.Follow(command[1], &ire, client.get_user());
+        response = myc->Follow(command[1], &ire, client.get_user());
     }
 
     else if (command[0] == "UNFOLLOW")
     {
-        response = client.Unfollow(command[1], &ire);
+        response = myc->Unfollow(command[1], &ire);
     }
     /*
     //TODO: comment this out once unfollow and follow work perfectly
