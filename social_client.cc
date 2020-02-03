@@ -81,6 +81,11 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            std::string user_following = "user_following/";
+            user_following.append(this->username);
+            user_following.append(".txt");
+            int filewrite = open("user_data/users.txt", O_WRONLY);
+            write(filewrite, user_to_follow, user_to_follow.length());
             return "SUCCESS";
         }
         else

@@ -79,14 +79,11 @@ class SocialService final : public Social::Service {
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
+        //std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
         while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
-            std::cout << "what I read in: " <<  strlen(buffer) << std::endl;
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
-            std::cout << "what the char* is" << cstr << std::endl;
             if((strcmp(cstr, buffer)) == 0){
-                std::cout << "they are the same!" << std::endl;
                 close(fileread);
                 return Status::OK;
             }
