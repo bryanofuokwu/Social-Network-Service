@@ -359,11 +359,11 @@ IReply Client::processCommand(std::string &input)
     // TODO: figure out how we want to handle what we receive from the server.
     if (command[0] == "FOLLOW")
     {
-        response = client->Follow(command[1], &ire);
+        response = client.Follow(command[1], &ire);
     }
     else if (command[0] == "UNFOLLOW")
     {
-        response = client->Unfollow(command[1], &ire);
+        response = client.Unfollow(command[1], &ire);
     }
     //TODO: comment this out once unfollow and follow work perfectly
 //    else if (command[0] == "LIST")
