@@ -271,7 +271,6 @@ int main(int argc, char **argv)
         }
     }
 
-    //TODO: create three files here for users.txt, user_timeline.txt, user_followers.txt
     std::string file = "user_data/";
 
     // for adding username to file name
