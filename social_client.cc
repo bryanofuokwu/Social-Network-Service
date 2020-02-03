@@ -64,12 +64,12 @@ public:
 
         if (status.ok())
         {
-            reply->grpc_status = Status::OK
+            reply->grpc_status = Status::OK;
             return "SUCCESS";
         }
         else
         {
-            reply->grpc_status = Status::INVALID_ARGUMENT;
+            reply->grpc_status = Status::CANCELLED;
             return "FAILURE";
         }
     }
@@ -95,7 +95,7 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::CANCELLED
+            reply->grpc_status = Status::CANCELLED;
             return "FAILURE";
         }
     }
