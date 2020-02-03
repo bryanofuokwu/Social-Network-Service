@@ -6,13 +6,20 @@
 #include <string>
 #include <stdio.h>
 #include <unistd.h>
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <iostream>
+#include <memory>
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
 #include <grpc++/server_builder.h>
 #include <grpc++/server_context.h>
 #include <grpc++/security/server_credentials.h>
 #include "social.grpc.pb.h"
+
+#define MAX_DATA 256
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -62,6 +69,20 @@ class SocialService final : public Social::Service {
         freply->set_status("FAILURE_INVALID_USERNAME");
         return Status::OK;*/
 
+        int fileread = open("user_data/users.txt", O_RDONLY);
+        char buffer[MAX_DATA];
+        ssize_t inlen;
+        while((inlen = read(fileread, buffer, sizeof(buffer)) > 0) {
+            std::cout << buffer << std::endl;
+            char cstr[frequest->to_follow().size() + 1];
+            strcpy(cstr, (frequest->to_follow()).c_str());
+            std::cout << cstr << std::endl;
+            if((strcmp(cstr, buffer))== 0{
+                std::cout << "they are the same!" << std::endl;
+            }
+        }
+        close(fileread);
+        return Status::OK;
 
     }
 
