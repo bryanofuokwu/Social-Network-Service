@@ -140,11 +140,12 @@ public:
         return Status::CANCELLED;
     }
 
-    /*Status List(ServerContext* context, const ListRequest* lrequest,
+    Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
-       User user = lrequest->from_user();
+       std::string user = lrequest->from_user();
        std::string user_following = "users_following/";
-       user_following.append(user.name());
+       std::cout<< "size in list user " << user.length() << std::endl;
+       user_following.append(user);
        user_following.append("_following.txt");
        char *fname_following = new char[user_following.length() + 1];
        std::strcpy(fname_following, (user_following).c_str());
@@ -170,7 +171,7 @@ public:
 
 
        return Status::OK;
-    }*/
+    }
 
 private:
     // used for follow and unfollow

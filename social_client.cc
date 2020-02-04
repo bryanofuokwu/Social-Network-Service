@@ -127,32 +127,19 @@ public:
             return "FAILURE";
         }
     }
-    /*string List( string from_user, IReply * reply)
+    string List( string from_user, IReply * reply)
     {
         ListRequest listreq;  // data sending to the server
         ListReply listreply; // data recieving from the server
-        listreq.set_f
-        (user_to_follow);
-
+        listreq.set_from_user(from_user);
 
         ClientContext context;
 
-        Status status = stub_->Follow(&context, followreq, &followreply);
+        Status status = stub_->List(&context, listreq, &listreply);
 
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
-            std::string user_following = "users_following/";
-            user_following.append(from_user);
-            user_following.append("_following.txt");
-            std::cout<< "this is file to write to " << user_following << std::endl;
-            char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
-            char buff[MAX_DATA];
-            user_to_follow.append("\n");
-            strcpy(buff, user_to_follow.c_str());
-            int filewrite = open(fname_f, O_WRONLY);
-            write(filewrite, buff, user_to_follow.length());
             return "SUCCESS";
         }
         else
@@ -160,7 +147,7 @@ public:
             reply->grpc_status = Status::CANCELLED;
             return "FAILURE";
         }
-    }*/
+    }
 
 protected:
     virtual int connectTo();
