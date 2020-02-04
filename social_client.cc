@@ -54,6 +54,28 @@ using social::UnfollowRequest;
 using social::User;
 
 using namespace std;
+string trim(string input)
+{
+    int i = 0;
+    while (i < input.size() && input[i] == ' ')
+        i++;
+    if (i < input.size())
+        input = input.substr(i);
+    else
+    {
+        return "";
+    }
+
+    i = input.size() - 1;
+    while (i >= 0 && input[i] == ' ')
+        i--;
+    if (i >= 0)
+        input = input.substr(0, i + 1);
+    else
+        return "";
+
+    return input;
+}
 vector<string> split(string line, string separator = " ")
 {
     vector<string> result;
@@ -136,28 +158,7 @@ vector<string> split(string line, string separator = " ")
     }
     return result;
 }
-string trim(string input)
-{
-    int i = 0;
-    while (i < input.size() && input[i] == ' ')
-        i++;
-    if (i < input.size())
-        input = input.substr(i);
-    else
-    {
-        return "";
-    }
 
-    i = input.size() - 1;
-    while (i >= 0 && input[i] == ' ')
-        i--;
-    if (i >= 0)
-        input = input.substr(0, i + 1);
-    else
-        return "";
-
-    return input;
-}
 
 class Client : public IClient{
 public:
