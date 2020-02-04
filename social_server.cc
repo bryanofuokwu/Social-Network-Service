@@ -58,6 +58,9 @@ using std::chrono::system_clock;
 #include <grpc++/security/server_credentials.h>
 #include "social.grpc.pb.h"
 
+
+
+
 class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
@@ -67,6 +70,10 @@ public:
             std::map<std::string , std::vector<std::string>> user_own_post_)
             : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_){}
 */
+    /*void createMaps(std::map<std::string, std::vector<std::string>>  m1,  std::map<std::string, std::vector<std::string> > m4,
+            std::map<std::string, std::vector<std::string> > m3){
+        user_followers
+    }*/
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
 
@@ -80,6 +87,7 @@ public:
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
             if((strcmp(cstr, buffer)) == 0){
+                this->user_followers[frequest->from_user()].push_back(frequest->to_follow());
                 close(fileread);
                 return Status::OK;
             }
@@ -123,8 +131,6 @@ private:
     std::map<std::string, std::vector<std::string> > user_following_posts;
     //map of user to the posts of itself
     std::map<std::string , std::vector<std::string>> user_own_post;
-
-
     };
 
 void RunServer(std::string port) {
