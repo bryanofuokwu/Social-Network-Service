@@ -71,7 +71,17 @@ class SocialService final : public Social::Service {
         while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
+            // we check if user to follow is in the network
             if((strcmp(cstr, buffer)) == 0){
+                social::SocialNetwork social_network;
+                for (int i = 0; i < social_network.user_size(); i++) {
+                    const social::User& user = social_network.user(i);
+                    std::cout << "i am in the server with user: " << user.name() << std::endl;
+                    if((user.name().compare(frequest.from_user()) == 0) {
+                        User * usr = user.add_following_users();
+                        usr->set_name(frequest->to_follow());
+                    }
+                }
                 close(fileread);
                 return Status::OK;
             }
