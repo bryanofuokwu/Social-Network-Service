@@ -137,9 +137,8 @@ public:
 
         Status status = stub_->List(&context, listreq, &listreply);
         std::cout<< " returned from stub " << std::endl;
-        std::cout<< " following users and net " << listreply.following_users() << listreply.network_users() <<  std::endl;
-
-
+        std::cout<< " following users and net " << listreply.following_users() <<  std::endl;
+        std::cout<< " following net " << listreply.network_users() <<  std::endl;
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
