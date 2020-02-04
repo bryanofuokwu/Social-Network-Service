@@ -392,7 +392,8 @@ IReply Client::processCommand(std::string &input)
     //TODO: comment this out once unfollow and follow work perfectly
     else if (command[0] == "LIST")
     {
-        //string response = social.List();
+        std::string user = this->get_user();
+        string response = social.List(user, &ire);
     }
     /*
     else if (command[0] == "TIMELINE")
