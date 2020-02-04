@@ -31,7 +31,6 @@
 #include <grpc++/create_channel.h>
 #include <grpc++/security/credentials.h>
 
-
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
 #else
@@ -160,20 +159,21 @@ vector<string> split(string line, string separator = " ")
 }
 
 
-class Client : public IClient{
+class Client : public IClient
+{
 public:
     Client(const std::string &hname,
            const std::string &uname,
            const std::string &p, std::shared_ptr<Channel> channel)
-        : hostname(hname), username(uname), port(p), stub_(Social::NewStub(channel)){}
+        : hostname(hname), username(uname), port(p), stub_(Social::NewStub(channel)) {}
 
-//    Client(std::shared_ptr<Channel> channel)
-//        : stub_(Social::NewStub(channel)) {}
+    //    Client(std::shared_ptr<Channel> channel)
+    //        : stub_(Social::NewStub(channel)) {}
 
     std::string get_user() { return username; }
-    string Follow(string user_to_follow, IReply * reply, string from_user)
+    string Follow(string user_to_follow, IReply *reply, string from_user)
     {
-        FollowRequest followreq;  // data sending to the server
+        FollowRequest followreq; // data sending to the server
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
 
@@ -190,7 +190,7 @@ public:
             std::string user_following = "users_following/";
             user_following.append(from_user);
             user_following.append("_following.txt");
-            std::cout<< "this is file to write to " << user_following << std::endl;
+            std::cout << "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
@@ -206,10 +206,11 @@ public:
             return "FAILURE";
         }
     }
-    string Unfollow(string &user_to_follow, IReply * reply)
+    string Unfollow(string user_to_unfollow, IReply *reply, string from_user)
     {
-        UnfollowRequest unfollowreq;  // data sending to the server
+        UnfollowRequest unfollowreq; // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
+        unfollowreq.set_to_unfollow(user_to_unfollow);
 
         ClientContext context;
         /* TODO: update the current user's following text file
@@ -224,6 +225,41 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            std::vector<string> followers;
+            std::string user_following = "users_following/";
+            user_following.append(from_user);
+            user_following.append("_following.txt");
+            char *fname_f = new char[user_following.length() + 1];
+            strcpy(fname_f, user_following.c_str());
+            char cstr[MAX_DATA];
+            strcpy(cstr, user_to_unfollow.c_str());
+            char buffer[MAX_DATA];
+            ssize_t inlen;
+            int fileread = open(fname_f, O_RDONLY);
+            while (inlen = read(fileread, buffer, user_following.length() > 0))
+            {
+                if ((strcmp(cstr, buffer)) == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    followers.push_back(buffer);
+                }
+                close(fileread);
+            }
+            fileread = open(fname_f, O_TRUNC, 0666);
+            close(fileread);
+
+            for (int i = 0; i < followers.size(); ++i)
+            {
+                char buff[MAX_DATA];
+                strcpy(buff, followers[i].c_str());
+                fileread = open(fname_f, O_WRONLY);
+                write(fileread, buff, user_to_unfollow.length());
+                close(fileread);
+            }
+
             return "SUCCESS";
         }
         else
@@ -275,7 +311,7 @@ private:
 
 
 
-Client * myc;
+Client *myc;
 int main(int argc, char **argv)
 {
 
@@ -285,7 +321,8 @@ int main(int argc, char **argv)
     int opt = 0;
     while ((opt = getopt(argc, argv, "h:u:p:")) != -1)
     {
-        switch (opt){
+        switch (opt)
+        {
         case 'h':
             hostname = optarg;
             break;
@@ -310,7 +347,7 @@ int main(int argc, char **argv)
 
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
-    int fd_user = open(fname_user,O_WRONLY | O_CREAT| O_APPEND,0666);
+    int fd_user = open(fname_user, O_WRONLY | O_CREAT | O_APPEND, 0666);
     char buff[MAX_DATA];
     std::string smc = " ";
     char semi[MAX_DATA];
@@ -322,7 +359,7 @@ int main(int argc, char **argv)
     //write(fd_user, semi, strlen(semi));
     close(fd_user);
 
-     // creating following directory
+    // creating following directory
     std::string file_2 = "users_following/";
     std::string filef = file_2.append(username);
 
@@ -346,17 +383,17 @@ int main(int argc, char **argv)
     std::strcpy(fname_following, (file_following_txt).c_str());
 
     // for creating to the user_timeline.txt file
-    int fd_time =  open(fname_timeline,O_WRONLY | O_CREAT| O_APPEND,0666);
+    int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);
     close(fd_time);
 
     // for creating to the user_following.txt file
-    int fd_follow = open(fname_following,O_WRONLY | O_CREAT| O_APPEND,0666);
+    int fd_follow = open(fname_following, O_WRONLY | O_CREAT | O_APPEND, 0666);
     close(fd_follow);
 
     social::SocialNetwork socialNetwork;
     User *user = socialNetwork.add_user();
     user->set_name(username);
-    myc = new Client (hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    myc = new Client(hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
     myc->run_client();
     return 0;
@@ -393,7 +430,7 @@ IReply Client::processCommand(std::string &input)
 
     else if (command[0] == "UNFOLLOW")
     {
-        response = myc->Unfollow(command[1], &ire);
+        response = myc->Unfollow(command[1], &ire, myc->get_user());
     }
 
     //TODO: comment this out once unfollow and follow work perfectly
@@ -436,8 +473,6 @@ IReply Client::processCommand(std::string &input)
     {
         ire.comm_status = IStatus::FAILURE_UNKNOWN;
     }
-
-
 
     // ------------------------------------------------------------
     // HINT: How to set the IReply?

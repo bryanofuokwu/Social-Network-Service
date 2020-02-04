@@ -64,7 +64,8 @@ message PostReply
 
 message UnfollowRequest
 {
-  string to_unfollow = 1;
+  string from_user = 1;
+  string to_unfollow = 2;
 }
 
 message UnfollowReply
