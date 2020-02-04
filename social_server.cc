@@ -75,10 +75,10 @@ class SocialService final : public Social::Service {
             if((strcmp(cstr, buffer)) == 0){
                 social::SocialNetwork social_network;
                 for (int i = 0; i < social_network.user_size(); i++) {
-                    social::User& user = social_network.mutable_user(i);
-                    std::cout << "i am in the server with user: " << user.name() << std::endl;
-                    if(user.name().compare((frequest->from_user()).name()) == 0) {
-                        user.add_following_users(cstr);
+                    social::User* user = social_network.mutable_user(i);
+                    std::cout << "i am in the server with user: " << user->name() << std::endl;
+                    if(user->name().compare((frequest->from_user()).name()) == 0) {
+                        user->add_following_users(cstr);
 
 
                     }
