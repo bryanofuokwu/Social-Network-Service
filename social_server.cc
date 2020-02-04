@@ -17,6 +17,8 @@
 #include <chrono>
 #include <cmath>
 #include <iostream>
+#include <vector>
+#include <map>
 
 #include <grpc/grpc.h>
 #include <grpc++/server.h>
@@ -56,10 +58,15 @@ using std::chrono::system_clock;
 #include <grpc++/security/server_credentials.h>
 #include "social.grpc.pb.h"
 
-
 class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
+public:
+    SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
+            std::map<std::string, std::vector<std::string> > user_following_posts_,
+            std::map<std::string , std::vector<std::string>> user_own_post_)
+            : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_)){}
+
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
 
@@ -69,23 +76,11 @@ class SocialService final : public Social::Service {
         ssize_t inlen;
         std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
         while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
-
             // we want to make a char* of the string to follow
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
-
-            // we check if user to follow is in the network
             if((strcmp(cstr, buffer)) == 0){
-                social::SocialNetwork social_network;
-                std::cout << "this is the social network size: " << social_network.user_size() << std::endl;
-
-                for (int i = 0; i < social_network.user_size(); i++) {
-                    social::User* user = social_network.mutable_user(i);
-                    std::cout << "i am in the server with user: " << user->name() << std::endl;
-                    if(user->name().compare((frequest->from_user()).name()) == 0) {
-                        user->add_following_users(cstr);
-                    }
-                }
+                this->user_followers.insert()
                 close(fileread);
                 return Status::OK;
             }
@@ -121,7 +116,17 @@ class SocialService final : public Social::Service {
 //        return Status::OK;
 //    }
 
-};
+private:
+    // used for follow and unfollow
+    std::map<std::string, std::vector<std::string> > user_followers;
+    // used for timelines
+    //map of user to the posts of who it follows
+    std::map<std::string, std::vector<std::string> > user_following_posts;
+    //map of user to the posts of itself
+    std::map<std::string , std::vector<std::string>> user_own_post;
+
+
+    };
 
 void RunServer(std::string port) {
     std::string host = "localhost:";
@@ -152,6 +157,8 @@ int main(int argc, char** argv) {
                 std::cerr << "Invalid Command Line Argument\n";
         }
     }
+
+
     std::cout<< "After getting opt " << std::endl;
     RunServer(port);
 
