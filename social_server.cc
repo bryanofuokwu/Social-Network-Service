@@ -67,10 +67,13 @@ class SocialService final : public Social::Service {
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        //std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
+        std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
         while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
+
+            // we want to make a char* of the string to follow
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
+
             // we check if user to follow is in the network
             if((strcmp(cstr, buffer)) == 0){
                 social::SocialNetwork social_network;
@@ -79,8 +82,6 @@ class SocialService final : public Social::Service {
                     std::cout << "i am in the server with user: " << user->name() << std::endl;
                     if(user->name().compare((frequest->from_user()).name()) == 0) {
                         user->add_following_users(cstr);
-
-
                     }
                 }
                 close(fileread);
