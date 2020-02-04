@@ -89,7 +89,7 @@ public:
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
-            user_to_follow.append(" ");
+            //user_to_follow.append(" ");
             strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -310,7 +310,7 @@ int main(int argc, char **argv)
     std::string smc = " ";
     char semi[MAX_DATA];
     strcpy(buff, username.c_str());
-    strcpy(semi, smc.c_str());
+    //strcpy(semi, smc.c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
     write(fd_user, buff, strlen(buff));
