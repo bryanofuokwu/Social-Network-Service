@@ -75,8 +75,8 @@ message ListRequest {
   User from_user = 1;
 }
 message ListReply {
-  repeated User following_users = 1;
-  repeated User network_users = 2;
+  string following_users = 1;
+  string network_users = 2;
 }
 
 message SocialNetwork {

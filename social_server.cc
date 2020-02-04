@@ -112,15 +112,15 @@ public:
         return Status::OK;
     }*/
 
-//    Status List(ServerContext* context, const ListRequest* lrequest,
-//                  ListReply* lreply) override {
-//        social::SocialNetwork social_network;
-//        for (int i = 0; i < lrequest->user()->following_users_size(); i++) {
-//            lreply->add_following_users(user);
-//        }
-//        freply->set_status("SUCCESS");
-//        return Status::OK;
-//    }
+    Status List(ServerContext* context, const ListRequest* lrequest,
+                  ListReply* lreply) override {
+        social::SocialNetwork social_network;
+        for (int i = 0; i < lrequest->user()->following_users_size(); i++) {
+            lreply->add_following_users(user);
+        }
+        freply->set_status("SUCCESS");
+        return Status::OK;
+    }
 
 private:
     // used for follow and unfollow
