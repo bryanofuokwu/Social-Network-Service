@@ -127,16 +127,14 @@ public:
             return "FAILURE";
         }
     }
-    string List( string from_user, IReply * reply)
+    /*string List( string from_user, IReply * reply)
     {
         ListRequest listreq;  // data sending to the server
         ListReply listreply; // data recieving from the server
         listreq.set_f
         (user_to_follow);
 
-        /* TODO: update the current user's following text file
-         * The reply already has the user name it just followed.
-        */
+
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -162,7 +160,7 @@ public:
             reply->grpc_status = Status::CANCELLED;
             return "FAILURE";
         }
-    }
+    }*/
 
 protected:
     virtual int connectTo();
