@@ -105,7 +105,7 @@ public:
     {
         UnfollowRequest unfollowreq; // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
-        unfollowreq.set_to_follow(user_to_unfollow);
+        unfollowreq.set_to_unfollow(user_to_unfollow);
 
         ClientContext context;
         /* TODO: update the current user's following text file
@@ -131,7 +131,8 @@ public:
             char buffer[MAX_DATA];
             ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
-            while (inlen = read(fileread, buffer, user_following.length() > 0) {
+            while (inlen = read(fileread, buffer, user_following.length() > 0))
+            {
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
@@ -141,7 +142,6 @@ public:
                     followers.push_back(buffer);
                 }
                 close(fileread);
-
             }
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
@@ -402,7 +402,7 @@ IReply Client::processCommand(std::string &input)
 
     else if (command[0] == "UNFOLLOW")
     {
-        response = myc->Unfollow(command[1], &ire);
+        response = myc->Unfollow(command[1], &ire, myc->get_user());
     }
     /*
     //TODO: comment this out once unfollow and follow work perfectly
