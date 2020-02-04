@@ -62,11 +62,11 @@ class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
-    SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
+    /*SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
             std::map<std::string, std::vector<std::string> > user_following_posts_,
             std::map<std::string , std::vector<std::string>> user_own_post_)
             : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_){}
-
+*/
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
 
