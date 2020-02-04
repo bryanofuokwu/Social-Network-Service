@@ -142,8 +142,10 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
-            reply->following_users = listreply.following_users();
-            reply->all_users = listreply.network_users();
+            vector<string> split_fusers = split(listreply.following_users(), ",");
+            vector<string> split_nusers = split(listreply.network_users(), ",");
+            reply->following_users = split_fusers;
+            reply->all_users = split_nusers;
             return "SUCCESS";
         }
         else
