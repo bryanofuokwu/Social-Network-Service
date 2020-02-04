@@ -95,7 +95,7 @@ public:
         return Status::CANCELLED;
     }
 
-    Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
+    /*Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
                     UnfollowReply *ufreply) override
     {
 
@@ -139,7 +139,7 @@ public:
 
         return Status::CANCELLED;
     }
-
+*/
     Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
        std::string user = lrequest->from_user();
