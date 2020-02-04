@@ -156,7 +156,7 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
-       while(inlen = read(file_follow_read, buffer, 3) > 0) {
+       while(inlen = read(file_follow_read, buffer, 2) > 0) {
            // we want to make a char* of the string to follow
            std::cout<< "read buffer " << buffer ;
            follow_users.append(buffer);
@@ -169,7 +169,7 @@ public:
 
        int file_all = open("user_data/users.txt", O_RDONLY);
         std::string net_users;
-       while(inlen = read(file_all, buffer, 3) > 0) {
+       while(inlen = read(file_all, buffer, 2) > 0) {
            net_users.append(buffer);
            net_users.append(",");
        }
