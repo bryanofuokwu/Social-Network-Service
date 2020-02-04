@@ -112,7 +112,7 @@ public:
         return Status::OK;
     }*/
 
-    Status List(ServerContext* context, const ListRequest* lrequest,
+    /*Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
        User user = lrequest->from_user();
        std::string user_following = "users_following/";
@@ -142,7 +142,7 @@ public:
 
 
        return Status::OK;
-    }
+    }*/
 
 private:
     // used for follow and unfollow
