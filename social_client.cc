@@ -314,7 +314,7 @@ int main(int argc, char **argv)
     size_t nbytes = username.length();
     ssize_t write_bytes;
     write(fd_user, buff, strlen(buff));
-    write(fd_user, semi, strlen(semi));
+    //write(fd_user, semi, strlen(semi));
     close(fd_user);
 
      // creating following directory
