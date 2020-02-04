@@ -150,7 +150,9 @@ public:
        char *fname_following = new char[user_following.length() + 1];
        std::strcpy(fname_following, (user_following).c_str());
        int file_follow_read = open(fname_following, O_RDONLY);
-       char buffer[MAX_DATA];
+       std::cout<< "file_follow_read " << fname_following<< std::endl;
+
+        char buffer[MAX_DATA];
        ssize_t inlen;
 
        std::string follow_users;
@@ -162,7 +164,7 @@ public:
        lreply->set_following_users(follow_users);
 
        int file_all = open("user_data/users.txt", O_RDONLY);
-       std::string net_users;
+        std::string net_users;
        while(inlen = read(file_all, buffer, 2) > 0) {
            net_users.append(buffer);
            net_users.append(",");
