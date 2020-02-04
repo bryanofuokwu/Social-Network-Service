@@ -1275,36 +1275,40 @@ class ListReply : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // repeated .social.User following_users = 1;
-  int following_users_size() const;
+  // string following_users = 1;
   void clear_following_users();
   static const int kFollowingUsersFieldNumber = 1;
-  const ::social::User& following_users(int index) const;
-  ::social::User* mutable_following_users(int index);
-  ::social::User* add_following_users();
-  ::google::protobuf::RepeatedPtrField< ::social::User >*
-      mutable_following_users();
-  const ::google::protobuf::RepeatedPtrField< ::social::User >&
-      following_users() const;
+  const ::std::string& following_users() const;
+  void set_following_users(const ::std::string& value);
+  #if LANG_CXX11
+  void set_following_users(::std::string&& value);
+  #endif
+  void set_following_users(const char* value);
+  void set_following_users(const char* value, size_t size);
+  ::std::string* mutable_following_users();
+  ::std::string* release_following_users();
+  void set_allocated_following_users(::std::string* following_users);
 
-  // repeated .social.User network_users = 2;
-  int network_users_size() const;
+  // string network_users = 2;
   void clear_network_users();
   static const int kNetworkUsersFieldNumber = 2;
-  const ::social::User& network_users(int index) const;
-  ::social::User* mutable_network_users(int index);
-  ::social::User* add_network_users();
-  ::google::protobuf::RepeatedPtrField< ::social::User >*
-      mutable_network_users();
-  const ::google::protobuf::RepeatedPtrField< ::social::User >&
-      network_users() const;
+  const ::std::string& network_users() const;
+  void set_network_users(const ::std::string& value);
+  #if LANG_CXX11
+  void set_network_users(::std::string&& value);
+  #endif
+  void set_network_users(const char* value);
+  void set_network_users(const char* value, size_t size);
+  ::std::string* mutable_network_users();
+  ::std::string* release_network_users();
+  void set_allocated_network_users(::std::string* network_users);
 
   // @@protoc_insertion_point(class_scope:social.ListReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::social::User > following_users_;
-  ::google::protobuf::RepeatedPtrField< ::social::User > network_users_;
+  ::google::protobuf::internal::ArenaStringPtr following_users_;
+  ::google::protobuf::internal::ArenaStringPtr network_users_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsListReplyImpl();
@@ -2357,64 +2361,110 @@ inline void ListRequest::set_allocated_from_user(::social::User* from_user) {
 
 // ListReply
 
-// repeated .social.User following_users = 1;
-inline int ListReply::following_users_size() const {
-  return following_users_.size();
-}
+// string following_users = 1;
 inline void ListReply::clear_following_users() {
-  following_users_.Clear();
+  following_users_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::social::User& ListReply::following_users(int index) const {
+inline const ::std::string& ListReply::following_users() const {
   // @@protoc_insertion_point(field_get:social.ListReply.following_users)
-  return following_users_.Get(index);
+  return following_users_.GetNoArena();
 }
-inline ::social::User* ListReply::mutable_following_users(int index) {
+inline void ListReply::set_following_users(const ::std::string& value) {
+  
+  following_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.ListReply.following_users)
+}
+#if LANG_CXX11
+inline void ListReply::set_following_users(::std::string&& value) {
+  
+  following_users_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.ListReply.following_users)
+}
+#endif
+inline void ListReply::set_following_users(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  following_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.ListReply.following_users)
+}
+inline void ListReply::set_following_users(const char* value, size_t size) {
+  
+  following_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.ListReply.following_users)
+}
+inline ::std::string* ListReply::mutable_following_users() {
+  
   // @@protoc_insertion_point(field_mutable:social.ListReply.following_users)
-  return following_users_.Mutable(index);
+  return following_users_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::social::User* ListReply::add_following_users() {
-  // @@protoc_insertion_point(field_add:social.ListReply.following_users)
-  return following_users_.Add();
+inline ::std::string* ListReply::release_following_users() {
+  // @@protoc_insertion_point(field_release:social.ListReply.following_users)
+  
+  return following_users_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::RepeatedPtrField< ::social::User >*
-ListReply::mutable_following_users() {
-  // @@protoc_insertion_point(field_mutable_list:social.ListReply.following_users)
-  return &following_users_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::social::User >&
-ListReply::following_users() const {
-  // @@protoc_insertion_point(field_list:social.ListReply.following_users)
-  return following_users_;
+inline void ListReply::set_allocated_following_users(::std::string* following_users) {
+  if (following_users != NULL) {
+    
+  } else {
+    
+  }
+  following_users_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), following_users);
+  // @@protoc_insertion_point(field_set_allocated:social.ListReply.following_users)
 }
 
-// repeated .social.User network_users = 2;
-inline int ListReply::network_users_size() const {
-  return network_users_.size();
-}
+// string network_users = 2;
 inline void ListReply::clear_network_users() {
-  network_users_.Clear();
+  network_users_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::social::User& ListReply::network_users(int index) const {
+inline const ::std::string& ListReply::network_users() const {
   // @@protoc_insertion_point(field_get:social.ListReply.network_users)
-  return network_users_.Get(index);
+  return network_users_.GetNoArena();
 }
-inline ::social::User* ListReply::mutable_network_users(int index) {
+inline void ListReply::set_network_users(const ::std::string& value) {
+  
+  network_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.ListReply.network_users)
+}
+#if LANG_CXX11
+inline void ListReply::set_network_users(::std::string&& value) {
+  
+  network_users_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.ListReply.network_users)
+}
+#endif
+inline void ListReply::set_network_users(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  network_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.ListReply.network_users)
+}
+inline void ListReply::set_network_users(const char* value, size_t size) {
+  
+  network_users_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.ListReply.network_users)
+}
+inline ::std::string* ListReply::mutable_network_users() {
+  
   // @@protoc_insertion_point(field_mutable:social.ListReply.network_users)
-  return network_users_.Mutable(index);
+  return network_users_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::social::User* ListReply::add_network_users() {
-  // @@protoc_insertion_point(field_add:social.ListReply.network_users)
-  return network_users_.Add();
+inline ::std::string* ListReply::release_network_users() {
+  // @@protoc_insertion_point(field_release:social.ListReply.network_users)
+  
+  return network_users_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::RepeatedPtrField< ::social::User >*
-ListReply::mutable_network_users() {
-  // @@protoc_insertion_point(field_mutable_list:social.ListReply.network_users)
-  return &network_users_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::social::User >&
-ListReply::network_users() const {
-  // @@protoc_insertion_point(field_list:social.ListReply.network_users)
-  return network_users_;
+inline void ListReply::set_allocated_network_users(::std::string* network_users) {
+  if (network_users != NULL) {
+    
+  } else {
+    
+  }
+  network_users_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), network_users);
+  // @@protoc_insertion_point(field_set_allocated:social.ListReply.network_users)
 }
 
 // -------------------------------------------------------------------
