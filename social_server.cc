@@ -152,16 +152,20 @@ public:
        int file_follow_read = open(fname_following, O_RDONLY);
        std::cout<< "file_follow_read " << fname_following<< std::endl;
 
-        char buffer[MAX_DATA];
+       char buffer[2];
        ssize_t inlen;
 
        std::string follow_users;
        while(inlen = read(file_follow_read, buffer, 2) > 0) {
            // we want to make a char* of the string to follow
+           std::cout<< "read buffer " << buffer ;
            follow_users.append(buffer);
            follow_users.append(",");
        }
-       lreply->set_following_users(follow_users);
+        std::cout<< " " << std::endl;
+        std::cout<< " follow_users " << follow_users ;
+
+        lreply->set_following_users(follow_users);
 
        int file_all = open("user_data/users.txt", O_RDONLY);
         std::string net_users;
