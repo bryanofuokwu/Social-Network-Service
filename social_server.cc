@@ -87,7 +87,8 @@ public:
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
             if((strcmp(cstr, buffer)) == 0){
-                this->user_followers[frequest->from_user()].push_back(frequest->to_follow());
+                //this->user_followers[frequest->from_user()].push_back(frequest->to_follow());
+                //this->user_followers.insert()
                 close(fileread);
                 return Status::OK;
             }
@@ -125,12 +126,12 @@ public:
 
 private:
     // used for follow and unfollow
-    std::map<std::string, std::vector<std::string> > user_followers;
+    std::map<std::string, std::vector<std::string> followers > user_followers;
     // used for timelines
     //map of user to the posts of who it follows
-    std::map<std::string, std::vector<std::string> > user_following_posts;
+    std::map<std::string, std::vector<std::string> posts> user_following_posts;
     //map of user to the posts of itself
-    std::map<std::string , std::vector<std::string>> user_own_post;
+    std::map<std::string , std::vector<std::string> own_post > user_own_post;
     };
 
 void RunServer(std::string port) {
