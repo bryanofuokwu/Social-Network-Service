@@ -69,7 +69,7 @@ class SocialService final : public Social::Service {
         ssize_t inlen;
         //std::cout << "who to follow : " <<  (frequest->to_follow()).length() << std::endl;
         while(inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
-            const char cstr[(frequest->to_follow()).length() + 1];
+            char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
             // we check if user to follow is in the network
             if((strcmp(cstr, buffer)) == 0){
@@ -78,7 +78,8 @@ class SocialService final : public Social::Service {
                     const social::User& user = social_network.user(i);
                     std::cout << "i am in the server with user: " << user.name() << std::endl;
                     if(user.name().compare((frequest->from_user()).name()) == 0) {
-                        user.add_following_users(cstr);
+                        string * st = user.add_following_users();
+                        st->assign(frequest->to_follow())
 
                     }
                 }
