@@ -96,7 +96,7 @@ public:
         return Status::CANCELLED;
     }
 
-    /*Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
+    Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
                     UnfollowReply *ufreply) override
     {
 
@@ -118,44 +118,46 @@ public:
         close(fileread);
         return Status::CANCELLED;
     }
-*/
-    Status List(ServerContext* context, const ListRequest* lrequest,
-                  ListReply* lreply) override {
-       std::string user = lrequest->from_user();
-       std::string user_following = "users_following/";
-       std::cout<< "size in list user " << user.length() << std::endl;
-       user_following.append(user);
-       user_following.append("_following.txt");
-       char *fname_following = new char[user_following.length() + 1];
-       std::strcpy(fname_following, (user_following).c_str());
-       int file_follow_read = open(fname_following, O_RDONLY);
-       std::cout<< "file_follow_read " << fname_following<< std::endl;
 
-       char buffer[2];
-       ssize_t inlen;
+    Status List(ServerContext *context, const ListRequest *lrequest,
+                ListReply *lreply) override
+    {
+        std::string user = lrequest->from_user();
+        std::string user_following = "users_following/";
+        std::cout << "size in list user " << user.length() << std::endl;
+        user_following.append(user);
+        user_following.append("_following.txt");
+        char *fname_following = new char[user_following.length() + 1];
+        std::strcpy(fname_following, (user_following).c_str());
+        int file_follow_read = open(fname_following, O_RDONLY);
+        std::cout << "file_follow_read " << fname_following << std::endl;
 
-       std::string follow_users;
-       while(inlen = read(file_follow_read, buffer, 2) > 0) {
-           // we want to make a char* of the string to follow
-           std::cout<< "read buffer " << buffer ;
-           follow_users.append(buffer);
-           follow_users.append(",");
-       }
-        std::cout<< " " << std::endl;
-        std::cout<< " follow_users " << follow_users ;
+        char buffer[2];
+        ssize_t inlen;
+
+        std::string follow_users;
+        while (inlen = read(file_follow_read, buffer, 2) > 0)
+        {
+            // we want to make a char* of the string to follow
+            std::cout << "read buffer " << buffer;
+            follow_users.append(buffer);
+            follow_users.append(",");
+        }
+        std::cout << " " << std::endl;
+        std::cout << " follow_users " << follow_users;
 
         lreply->set_following_users(follow_users);
 
-       int file_all = open("user_data/users.txt", O_RDONLY);
+        int file_all = open("user_data/users.txt", O_RDONLY);
         std::string net_users;
-       while(inlen = read(file_all, buffer, 2) > 0) {
-           net_users.append(buffer);
-           net_users.append(",");
-       }
-       lreply->set_network_users(net_users);
+        while (inlen = read(file_all, buffer, 2) > 0)
+        {
+            net_users.append(buffer);
+            net_users.append(",");
+        }
+        lreply->set_network_users(net_users);
 
-
-       return Status::OK;
+        return Status::OK;
     }
 
 private:
