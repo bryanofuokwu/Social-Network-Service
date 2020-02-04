@@ -80,7 +80,7 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        std::cout << "who to follow : " << (frequest->to_follow()).length() << std::endl;
+        std::cout << "who to follow : " << (frequest->to_follow()) << std::endl;
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -104,6 +104,7 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
+        std::cout << "who to unfollow : " << (ufrequest->to_unfollow()) << std::endl;
         while (inlen = read(fileread, buffer, (ufrequest->to_unfollow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
