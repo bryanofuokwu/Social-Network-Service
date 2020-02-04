@@ -393,7 +393,7 @@ IReply Client::processCommand(std::string &input)
     else if (command[0] == "LIST")
     {
         std::string user = this->get_user();
-        string response = social.List(user, &ire);
+        string response = myc->List(user, &ire);
     }
     /*
     else if (command[0] == "TIMELINE")
