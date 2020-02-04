@@ -78,7 +78,7 @@ class SocialService final : public Social::Service {
                     const social::User& user = social_network.user(i);
                     std::cout << "i am in the server with user: " << user.name() << std::endl;
                     if(user.name().compare(frequest->from_user()) == 0) {
-                        user.add_following_users(frequest->to_follow());
+                        user.add_following_users(cstr);
 
                     }
                 }
