@@ -110,29 +110,30 @@ public:
             strcpy(cstr, (ufrequest->to_unfollow()).c_str());
             if ((strcmp(cstr, buffer)) == 0)
             {
-                close(fileread);
                 return Status::OK;
             }
-            if (strcmp(buffer, ufrequest->to_unfollow()))
+
+            if ((strcmp(cstr, buffer)) == 0)
             {
                 continue;
             }
             else
             {
                 followers.push_back(buffer);
+                close(fileread);
             }
         }
         close(fileread);
 
-        int fileread = open("user_data/users.txt", O_TRUNC, 0666);
+        fileread = open("user_data/users.txt", O_TRUNC, 0666);
         close(fileread);
 
         for (int i = 0; i < followers.size(); ++i)
         {
             char buff[MAX_DATA];
             strcpy(buff, followers[i].c_str());
-            int fileread = open("user_data/users.txt", O_WRONLY);
-            write(fileread, buff, user_to_follow.length());
+            fileread = open("user_data/users.txt", O_WRONLY);
+            write(fileread, buff, (ufrequest->to_unfollow()).length());
             close(fileread);
         }
 
