@@ -112,15 +112,37 @@ public:
         return Status::OK;
     }*/
 
-    /*Status List(ServerContext* context, const ListRequest* lrequest,
+    Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
-        social::SocialNetwork social_network;
-        for (int i = 0; i < lrequest->user()->following_users_size(); i++) {
-            lreply->add_following_users(user);
-        }
-        freply->set_status("SUCCESS");
-        return Status::OK;
-    }*/
+       User user = lrequest->from_user();
+       std::string user_following = "users_following/";
+       user_following.append(user.name());
+       user_following.append("_following.txt");
+       char *fname_following = new char[user_following.length() + 1];
+       std::strcpy(fname_following, (user_following).c_str());
+       int file_follow_read = open(fname_following, O_RDONLY);
+       char buffer[MAX_DATA];
+       ssize_t inlen;
+
+       std::string follow_users;
+       while(inlen = read(file_follow_read, buffer, 2) > 0) {
+           // we want to make a char* of the string to follow
+           follow_users.append(buffer);
+           follow_users.append(",");
+       }
+       lreply->set_following_users(follow_users);
+
+       int file_all = open("user_data/users.txt", O_RDONLY);
+       std::string net_users;
+       while(inlen = read(file_all, buffer, 2) > 0) {
+           net_users.append(buffer);
+           net_users.append(",");
+       }
+       lreply->set_network_users(net_users);
+
+
+       return Status::OK;
+    }
 
 private:
     // used for follow and unfollow
