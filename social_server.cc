@@ -65,7 +65,7 @@ public:
     SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
             std::map<std::string, std::vector<std::string> > user_following_posts_,
             std::map<std::string , std::vector<std::string>> user_own_post_)
-            : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_)){}
+            : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_){}
 
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
@@ -80,7 +80,6 @@ public:
             char cstr[(frequest->to_follow()).length() + 1];
             strcpy(cstr, (frequest->to_follow()).c_str());
             if((strcmp(cstr, buffer)) == 0){
-                this->user_followers.insert()
                 close(fileread);
                 return Status::OK;
             }
