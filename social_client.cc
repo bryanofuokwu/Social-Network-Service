@@ -89,6 +89,7 @@ public:
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
+            user_to_follow.append("/n");
             strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -324,6 +325,10 @@ int main(int argc, char **argv)
     int fd_follow = open(fname_following,O_WRONLY | O_CREAT| O_APPEND,0666);
     close(fd_follow);
 
+    social::SocialNetwork socialNetwork;
+    User user;
+    user.set_name(username);
+    socialNetwork.add_user(user);
     myc = new Client (hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
     myc->run_client();

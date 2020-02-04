@@ -62,18 +62,6 @@ class SocialService final : public Social::Service {
     // we want to make sure that username exists
     Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
-        /*social::SocialNetwork social_network;
-        for (int i = 0; i < social_network.user_size(); i++) {
-            const social::User& user = social_network.user(i);
-            if((user.name().compare(frequest->to_follow())) == 0) {
-                freply->set_status("SUCCESS");
-                // will return the user just followed
-                freply->set_reply(user.name());
-                return Status::OK;
-                }
-            }
-        freply->set_status("FAILURE_INVALID_USERNAME");
-        return Status::OK;*/
 
         // checking if the user exists.
         int fileread = open("user_data/users.txt", O_RDONLY);
@@ -89,6 +77,7 @@ class SocialService final : public Social::Service {
             }
         }
         return Status::CANCELLED;
+
 
     }
 
