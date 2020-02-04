@@ -142,6 +142,8 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            reply->following_users = listreply.following_users();
+            reply->all_users = listreply.network_users();
             return "SUCCESS";
         }
         else
