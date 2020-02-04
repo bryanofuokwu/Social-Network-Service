@@ -77,6 +77,8 @@ class SocialService final : public Social::Service {
             // we check if user to follow is in the network
             if((strcmp(cstr, buffer)) == 0){
                 social::SocialNetwork social_network;
+                std::cout << "this is the social network size: " << social_network.user_size() << std::endl;
+
                 for (int i = 0; i < social_network.user_size(); i++) {
                     social::User* user = social_network.mutable_user(i);
                     std::cout << "i am in the server with user: " << user->name() << std::endl;
