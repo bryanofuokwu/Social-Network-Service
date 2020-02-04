@@ -326,9 +326,8 @@ int main(int argc, char **argv)
     close(fd_follow);
 
     social::SocialNetwork socialNetwork;
-    User user;
-    user.set_name(username);
-    socialNetwork.add_user(user);
+    User *user = socialNetwork.add_user();
+    user->set_name(username);
     myc = new Client (hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
     myc->run_client();
