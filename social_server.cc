@@ -60,7 +60,7 @@ using std::chrono::system_clock;
 class SocialService final : public Social::Service {
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
-    Status Follow(ServerContext* context, const FollowRequest* frequest,
+    /*Status Follow(ServerContext* context, const FollowRequest* frequest,
             FollowReply* freply) override {
 
         // checking if the user exists.
@@ -89,7 +89,7 @@ class SocialService final : public Social::Service {
         return Status::CANCELLED;
 
 
-    }
+    }*/
 
 
    /* Status Unfollow(ServerContext* context, const UnfollowRequest* ufrequest,
