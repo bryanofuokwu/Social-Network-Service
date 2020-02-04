@@ -832,6 +832,20 @@ class UnfollowRequest : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
+  // string from_user = 1;
+  void clear_from_user();
+  static const int kFromUserFieldNumber = 1;
+  const ::std::string& from_user() const;
+  void set_from_user(const ::std::string& value);
+  #if LANG_CXX11
+  void set_from_user(::std::string&& value);
+  #endif
+  void set_from_user(const char* value);
+  void set_from_user(const char* value, size_t size);
+  ::std::string* mutable_from_user();
+  ::std::string* release_from_user();
+  void set_allocated_from_user(::std::string* from_user);
+
   // string to_unfollow = 2;
   void clear_to_unfollow();
   static const int kToUnfollowFieldNumber = 2;
@@ -846,21 +860,12 @@ class UnfollowRequest : public ::google::protobuf::Message /* @@protoc_insertion
   ::std::string* release_to_unfollow();
   void set_allocated_to_unfollow(::std::string* to_unfollow);
 
-  // .social.User from_user = 1;
-  bool has_from_user() const;
-  void clear_from_user();
-  static const int kFromUserFieldNumber = 1;
-  const ::social::User& from_user() const;
-  ::social::User* release_from_user();
-  ::social::User* mutable_from_user();
-  void set_allocated_from_user(::social::User* from_user);
-
   // @@protoc_insertion_point(class_scope:social.UnfollowRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr from_user_;
   ::google::protobuf::internal::ArenaStringPtr to_unfollow_;
-  ::social::User* from_user_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsUnfollowRequestImpl();
@@ -1173,20 +1178,25 @@ class ListRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // .social.User from_user = 1;
-  bool has_from_user() const;
+  // string from_user = 1;
   void clear_from_user();
   static const int kFromUserFieldNumber = 1;
-  const ::social::User& from_user() const;
-  ::social::User* release_from_user();
-  ::social::User* mutable_from_user();
-  void set_allocated_from_user(::social::User* from_user);
+  const ::std::string& from_user() const;
+  void set_from_user(const ::std::string& value);
+  #if LANG_CXX11
+  void set_from_user(::std::string&& value);
+  #endif
+  void set_from_user(const char* value);
+  void set_from_user(const char* value, size_t size);
+  ::std::string* mutable_from_user();
+  ::std::string* release_from_user();
+  void set_allocated_from_user(::std::string* from_user);
 
   // @@protoc_insertion_point(class_scope:social.ListRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::social::User* from_user_;
+  ::google::protobuf::internal::ArenaStringPtr from_user_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsListRequestImpl();
@@ -2036,53 +2046,56 @@ inline void PostReply::set_allocated_time_date(::std::string* time_date) {
 
 // UnfollowRequest
 
-// .social.User from_user = 1;
-inline bool UnfollowRequest::has_from_user() const {
-  return this != internal_default_instance() && from_user_ != NULL;
-}
+// string from_user = 1;
 inline void UnfollowRequest::clear_from_user() {
-  if (GetArenaNoVirtual() == NULL && from_user_ != NULL) {
-    delete from_user_;
-  }
-  from_user_ = NULL;
+  from_user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::social::User& UnfollowRequest::from_user() const {
-  const ::social::User* p = from_user_;
+inline const ::std::string& UnfollowRequest::from_user() const {
   // @@protoc_insertion_point(field_get:social.UnfollowRequest.from_user)
-  return p != NULL ? *p : *reinterpret_cast<const ::social::User*>(
-      &::social::_User_default_instance_);
+  return from_user_.GetNoArena();
 }
-inline ::social::User* UnfollowRequest::release_from_user() {
+inline void UnfollowRequest::set_from_user(const ::std::string& value) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.UnfollowRequest.from_user)
+}
+#if LANG_CXX11
+inline void UnfollowRequest::set_from_user(::std::string&& value) {
+  
+  from_user_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.UnfollowRequest.from_user)
+}
+#endif
+inline void UnfollowRequest::set_from_user(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.UnfollowRequest.from_user)
+}
+inline void UnfollowRequest::set_from_user(const char* value, size_t size) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.UnfollowRequest.from_user)
+}
+inline ::std::string* UnfollowRequest::mutable_from_user() {
+  
+  // @@protoc_insertion_point(field_mutable:social.UnfollowRequest.from_user)
+  return from_user_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* UnfollowRequest::release_from_user() {
   // @@protoc_insertion_point(field_release:social.UnfollowRequest.from_user)
   
-  ::social::User* temp = from_user_;
-  from_user_ = NULL;
-  return temp;
+  return from_user_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::social::User* UnfollowRequest::mutable_from_user() {
-  
-  if (from_user_ == NULL) {
-    from_user_ = new ::social::User;
-  }
-  // @@protoc_insertion_point(field_mutable:social.UnfollowRequest.from_user)
-  return from_user_;
-}
-inline void UnfollowRequest::set_allocated_from_user(::social::User* from_user) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete from_user_;
-  }
-  if (from_user) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      from_user = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, from_user, submessage_arena);
-    }
+inline void UnfollowRequest::set_allocated_from_user(::std::string* from_user) {
+  if (from_user != NULL) {
     
   } else {
     
   }
-  from_user_ = from_user;
+  from_user_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from_user);
   // @@protoc_insertion_point(field_set_allocated:social.UnfollowRequest.from_user)
 }
 
@@ -2307,53 +2320,56 @@ inline void TimelineRequest::set_allocated_user(::social::User* user) {
 
 // ListRequest
 
-// .social.User from_user = 1;
-inline bool ListRequest::has_from_user() const {
-  return this != internal_default_instance() && from_user_ != NULL;
-}
+// string from_user = 1;
 inline void ListRequest::clear_from_user() {
-  if (GetArenaNoVirtual() == NULL && from_user_ != NULL) {
-    delete from_user_;
-  }
-  from_user_ = NULL;
+  from_user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::social::User& ListRequest::from_user() const {
-  const ::social::User* p = from_user_;
+inline const ::std::string& ListRequest::from_user() const {
   // @@protoc_insertion_point(field_get:social.ListRequest.from_user)
-  return p != NULL ? *p : *reinterpret_cast<const ::social::User*>(
-      &::social::_User_default_instance_);
+  return from_user_.GetNoArena();
 }
-inline ::social::User* ListRequest::release_from_user() {
+inline void ListRequest::set_from_user(const ::std::string& value) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.ListRequest.from_user)
+}
+#if LANG_CXX11
+inline void ListRequest::set_from_user(::std::string&& value) {
+  
+  from_user_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.ListRequest.from_user)
+}
+#endif
+inline void ListRequest::set_from_user(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.ListRequest.from_user)
+}
+inline void ListRequest::set_from_user(const char* value, size_t size) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.ListRequest.from_user)
+}
+inline ::std::string* ListRequest::mutable_from_user() {
+  
+  // @@protoc_insertion_point(field_mutable:social.ListRequest.from_user)
+  return from_user_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ListRequest::release_from_user() {
   // @@protoc_insertion_point(field_release:social.ListRequest.from_user)
   
-  ::social::User* temp = from_user_;
-  from_user_ = NULL;
-  return temp;
+  return from_user_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::social::User* ListRequest::mutable_from_user() {
-  
-  if (from_user_ == NULL) {
-    from_user_ = new ::social::User;
-  }
-  // @@protoc_insertion_point(field_mutable:social.ListRequest.from_user)
-  return from_user_;
-}
-inline void ListRequest::set_allocated_from_user(::social::User* from_user) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete from_user_;
-  }
-  if (from_user) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      from_user = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, from_user, submessage_arena);
-    }
+inline void ListRequest::set_allocated_from_user(::std::string* from_user) {
+  if (from_user != NULL) {
     
   } else {
     
   }
-  from_user_ = from_user;
+  from_user_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from_user);
   // @@protoc_insertion_point(field_set_allocated:social.ListRequest.from_user)
 }
 

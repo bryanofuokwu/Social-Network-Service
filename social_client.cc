@@ -89,7 +89,7 @@ public:
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
-            user_to_follow.append("\n");
+            //user_to_follow.append(" ");
             strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -155,6 +155,29 @@ public:
                 close(fileread);
             }
 
+            return "SUCCESS";
+        }
+        else
+        {
+            reply->grpc_status = Status::CANCELLED;
+            return "FAILURE";
+        }
+    }
+    string List( string from_user, IReply * reply)
+    {
+        ListRequest listreq;  // data sending to the server
+        ListReply listreply; // data recieving from the server
+        listreq.set_from_user(from_user);
+
+        ClientContext context;
+
+        Status status = stub_->List(&context, listreq, &listreply);
+        std::cout<< "returned from stub " << std::endl;
+        std::cout<< "following users " << listreply.following_users() <<  std::endl;
+        std::cout<< "following net " << listreply.network_users() <<  std::endl;
+        if (status.ok())
+        {
+            reply->grpc_status = Status::OK;
             return "SUCCESS";
         }
         else
@@ -321,14 +344,14 @@ int main(int argc, char **argv)
     std::strcpy(fname_user, (users).c_str());
     int fd_user = open(fname_user, O_WRONLY | O_CREAT | O_APPEND, 0666);
     char buff[MAX_DATA];
-    std::string smc = "\n";
+    std::string smc = " ";
     char semi[MAX_DATA];
     strcpy(buff, username.c_str());
-    strcpy(semi, smc.c_str());
+    //strcpy(semi, smc.c_str());
     size_t nbytes = username.length();
     ssize_t write_bytes;
     write(fd_user, buff, strlen(buff));
-    write(fd_user, semi, strlen(semi));
+    //write(fd_user, semi, strlen(semi));
     close(fd_user);
 
     // creating following directory
@@ -404,12 +427,14 @@ IReply Client::processCommand(std::string &input)
     {
         response = myc->Unfollow(command[1], &ire, myc->get_user());
     }
-    /*
+
     //TODO: comment this out once unfollow and follow work perfectly
     else if (command[0] == "LIST")
     {
-        string response = social.List();
+        std::string user = this->get_user();
+        string response = myc->List(user, &ire);
     }
+    /*
     else if (command[0] == "TIMELINE")
     {
         string response = social.Timeline();

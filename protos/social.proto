@@ -58,7 +58,7 @@ message PostReply {
 }
 
 message UnfollowRequest {
-  User from_user = 1;
+  string from_user = 1;
   string to_unfollow = 2;
 }
 
@@ -72,7 +72,7 @@ message TimelineRequest {
 }
 
 message ListRequest {
-  User from_user = 1;
+  string from_user = 1;
 }
 message ListReply {
   string following_users = 1;
