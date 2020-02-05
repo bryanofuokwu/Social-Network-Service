@@ -17,6 +17,8 @@
 #include <iostream>
 #include <memory>
 #include <grpc++/grpc++.h>
+#include <sstream>
+
 
 #include <chrono>
 #include <iostream>
@@ -197,9 +199,9 @@ public:
             user_following.append("_following.txt");
             std::cout << "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
+            std::strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
-            memset(buff, 0, sizeof(buffer));
+            memset(buff, 0, sizeof(buff));
             //user_to_follow.append(" ");
 
             // handle the file to put in
@@ -214,8 +216,8 @@ public:
             std::string ts = ss.str();
             user_to_follow.append(ts);
             user_to_follow.append(ts);
-            cout << user_to_follow <<endl
-            strcpy(buff, user_to_follow.c_str());
+            cout << user_to_follow <<endl;
+            std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
             return "SUCCESS";
