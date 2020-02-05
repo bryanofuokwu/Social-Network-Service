@@ -199,11 +199,11 @@ public:
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
-            memset(buff, 0 sizeof(buffer));
+            memset(buff, 0, sizeof(buffer));
             //user_to_follow.append(" ");
 
             // handle the file to put in
-            if(user_to_follow.length() =< 2){
+            if(user_to_follow.length() <= 2){
                 user_to_follow.append(" :");
             }
             else{
@@ -212,7 +212,7 @@ public:
             std::stringstream ss;
             ss << followreq.fr_timestamp();
             std::string ts = ss.str();
-            s.append(ts);
+            user_to_follow.append(ts);
             user_to_follow.append(ts);
             cout << user_to_follow <<endl
             strcpy(buff, user_to_follow.c_str());
