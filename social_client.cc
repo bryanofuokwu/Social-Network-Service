@@ -179,10 +179,13 @@ public:
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
         ::google::protobuf::Timestamp* timestamp = new ::google::protobuf::Timestamp();
+
+//        startMovie.set_allocated_start_time(timestamp);
+//        startMovie.set_movie_name("my happy movie");
 //        timestamp->set_seconds(time(NULL));
 //        timestamp->set_nanos(0);
 //        followreq.set_allocated_fr_timestamp(timestamp);
-//        std::cout << timestamp->seconds() << std::endl;
+//        std::cout << followreq.fr_timestamp().s << std::endl;
 
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
