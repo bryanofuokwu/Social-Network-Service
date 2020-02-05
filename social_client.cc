@@ -39,8 +39,8 @@
 
 using grpc::Channel;
 using grpc::ClientContext;
-using grpc::Status;
 using grpc::ClientReaderWriter;
+using grpc::Status;
 using social::FollowReply;
 using social::FollowRequest;
 using social::ListReply;
@@ -50,10 +50,10 @@ using social::PostReply;
 using social::Social;
 using social::SocialNetwork;
 using social::TimelineRequest;
+using social::TimeStamp;
 using social::UnfollowReply;
 using social::UnfollowRequest;
 using social::User;
-using social::TimeStamp;
 
 using namespace std;
 string trim(string input)
@@ -178,14 +178,14 @@ public:
         FollowRequest followreq; // data sending to the server
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
-        ::google::protobuf::Timestamp* timestamp = new ::google::protobuf::Timestamp();
+        ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
 
-//        startMovie.set_allocated_start_time(timestamp);
-//        startMovie.set_movie_name("my happy movie");
-//        timestamp->set_seconds(time(NULL));
-//        timestamp->set_nanos(0);
-//        followreq.set_allocated_fr_timestamp(timestamp);
-//        std::cout << followreq.fr_timestamp().s << std::endl;
+        //        startMovie.set_allocated_start_time(timestamp);
+        //        startMovie.set_movie_name("my happy movie");
+        //        timestamp->set_seconds(time(NULL));
+        //        timestamp->set_nanos(0);
+        //        followreq.set_allocated_fr_timestamp(timestamp);
+        //        std::cout << followreq.fr_timestamp().s << std::endl;
 
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
@@ -241,7 +241,8 @@ public:
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
             std::strcpy(fname_f, user_following.c_str());
-            char buffer[2];
+            char buffer[MAX_DATA];
+            memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
             std::cout << "Length of User Unfolllow " << user_to_unfollow.length() << std::endl;
@@ -310,11 +311,11 @@ public:
             return "FAILURE";
         }
     }
-    void Timeline(IReply *reply){
+    void Timeline(IReply *reply)
+    {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
-                stub_->Timeline(&context));
-
+            stub_->Timeline(&context));
     }
 
 protected:
