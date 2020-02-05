@@ -253,15 +253,15 @@ public:
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
-            for (int i = 0; i < followers.size(); ++i)
-            {
-                cout << followers[i] << endl;
-                char buff[MAX_DATA];
-                strcpy(buff, followers[i].c_str());
-                fileread = open(fname_f, O_WRONLY);
-                write(fileread, buff, user_to_unfollow.length());
-                close(fileread);
-            }
+            // for (int i = 0; i < followers.size(); ++i)
+            // {
+            //     cout << "Vector contains : " << followers[i] << endl;
+            //     char buff[MAX_DATA];
+            //     strcpy(buff, followers[i].c_str());
+            //     fileread = open(fname_f, O_WRONLY);
+            //     write(fileread, buff, user_to_unfollow.length());
+            //     close(fileread);
+            // }
             cout << "Line 264" << endl;
             return "SUCCESS";
         }
