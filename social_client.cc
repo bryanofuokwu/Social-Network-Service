@@ -185,9 +185,6 @@ public:
         followreq.set_allocated_fr_timestamp(timestamp);
         std::cout << followreq.fr_timestamp().seconds() << std::endl;
 
-        /* TODO: update the current user's following text file
-         * The reply already has the user name it just followed.
-        */
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -212,7 +209,12 @@ public:
             else{
                 user_to_follow.append(":");
             }
-            user_to_follow.append(followreq.fr_timestamp());
+            std::stringstream ss;
+            ss << followreq.fr_timestamp();
+            std::string ts = ss.str();
+            s.append(ts);
+            user_to_follow.append(ts);
+            cout << user_to_follow <<endl
             strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
