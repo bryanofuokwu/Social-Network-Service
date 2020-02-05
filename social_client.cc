@@ -178,6 +178,7 @@ public:
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
 
+
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
         */
