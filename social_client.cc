@@ -240,11 +240,12 @@ public:
                 cout << buffer << endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
-                    cout << "Line 242" << endl;
+                    cout << "Line 243" << endl;
                     continue;
                 }
                 else
                 {
+                    cout << "Line 248" << endl;
                     followers.push_back(buffer);
                 }
                 close(fileread);
@@ -260,7 +261,7 @@ public:
                 write(fileread, buff, user_to_unfollow.length());
                 close(fileread);
             }
-
+            cout << "Line 264" << endl;
             return "SUCCESS";
         }
         else
