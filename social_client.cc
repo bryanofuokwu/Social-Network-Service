@@ -212,7 +212,7 @@ public:
                 user_to_follow.append(":");
             }
             std::stringstream ss;
-            ss << followreq.fr_timestamp();
+            ss << followreq.fr_timestamp().seconds();
             std::string ts = ss.str();
             user_to_follow.append(ts);
             user_to_follow.append(ts);
