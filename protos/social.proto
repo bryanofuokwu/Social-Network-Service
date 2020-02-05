@@ -42,7 +42,7 @@ message User {
 message FollowRequest {
   User from_user = 1;
   string to_follow = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  TimeStamp fr_timestamp = 3;
 }
 
 message FollowReply {
@@ -54,7 +54,7 @@ message FollowReply {
 message Post {
   string from_user = 1;
   string message = 2;
-  google.protobuf.Timestamp timestamp = 3;
+  TimeStamp post_timestamp = 3;
 }
 
 message PostReply {
@@ -88,6 +88,10 @@ message ListReply {
 
 message SocialNetwork {
   repeated User user = 1;
+}
+
+message TimeStamp {
+  google.protobuf.Timestamp timestamp = 1;
 }
 
 
