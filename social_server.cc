@@ -120,7 +120,7 @@ public:
         return Status::CANCELLED;
     }
 
-*/
+
     Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
        std::string user = lrequest->from_user();
