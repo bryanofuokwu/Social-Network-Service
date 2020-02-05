@@ -229,15 +229,15 @@ public:
             user_following.append(from_user);
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
+            std::strcpy(fname_f, user_following.c_str());
             char buffer[MAX_DATA];
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
-            std::cout << "Length of Use Unfolllow " << user_to_unfollow.length() << std::endl;
+            std::cout << "Length of User Unfolllow " << user_to_unfollow.length() << std::endl;
             while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
-                strcpy(cstr, user_to_unfollow.c_str());
+                std::strcpy(cstr, user_to_unfollow.c_str());
                 std::cout << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
