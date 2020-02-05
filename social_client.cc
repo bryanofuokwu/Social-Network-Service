@@ -53,6 +53,111 @@ using social::UnfollowRequest;
 using social::User;
 
 using namespace std;
+string trim(string input)
+{
+    int i = 0;
+    while (i < input.size() && input[i] == ' ')
+        i++;
+    if (i < input.size())
+        input = input.substr(i);
+    else
+    {
+        return "";
+    }
+
+    i = input.size() - 1;
+    while (i >= 0 && input[i] == ' ')
+        i--;
+    if (i >= 0)
+        input = input.substr(0, i + 1);
+    else
+        return "";
+
+    return input;
+}
+vector<string> split(string line, string separator = " ")
+{
+    vector<string> result;
+    while (line.size())
+    {
+        size_t found = line.find(separator);
+        size_t fquote = line.find('\"');
+        size_t fq = line.find('\'');
+        if (found == string::npos)
+        {
+            string lastpart = trim(line);
+            if (lastpart.at(0) == '\"')
+            {
+                lastpart = lastpart.substr(1, lastpart.size() - 2);
+            }
+            if (lastpart.at(0) == '\'')
+            {
+                lastpart = lastpart.substr(1, lastpart.size() - 2);
+            }
+            if (lastpart.size() > 0)
+            {
+                result.push_back(lastpart);
+            }
+            //cout << "last result push back: " << lastpart << endl;
+            break;
+        }
+        string segment = trim(line.substr(0, found));
+        if ((fquote != string::npos) && (fquote < found))
+        {
+            size_t bquote = line.find('\"', fquote + 1);
+            if (separator == " ")
+            {
+                segment = line.substr(1, bquote - 1);
+            }
+                // if quotes are found goes through here
+            else if (found < bquote && (separator == "|"))
+            {
+                segment = trim(line);
+                if (segment.at(0) == '\"')
+                {
+                    segment = segment.substr(1, segment.size() - 2);
+                }
+                if (segment.size() > 0)
+                {
+                    result.push_back(segment);
+                }
+                break;
+            }
+            else
+            {
+                segment = line.substr(0, bquote + 1);
+            }
+            line = line.substr(bquote + 1);
+            result.push_back(segment);
+        }
+            // if single quotes are found goes through here
+        else if ((fq != string::npos) && (fq < found) && (separator != "|"))
+        {
+            size_t bq = line.find('\'', fq + 1);
+            if (separator == " ")
+            {
+                segment = line.substr(1, bq - 1);
+            }
+            else
+            {
+                segment = line.substr(0, bq + 1);
+            }
+            line = line.substr(bq + 1);
+            result.push_back(segment);
+        }
+        else
+        {
+            if (segment.size() != 0)
+            {
+                result.push_back(segment);
+                //cout << "segment: " << segment << endl;
+            }
+            line = line.substr(found + 1);
+        }
+    }
+    return result;
+}
+
 
 class Client : public IClient
 {
@@ -172,12 +277,16 @@ public:
         ClientContext context;
 
         Status status = stub_->List(&context, listreq, &listreply);
-        std::cout<< "returned from stub " << std::endl;
+        /*std::cout<< "returned from stub " << std::endl;
         std::cout<< "following users " << listreply.following_users() <<  std::endl;
-        std::cout<< "following net " << listreply.network_users() <<  std::endl;
+        std::cout<< "following net " << listreply.network_users() <<  std::endl;*/
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            vector<string> split_fusers = split(listreply.following_users(), ",");
+            vector<string> split_nusers = split(listreply.network_users(), ",");
+            reply->following_users = split_fusers;
+            reply->all_users = split_nusers;
             return "SUCCESS";
         }
         else
@@ -200,111 +309,7 @@ private:
     std::unique_ptr<Social::Stub> stub_;
 };
 
-string trim(string input)
-{
-    int i = 0;
-    while (i < input.size() && input[i] == ' ')
-        i++;
-    if (i < input.size())
-        input = input.substr(i);
-    else
-    {
-        return "";
-    }
 
-    i = input.size() - 1;
-    while (i >= 0 && input[i] == ' ')
-        i--;
-    if (i >= 0)
-        input = input.substr(0, i + 1);
-    else
-        return "";
-
-    return input;
-}
-
-vector<string> split(string line, string separator = " ")
-{
-    vector<string> result;
-    while (line.size())
-    {
-        size_t found = line.find(separator);
-        size_t fquote = line.find('\"');
-        size_t fq = line.find('\'');
-        if (found == string::npos)
-        {
-            string lastpart = trim(line);
-            if (lastpart.at(0) == '\"')
-            {
-                lastpart = lastpart.substr(1, lastpart.size() - 2);
-            }
-            if (lastpart.at(0) == '\'')
-            {
-                lastpart = lastpart.substr(1, lastpart.size() - 2);
-            }
-            if (lastpart.size() > 0)
-            {
-                result.push_back(lastpart);
-            }
-            //cout << "last result push back: " << lastpart << endl;
-            break;
-        }
-        string segment = trim(line.substr(0, found));
-        if ((fquote != string::npos) && (fquote < found))
-        {
-            size_t bquote = line.find('\"', fquote + 1);
-            if (separator == " ")
-            {
-                segment = line.substr(1, bquote - 1);
-            }
-            // if quotes are found goes through here
-            else if (found < bquote && (separator == "|"))
-            {
-                segment = trim(line);
-                if (segment.at(0) == '\"')
-                {
-                    segment = segment.substr(1, segment.size() - 2);
-                }
-                if (segment.size() > 0)
-                {
-                    result.push_back(segment);
-                }
-                break;
-            }
-            else
-            {
-                segment = line.substr(0, bquote + 1);
-            }
-            line = line.substr(bquote + 1);
-            result.push_back(segment);
-        }
-        // if single quotes are found goes through here
-        else if ((fq != string::npos) && (fq < found) && (separator != "|"))
-        {
-            size_t bq = line.find('\'', fq + 1);
-            if (separator == " ")
-            {
-                segment = line.substr(1, bq - 1);
-            }
-            else
-            {
-                segment = line.substr(0, bq + 1);
-            }
-            line = line.substr(bq + 1);
-            result.push_back(segment);
-        }
-        else
-        {
-            if (segment.size() != 0)
-            {
-                result.push_back(segment);
-                //cout << "segment: " << segment << endl;
-            }
-            line = line.substr(found + 1);
-        }
-    }
-    return result;
-}
 
 Client *myc;
 int main(int argc, char **argv)
