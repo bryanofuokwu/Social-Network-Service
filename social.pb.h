@@ -29,6 +29,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_social_2eproto {
@@ -588,9 +589,23 @@ class Post : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 
   // accessors -------------------------------------------------------
 
-  // string message = 1;
+  // string from_user = 1;
+  void clear_from_user();
+  static const int kFromUserFieldNumber = 1;
+  const ::std::string& from_user() const;
+  void set_from_user(const ::std::string& value);
+  #if LANG_CXX11
+  void set_from_user(::std::string&& value);
+  #endif
+  void set_from_user(const char* value);
+  void set_from_user(const char* value, size_t size);
+  ::std::string* mutable_from_user();
+  ::std::string* release_from_user();
+  void set_allocated_from_user(::std::string* from_user);
+
+  // string message = 2;
   void clear_message();
-  static const int kMessageFieldNumber = 1;
+  static const int kMessageFieldNumber = 2;
   const ::std::string& message() const;
   void set_message(const ::std::string& value);
   #if LANG_CXX11
@@ -602,11 +617,22 @@ class Post : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   ::std::string* release_message();
   void set_allocated_message(::std::string* message);
 
+  // .google.protobuf.Timestamp timestamp = 3;
+  bool has_timestamp() const;
+  void clear_timestamp();
+  static const int kTimestampFieldNumber = 3;
+  const ::google::protobuf::Timestamp& timestamp() const;
+  ::google::protobuf::Timestamp* release_timestamp();
+  ::google::protobuf::Timestamp* mutable_timestamp();
+  void set_allocated_timestamp(::google::protobuf::Timestamp* timestamp);
+
   // @@protoc_insertion_point(class_scope:social.Post)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr from_user_;
   ::google::protobuf::internal::ArenaStringPtr message_;
+  ::google::protobuf::Timestamp* timestamp_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsPostImpl();
@@ -1826,7 +1852,60 @@ inline void FollowReply::set_allocated_reply(::std::string* reply) {
 
 // Post
 
-// string message = 1;
+// string from_user = 1;
+inline void Post::clear_from_user() {
+  from_user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Post::from_user() const {
+  // @@protoc_insertion_point(field_get:social.Post.from_user)
+  return from_user_.GetNoArena();
+}
+inline void Post::set_from_user(const ::std::string& value) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.Post.from_user)
+}
+#if LANG_CXX11
+inline void Post::set_from_user(::std::string&& value) {
+  
+  from_user_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.Post.from_user)
+}
+#endif
+inline void Post::set_from_user(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.Post.from_user)
+}
+inline void Post::set_from_user(const char* value, size_t size) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.Post.from_user)
+}
+inline ::std::string* Post::mutable_from_user() {
+  
+  // @@protoc_insertion_point(field_mutable:social.Post.from_user)
+  return from_user_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Post::release_from_user() {
+  // @@protoc_insertion_point(field_release:social.Post.from_user)
+  
+  return from_user_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Post::set_allocated_from_user(::std::string* from_user) {
+  if (from_user != NULL) {
+    
+  } else {
+    
+  }
+  from_user_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from_user);
+  // @@protoc_insertion_point(field_set_allocated:social.Post.from_user)
+}
+
+// string message = 2;
 inline void Post::clear_message() {
   message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1877,6 +1956,51 @@ inline void Post::set_allocated_message(::std::string* message) {
   }
   message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
   // @@protoc_insertion_point(field_set_allocated:social.Post.message)
+}
+
+// .google.protobuf.Timestamp timestamp = 3;
+inline bool Post::has_timestamp() const {
+  return this != internal_default_instance() && timestamp_ != NULL;
+}
+inline const ::google::protobuf::Timestamp& Post::timestamp() const {
+  const ::google::protobuf::Timestamp* p = timestamp_;
+  // @@protoc_insertion_point(field_get:social.Post.timestamp)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Timestamp*>(
+      &::google::protobuf::_Timestamp_default_instance_);
+}
+inline ::google::protobuf::Timestamp* Post::release_timestamp() {
+  // @@protoc_insertion_point(field_release:social.Post.timestamp)
+  
+  ::google::protobuf::Timestamp* temp = timestamp_;
+  timestamp_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Timestamp* Post::mutable_timestamp() {
+  
+  if (timestamp_ == NULL) {
+    timestamp_ = new ::google::protobuf::Timestamp;
+  }
+  // @@protoc_insertion_point(field_mutable:social.Post.timestamp)
+  return timestamp_;
+}
+inline void Post::set_allocated_timestamp(::google::protobuf::Timestamp* timestamp) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(timestamp_);
+  }
+  if (timestamp) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast< ::google::protobuf::MessageLite*>(timestamp)->GetArena();
+    if (message_arena != submessage_arena) {
+      timestamp = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, timestamp, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  timestamp_ = timestamp;
+  // @@protoc_insertion_point(field_set_allocated:social.Post.timestamp)
 }
 
 // -------------------------------------------------------------------
