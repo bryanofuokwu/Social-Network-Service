@@ -160,18 +160,8 @@ public:
     }
 
     Status Timeline(ServerContext* context,
-            ServerReaderWriter<Post, Post>* stream) override {
+            ServerReaderWriter<PostReply, Post>* stream) override {
 
-        Posting p;
-        while(stream->Read(&p)) {
-            std::string msg = p.content();
-            std::cout << "got a message from client: " << msg << std::endl;
-
-            Posting new_posting;
-            new_posting.set_content(msg + " from server");
-            std::cout << "returning a message to client: " << new_posting.content() << std::endl;
-
-            stream->Write(new_posting);
         }
 
         return Status::OK;
