@@ -264,14 +264,12 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
-                std::cout << "Vector contains : " << followers[i] << std::endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
                 write(fileread, buff, user_to_unfollow.length());
                 close(fileread);
             }
-            std::cout << "Line 264" << std::endl;
             return "SUCCESS";
         }
         else
