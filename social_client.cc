@@ -234,13 +234,12 @@ public:
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
             std::cout << "Length of User Unfolllow " << user_to_unfollow.length() << std::endl;
-            int i = 0;
-            while (inlen = read(fileread, buffer[i], user_to_unfollow.length()) > 0)
+            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
-                std::cout << buffer[i] << std::endl;
-                if ((strcmp(cstr, buffer[i])) == 0)
+                std::cout << buffer << std::endl;
+                if ((strcmp(cstr, buffer)) == 0)
                 {
                     std::cout << "Line 243" << std::endl;
                     continue;
@@ -250,7 +249,6 @@ public:
                     std::cout << "Line 248" << std::endl;
                     followers.push_back(buffer);
                 }
-                ++i;
                 close(fileread);
             }
             fileread = open(fname_f, O_TRUNC, 0666);
