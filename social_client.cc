@@ -302,6 +302,7 @@ public:
         }
     }
     void Timeline(IReply *reply){
+        ClientContext context;
         std::shared_ptr<ClientReaderWriter<PostReply, Post>> stream(
                 stub_->Timeline(&context));
 
