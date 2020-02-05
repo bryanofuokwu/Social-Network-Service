@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
+
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.social";
 option java_outer_classname = "SocialProto";
@@ -39,15 +42,19 @@ message User {
 message FollowRequest {
   User from_user = 1;
   string to_follow = 2;
+  google.protobuf.Timestamp fr_timestamp = 3;
 }
 
 message FollowReply {
   string status = 1;
   string reply = 2;
+  string time_date = 3;
 }
 
 message Post {
-  string message = 1;
+  string from_user = 1;
+  string message = 2;
+  google.protobuf.Timestamp post_timestamp = 3;
 }
 
 message PostReply {
@@ -81,6 +88,10 @@ message ListReply {
 
 message SocialNetwork {
   repeated User user = 1;
+}
+
+message TimeStamp {
+  google.protobuf.Timestamp timestamp = 1;
 }
 
 

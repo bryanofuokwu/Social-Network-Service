@@ -39,167 +39,23 @@
 
 using grpc::Channel;
 using grpc::ClientContext;
+using grpc::ClientReaderWriter;
 using grpc::Status;
 using social::FollowReply;
 using social::FollowRequest;
 using social::ListReply;
 using social::ListRequest;
+using social::Post;
 using social::PostReply;
 using social::Social;
 using social::SocialNetwork;
 using social::TimelineRequest;
+using social::TimeStamp;
 using social::UnfollowReply;
 using social::UnfollowRequest;
 using social::User;
 
 using namespace std;
-
-class Client : public IClient
-{
-public:
-    Client(const std::string &hname,
-           const std::string &uname,
-           const std::string &p, std::shared_ptr<Channel> channel)
-        : hostname(hname), username(uname), port(p), stub_(Social::NewStub(channel)) {}
-
-    //    Client(std::shared_ptr<Channel> channel)
-    //        : stub_(Social::NewStub(channel)) {}
-
-    std::string get_user() { return username; }
-    string Follow(string user_to_follow, IReply *reply, string from_user)
-    {
-        FollowRequest followreq; // data sending to the server
-        FollowReply followreply; // data recieving from the server
-        followreq.set_to_follow(user_to_follow);
-
-        /* TODO: update the current user's following text file
-         * The reply already has the user name it just followed.
-        */
-        ClientContext context;
-
-        Status status = stub_->Follow(&context, followreq, &followreply);
-
-        if (status.ok())
-        {
-            reply->grpc_status = Status::OK;
-            std::string user_following = "users_following/";
-            user_following.append(from_user);
-            user_following.append("_following.txt");
-            std::cout << "this is file to write to " << user_following << std::endl;
-            char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
-            char buff[MAX_DATA];
-            //user_to_follow.append(" ");
-            strcpy(buff, user_to_follow.c_str());
-            int filewrite = open(fname_f, O_WRONLY);
-            write(filewrite, buff, user_to_follow.length());
-            return "SUCCESS";
-        }
-        else
-        {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
-        }
-    }
-    string Unfollow(string user_to_unfollow, IReply *reply, string from_user)
-    {
-        UnfollowRequest unfollowreq; // data sending to the server
-        UnfollowReply unfollowreply; // data recieving from the server
-        unfollowreq.set_to_unfollow(user_to_unfollow);
-
-        ClientContext context;
-        /* TODO: update the current user's following text file
-        * The reply already has the user name it just unfollowed.
-       */
-
-        Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
-
-        // TODO: figure out what other cases we will get
-        // TODO: look at https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
-        // for all the kinds of status we can receive from the server
-        if (status.ok())
-        {
-            reply->grpc_status = Status::OK;
-            std::vector<string> followers;
-            std::string user_following = "users_following/";
-            user_following.append(from_user);
-            user_following.append("_following.txt");
-            char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
-            char cstr[MAX_DATA];
-            strcpy(cstr, user_to_unfollow.c_str());
-            char buffer[MAX_DATA];
-            ssize_t inlen;
-            int fileread = open(fname_f, O_RDONLY);
-            while (inlen = read(fileread, buffer, user_following.length() > 0))
-            {
-                if ((strcmp(cstr, buffer)) == 0)
-                {
-                    continue;
-                }
-                else
-                {
-                    followers.push_back(buffer);
-                }
-                close(fileread);
-            }
-            fileread = open(fname_f, O_TRUNC, 0666);
-            close(fileread);
-
-            for (int i = 0; i < followers.size(); ++i)
-            {
-                char buff[MAX_DATA];
-                strcpy(buff, followers[i].c_str());
-                fileread = open(fname_f, O_WRONLY);
-                write(fileread, buff, user_to_unfollow.length());
-                close(fileread);
-            }
-
-            return "SUCCESS";
-        }
-        else
-        {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
-        }
-    }
-    string List( string from_user, IReply * reply)
-    {
-        ListRequest listreq;  // data sending to the server
-        ListReply listreply; // data recieving from the server
-        listreq.set_from_user(from_user);
-
-        ClientContext context;
-
-        Status status = stub_->List(&context, listreq, &listreply);
-        std::cout<< "returned from stub " << std::endl;
-        std::cout<< "following users " << listreply.following_users() <<  std::endl;
-        std::cout<< "following net " << listreply.network_users() <<  std::endl;
-        if (status.ok())
-        {
-            reply->grpc_status = Status::OK;
-            return "SUCCESS";
-        }
-        else
-        {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
-        }
-    }
-
-protected:
-    virtual int connectTo();
-    virtual IReply processCommand(std::string &input);
-    virtual void processTimeline();
-
-private:
-    std::string hostname;
-    std::string username;
-    std::string port;
-    // You can have an instance of the client stub as a member variable.
-    std::unique_ptr<Social::Stub> stub_;
-};
-
 string trim(string input)
 {
     int i = 0;
@@ -222,7 +78,6 @@ string trim(string input)
 
     return input;
 }
-
 vector<string> split(string line, string separator = " ")
 {
     vector<string> result;
@@ -305,6 +160,170 @@ vector<string> split(string line, string separator = " ")
     }
     return result;
 }
+
+class Client : public IClient
+{
+public:
+    Client(const std::string &hname,
+           const std::string &uname,
+           const std::string &p, std::shared_ptr<Channel> channel)
+        : hostname(hname), username(uname), port(p), stub_(Social::NewStub(channel)) {}
+
+    //    Client(std::shared_ptr<Channel> channel)
+    //        : stub_(Social::NewStub(channel)) {}
+
+    std::string get_user() { return username; }
+    string Follow(string user_to_follow, IReply *reply, string from_user)
+    {
+        FollowRequest followreq; // data sending to the server
+        FollowReply followreply; // data recieving from the server
+        followreq.set_to_follow(user_to_follow);
+        ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
+
+        //        startMovie.set_allocated_start_time(timestamp);
+        //        startMovie.set_movie_name("my happy movie");
+        //        timestamp->set_seconds(time(NULL));
+        //        timestamp->set_nanos(0);
+        //        followreq.set_allocated_fr_timestamp(timestamp);
+        //        std::cout << followreq.fr_timestamp().s << std::endl;
+
+        /* TODO: update the current user's following text file
+         * The reply already has the user name it just followed.
+        */
+        ClientContext context;
+
+        Status status = stub_->Follow(&context, followreq, &followreply);
+
+        if (status.ok())
+        {
+            reply->grpc_status = Status::OK;
+            std::string user_following = "users_following/";
+            user_following.append(from_user);
+            user_following.append("_following.txt");
+            std::cout << "this is file to write to " << user_following << std::endl;
+            char *fname_f = new char[user_following.length() + 1];
+            strcpy(fname_f, user_following.c_str());
+            char buff[MAX_DATA];
+            //user_to_follow.append(" ");
+            strcpy(buff, user_to_follow.c_str());
+            int filewrite = open(fname_f, O_WRONLY);
+            write(filewrite, buff, user_to_follow.length());
+            return "SUCCESS";
+        }
+        else
+        {
+            reply->grpc_status = Status::CANCELLED;
+            return "FAILURE";
+        }
+    }
+    string Unfollow(string user_to_unfollow, IReply *reply, string from_user)
+    {
+        UnfollowRequest unfollowreq; // data sending to the server
+        UnfollowReply unfollowreply; // data recieving from the server
+        unfollowreq.set_to_unfollow(user_to_unfollow);
+
+        ClientContext context;
+        /* TODO: update the current user's following text file
+        * The reply already has the user name it just unfollowed.
+       */
+
+        Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
+
+        // TODO: figure out what other cases we will get
+        // TODO: look at https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
+        // for all the kinds of status we can receive from the server
+        if (status.ok())
+        {
+            reply->grpc_status = Status::OK;
+            std::vector<string> followers;
+            std::string user_following = "users_following/";
+            user_following.append(from_user);
+            user_following.append("_following.txt");
+            char *fname_f = new char[user_following.length() + 1];
+            std::strcpy(fname_f, user_following.c_str());
+            char buffer[MAX_DATA];
+            memset(buffer, 0, sizeof(buffer));
+            int fileread = open(fname_f, O_RDONLY);
+            ssize_t inlen;
+            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
+            {
+                char cstr[user_to_unfollow.length() + 1];
+                std::strcpy(cstr, user_to_unfollow.c_str());
+                if ((strcmp(cstr, buffer)) == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    followers.push_back(buffer);
+                }
+                close(fileread);
+            }
+            fileread = open(fname_f, O_TRUNC, 0666);
+            close(fileread);
+
+            for (int i = 0; i < followers.size(); ++i)
+            {
+                char buff[MAX_DATA];
+                strcpy(buff, followers[i].c_str());
+                fileread = open(fname_f, O_WRONLY);
+                write(fileread, buff, user_to_unfollow.length());
+                close(fileread);
+            }
+            return "SUCCESS";
+        }
+        else
+        {
+            reply->grpc_status = Status::CANCELLED;
+            return "FAILURE";
+        }
+    }
+    string List(string from_user, IReply *reply)
+    {
+        ListRequest listreq; // data sending to the server
+        ListReply listreply; // data recieving from the server
+        listreq.set_from_user(from_user);
+
+        ClientContext context;
+
+        Status status = stub_->List(&context, listreq, &listreply);
+        /*std::cout<< "returned from stub " << std::endl;
+        std::cout<< "following users " << listreply.following_users() <<  std::endl;
+        std::cout<< "following net " << listreply.network_users() <<  std::endl;*/
+        if (status.ok())
+        {
+            reply->grpc_status = Status::OK;
+            vector<string> split_fusers = split(listreply.following_users(), ",");
+            vector<string> split_nusers = split(listreply.network_users(), ",");
+            reply->following_users = split_fusers;
+            reply->all_users = split_nusers;
+            return "SUCCESS";
+        }
+        else
+        {
+            reply->grpc_status = Status::CANCELLED;
+            return "FAILURE";
+        }
+    }
+    void Timeline(IReply *reply)
+    {
+        ClientContext context;
+        std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
+            stub_->Timeline(&context));
+    }
+
+protected:
+    virtual int connectTo();
+    virtual IReply processCommand(std::string &input);
+    virtual void processTimeline();
+
+private:
+    std::string hostname;
+    std::string username;
+    std::string port;
+    // You can have an instance of the client stub as a member variable.
+    std::unique_ptr<Social::Stub> stub_;
+};
 
 Client *myc;
 int main(int argc, char **argv)
@@ -432,13 +451,13 @@ IReply Client::processCommand(std::string &input)
     else if (command[0] == "LIST")
     {
         std::string user = this->get_user();
-        string response = myc->List(user, &ire);
+        response = myc->List(user, &ire);
     }
-    /*
+
     else if (command[0] == "TIMELINE")
     {
-        string response = social.Timeline();
-    }*/
+        response = "SUCCESS";
+    }
 
     // ------------------------------------------------------------
     // GUIDE 2:
@@ -515,12 +534,3 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
 }
-
-//class SocialClient
-//{
-//public:
-//    SocialClient(shared_ptr<channel> channel)
-//        : stub_(SocialClient::NewStub(channel)) {}
-//
-//
-//}
