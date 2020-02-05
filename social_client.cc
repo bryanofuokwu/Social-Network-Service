@@ -233,8 +233,7 @@ public:
             char buffer[MAX_DATA];
             ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
-            cout << "Line 236" << endl;
-            while (inlen = read(fileread, buffer, user_following.length() > 0))
+            while (inlen = read(fileread, buffer, user_to_unfollow.length() > 0))
             {
                 cout << "Line 238 " << endl;
                 char cstr[user_to_unfollow.length() + 1];
