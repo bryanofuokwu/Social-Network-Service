@@ -162,7 +162,7 @@ public:
     Status Timeline(ServerContext* context,
             ServerReaderWriter<PostReply, Post>* stream) override {
 
-        }
+
 
         return Status::OK;
     }
