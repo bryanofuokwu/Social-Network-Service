@@ -233,20 +233,20 @@ public:
             char buffer[MAX_DATA];
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
-            cout << "Length of Use Unfolllow " << user_to_unfollow.length() << endl;
+            std::cout << "Length of Use Unfolllow " << user_to_unfollow.length() << std::endl;
             while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 strcpy(cstr, user_to_unfollow.c_str());
-                cout << buffer << endl;
+                std::cout << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
-                    cout << "Line 243" << endl;
+                    std::cout << "Line 243" << std::endl;
                     continue;
                 }
                 else
                 {
-                    cout << "Line 248" << endl;
+                    std::cout << "Line 248" << std::endl;
                     followers.push_back(buffer);
                 }
                 close(fileread);
@@ -256,14 +256,14 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
-                cout << "Vector contains : " << followers[i] << endl;
+                std::cout << "Vector contains : " << followers[i] << std::endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
                 write(fileread, buff, user_to_unfollow.length());
                 close(fileread);
             }
-            cout << "Line 264" << endl;
+            std::cout << "Line 264" << std::endl;
             return "SUCCESS";
         }
         else
