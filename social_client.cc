@@ -230,13 +230,15 @@ public:
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
-            char cstr[MAX_DATA];
-            strcpy(cstr, user_to_unfollow.c_str());
             char buffer[MAX_DATA];
             ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
+            cout << "Line 236" << endl;
             while (inlen = read(fileread, buffer, user_following.length() > 0))
             {
+                cout << "Line 238 " << endl;
+                char cstr[user_to_unfollow.length() + 1];
+                strcpy(cstr, user_to_unfollow.c_str());
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     cout << "Line 242" << endl;
