@@ -237,7 +237,7 @@ public:
             {
                 char cstr[user_to_unfollow.length() + 1];
                 strcpy(cstr, user_to_unfollow.c_str());
-                cout << cstr << endl;
+                cout << buffer << endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     cout << "Line 242" << endl;
