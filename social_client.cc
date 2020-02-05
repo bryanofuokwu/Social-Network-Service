@@ -224,7 +224,6 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
-            cout << "Line 228" << endl;
             std::vector<string> followers;
             std::string user_following = "users_following/";
             user_following.append(from_user);
@@ -236,6 +235,7 @@ public:
             char buffer[MAX_DATA];
             ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
+            cout << "Line 238" << endl;
             while (inlen = read(fileread, buffer, user_following.length() > 0))
             {
                 if ((strcmp(cstr, buffer)) == 0)
