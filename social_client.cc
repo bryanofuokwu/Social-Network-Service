@@ -109,7 +109,7 @@ vector<string> split(string line, string separator = " ")
             {
                 segment = line.substr(1, bquote - 1);
             }
-                // if quotes are found goes through here
+            // if quotes are found goes through here
             else if (found < bquote && (separator == "|"))
             {
                 segment = trim(line);
@@ -130,7 +130,7 @@ vector<string> split(string line, string separator = " ")
             line = line.substr(bquote + 1);
             result.push_back(segment);
         }
-            // if single quotes are found goes through here
+        // if single quotes are found goes through here
         else if ((fq != string::npos) && (fq < found) && (separator != "|"))
         {
             size_t bq = line.find('\'', fq + 1);
@@ -157,7 +157,6 @@ vector<string> split(string line, string separator = " ")
     }
     return result;
 }
-
 
 class Client : public IClient
 {
@@ -225,6 +224,7 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            cout << "Line 228" << endl;
             std::vector<string> followers;
             std::string user_following = "users_following/";
             user_following.append(from_user);
@@ -268,9 +268,9 @@ public:
             return "FAILURE";
         }
     }
-    string List( string from_user, IReply * reply)
+    string List(string from_user, IReply *reply)
     {
-        ListRequest listreq;  // data sending to the server
+        ListRequest listreq; // data sending to the server
         ListReply listreply; // data recieving from the server
         listreq.set_from_user(from_user);
 
@@ -308,8 +308,6 @@ private:
     // You can have an instance of the client stub as a member variable.
     std::unique_ptr<Social::Stub> stub_;
 };
-
-
 
 Client *myc;
 int main(int argc, char **argv)
