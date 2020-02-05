@@ -233,7 +233,7 @@ public:
             char buffer[MAX_DATA];
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
-            while (inlen = read(fileread, buffer, 2) > 0)
+            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 strcpy(cstr, user_to_unfollow.c_str());
