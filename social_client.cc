@@ -233,6 +233,7 @@ public:
             char buffer[MAX_DATA];
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
+            cout << "Length of Use Unfolllow " << user_to_unfollow.length() << endl;
             while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
@@ -253,15 +254,15 @@ public:
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
-            // for (int i = 0; i < followers.size(); ++i)
-            // {
-            //     cout << "Vector contains : " << followers[i] << endl;
-            //     char buff[MAX_DATA];
-            //     strcpy(buff, followers[i].c_str());
-            //     fileread = open(fname_f, O_WRONLY);
-            //     write(fileread, buff, user_to_unfollow.length());
-            //     close(fileread);
-            // }
+            for (int i = 0; i < followers.size(); ++i)
+            {
+                cout << "Vector contains : " << followers[i] << endl;
+                char buff[MAX_DATA];
+                strcpy(buff, followers[i].c_str());
+                fileread = open(fname_f, O_WRONLY);
+                write(fileread, buff, user_to_unfollow.length());
+                close(fileread);
+            }
             cout << "Line 264" << endl;
             return "SUCCESS";
         }
