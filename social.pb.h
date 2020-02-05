@@ -373,12 +373,22 @@ class FollowRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::social::User* mutable_from_user();
   void set_allocated_from_user(::social::User* from_user);
 
+  // .google.protobuf.Timestamp timestamp = 3;
+  bool has_timestamp() const;
+  void clear_timestamp();
+  static const int kTimestampFieldNumber = 3;
+  const ::google::protobuf::Timestamp& timestamp() const;
+  ::google::protobuf::Timestamp* release_timestamp();
+  ::google::protobuf::Timestamp* mutable_timestamp();
+  void set_allocated_timestamp(::google::protobuf::Timestamp* timestamp);
+
   // @@protoc_insertion_point(class_scope:social.FollowRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr to_follow_;
   ::social::User* from_user_;
+  ::google::protobuf::Timestamp* timestamp_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsFollowRequestImpl();
@@ -495,12 +505,27 @@ class FollowReply : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_reply();
   void set_allocated_reply(::std::string* reply);
 
+  // string time_date = 3;
+  void clear_time_date();
+  static const int kTimeDateFieldNumber = 3;
+  const ::std::string& time_date() const;
+  void set_time_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_time_date(::std::string&& value);
+  #endif
+  void set_time_date(const char* value);
+  void set_time_date(const char* value, size_t size);
+  ::std::string* mutable_time_date();
+  ::std::string* release_time_date();
+  void set_allocated_time_date(::std::string* time_date);
+
   // @@protoc_insertion_point(class_scope:social.FollowReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr status_;
   ::google::protobuf::internal::ArenaStringPtr reply_;
+  ::google::protobuf::internal::ArenaStringPtr time_date_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
   friend void ::protobuf_social_2eproto::InitDefaultsFollowReplyImpl();
@@ -1738,6 +1763,51 @@ inline void FollowRequest::set_allocated_to_follow(::std::string* to_follow) {
   // @@protoc_insertion_point(field_set_allocated:social.FollowRequest.to_follow)
 }
 
+// .google.protobuf.Timestamp timestamp = 3;
+inline bool FollowRequest::has_timestamp() const {
+  return this != internal_default_instance() && timestamp_ != NULL;
+}
+inline const ::google::protobuf::Timestamp& FollowRequest::timestamp() const {
+  const ::google::protobuf::Timestamp* p = timestamp_;
+  // @@protoc_insertion_point(field_get:social.FollowRequest.timestamp)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Timestamp*>(
+      &::google::protobuf::_Timestamp_default_instance_);
+}
+inline ::google::protobuf::Timestamp* FollowRequest::release_timestamp() {
+  // @@protoc_insertion_point(field_release:social.FollowRequest.timestamp)
+  
+  ::google::protobuf::Timestamp* temp = timestamp_;
+  timestamp_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Timestamp* FollowRequest::mutable_timestamp() {
+  
+  if (timestamp_ == NULL) {
+    timestamp_ = new ::google::protobuf::Timestamp;
+  }
+  // @@protoc_insertion_point(field_mutable:social.FollowRequest.timestamp)
+  return timestamp_;
+}
+inline void FollowRequest::set_allocated_timestamp(::google::protobuf::Timestamp* timestamp) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(timestamp_);
+  }
+  if (timestamp) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast< ::google::protobuf::MessageLite*>(timestamp)->GetArena();
+    if (message_arena != submessage_arena) {
+      timestamp = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, timestamp, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  timestamp_ = timestamp;
+  // @@protoc_insertion_point(field_set_allocated:social.FollowRequest.timestamp)
+}
+
 // -------------------------------------------------------------------
 
 // FollowReply
@@ -1846,6 +1916,59 @@ inline void FollowReply::set_allocated_reply(::std::string* reply) {
   }
   reply_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), reply);
   // @@protoc_insertion_point(field_set_allocated:social.FollowReply.reply)
+}
+
+// string time_date = 3;
+inline void FollowReply::clear_time_date() {
+  time_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& FollowReply::time_date() const {
+  // @@protoc_insertion_point(field_get:social.FollowReply.time_date)
+  return time_date_.GetNoArena();
+}
+inline void FollowReply::set_time_date(const ::std::string& value) {
+  
+  time_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.FollowReply.time_date)
+}
+#if LANG_CXX11
+inline void FollowReply::set_time_date(::std::string&& value) {
+  
+  time_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.FollowReply.time_date)
+}
+#endif
+inline void FollowReply::set_time_date(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  time_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.FollowReply.time_date)
+}
+inline void FollowReply::set_time_date(const char* value, size_t size) {
+  
+  time_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.FollowReply.time_date)
+}
+inline ::std::string* FollowReply::mutable_time_date() {
+  
+  // @@protoc_insertion_point(field_mutable:social.FollowReply.time_date)
+  return time_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* FollowReply::release_time_date() {
+  // @@protoc_insertion_point(field_release:social.FollowReply.time_date)
+  
+  return time_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FollowReply::set_allocated_time_date(::std::string* time_date) {
+  if (time_date != NULL) {
+    
+  } else {
+    
+  }
+  time_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), time_date);
+  // @@protoc_insertion_point(field_set_allocated:social.FollowReply.time_date)
 }
 
 // -------------------------------------------------------------------
