@@ -169,10 +169,9 @@ public:
 
             //TODO: set the timeline post for user here and add to vector
             PostReply post_reply;
-            post_reply.set_content(msg + " from server");
-            std::cout << "returning a message to client: " << new_posting.content() << std::endl;
+            post_reply.set_message("");
 
-            stream->Write(new_posting);
+            stream->Write(post_reply);
         }
 
 
