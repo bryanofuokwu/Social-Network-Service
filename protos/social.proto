@@ -42,11 +42,13 @@ message User {
 message FollowRequest {
   User from_user = 1;
   string to_follow = 2;
+  google.protobuf.Timestamp timestamp = 3;
 }
 
 message FollowReply {
   string status = 1;
   string reply = 2;
+  string time_date = 3;
 }
 
 message Post {

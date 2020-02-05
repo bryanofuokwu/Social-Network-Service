@@ -162,6 +162,18 @@ public:
     Status Timeline(ServerContext* context,
             ServerReaderWriter<PostReply, Post>* stream) override {
 
+        Post p;
+        while(stream->Read(&p)) {
+            std::string msg = p.message();
+            std::cout << "got a message from client: " << msg << std::endl;
+
+            //TODO: set the timeline post for user here and add to vector
+            PostReply post_reply;
+            post_reply.set_content(msg + " from server");
+            std::cout << "returning a message to client: " << new_posting.content() << std::endl;
+
+            stream->Write(new_posting);
+        }
 
 
         return Status::OK;
