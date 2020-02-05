@@ -234,7 +234,7 @@ public:
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
             std::cout << "Length of User Unfolllow " << user_to_unfollow.length() << std::endl;
-            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
+            while (inlen = read(fileread, buffer, 256) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
