@@ -231,14 +231,12 @@ public:
             char *fname_f = new char[user_following.length() + 1];
             strcpy(fname_f, user_following.c_str());
             char buffer[MAX_DATA];
-            ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
+            ssize_t inlen;
             while (inlen = read(fileread, buffer, user_to_unfollow.length() > 0))
             {
-                char cstr[user_to_unfollow.length() + 1];
-                strcpy(cstr, user_to_unfollow.c_str());
-                cout << "Line 240 " << endl;
-                if ((strcmp(cstr, buffer)) == 0)
+                cout << user_to_unfollow << endl;
+                if ((strcmp(user_to_unfollow, buffer)) == 0)
                 {
                     cout << "Line 242" << endl;
                     continue;
