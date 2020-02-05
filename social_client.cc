@@ -235,8 +235,10 @@ public:
             ssize_t inlen;
             while (inlen = read(fileread, buffer, user_to_unfollow.length() > 0))
             {
-                cout << user_to_unfollow << endl;
-                if ((strcmp(user_to_unfollow, buffer)) == 0)
+                char cstr[user_to_unfollow.length() + 1];
+                strcpy(cstr, user_to_unfollow.c_str());
+                cout << cstr << endl;
+                if ((strcmp(cstr, buffer)) == 0)
                 {
                     cout << "Line 242" << endl;
                     continue;
