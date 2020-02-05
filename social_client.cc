@@ -437,13 +437,13 @@ IReply Client::processCommand(std::string &input)
     else if (command[0] == "LIST")
     {
         std::string user = this->get_user();
-        string response = myc->List(user, &ire);
+        response = myc->List(user, &ire);
     }
-    /*
+
     else if (command[0] == "TIMELINE")
     {
-        string response = social.Timeline();
-    }*/
+        response = "SUCCESS";
+    }
 
     // ------------------------------------------------------------
     // GUIDE 2:
@@ -520,12 +520,3 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
 }
-
-//class SocialClient
-//{
-//public:
-//    SocialClient(shared_ptr<channel> channel)
-//        : stub_(SocialClient::NewStub(channel)) {}
-//
-//
-//}

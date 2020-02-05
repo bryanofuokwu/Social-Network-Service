@@ -81,6 +81,7 @@ public:
         char buffer[MAX_DATA];
         ssize_t inlen;
         std::cout << "who to follow : " << (frequest->to_follow()).length() << std::endl;
+        // this while loop checks if the user does exist in the file system database
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -123,13 +124,13 @@ public:
                   ListReply* lreply) override {
        std::string user = lrequest->from_user();
        std::string user_following = "users_following/";
-       std::cout<< "size in list user " << user.length() << std::endl;
+       //std::cout<< "size in list user " << user.length() << std::endl;
        user_following.append(user);
        user_following.append("_following.txt");
        char *fname_following = new char[user_following.length() + 1];
        std::strcpy(fname_following, (user_following).c_str());
        int file_follow_read = open(fname_following, O_RDONLY);
-       std::cout<< "file_follow_read " << fname_following<< std::endl;
+       //std::cout<< "file_follow_read " << fname_following<< std::endl;
 
        char buffer[2];
        ssize_t inlen;
@@ -153,10 +154,27 @@ public:
            net_users.append(",");
        }
        lreply->set_network_users(net_users);
-
-
        return Status::OK;
     }
+
+    Status Timeline(ServerContext* context,
+            ServerReaderWriter<Post, Post>* stream) override {
+
+        Posting p;
+        while(stream->Read(&p)) {
+            std::string msg = p.content();
+            std::cout << "got a message from client: " << msg << std::endl;
+
+            Posting new_posting;
+            new_posting.set_content(msg + " from server");
+            std::cout << "returning a message to client: " << new_posting.content() << std::endl;
+
+            stream->Write(new_posting);
+        }
+
+        return Status::OK;
+    }
+
 
 private:
     // used for follow and unfollow
