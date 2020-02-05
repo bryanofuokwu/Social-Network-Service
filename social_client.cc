@@ -109,7 +109,7 @@ vector<string> split(string line, string separator = " ")
             {
                 segment = line.substr(1, bquote - 1);
             }
-                // if quotes are found goes through here
+            // if quotes are found goes through here
             else if (found < bquote && (separator == "|"))
             {
                 segment = trim(line);
@@ -130,7 +130,7 @@ vector<string> split(string line, string separator = " ")
             line = line.substr(bquote + 1);
             result.push_back(segment);
         }
-            // if single quotes are found goes through here
+        // if single quotes are found goes through here
         else if ((fq != string::npos) && (fq < found) && (separator != "|"))
         {
             size_t bq = line.find('\'', fq + 1);
@@ -157,7 +157,6 @@ vector<string> split(string line, string separator = " ")
     }
     return result;
 }
-
 
 class Client : public IClient
 {
@@ -230,20 +229,24 @@ public:
             user_following.append(from_user);
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
-            char cstr[MAX_DATA];
-            strcpy(cstr, user_to_unfollow.c_str());
+            std::strcpy(fname_f, user_following.c_str());
             char buffer[MAX_DATA];
-            ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
-            while (inlen = read(fileread, buffer, user_following.length() > 0))
+            ssize_t inlen;
+            std::cout << "Length of User Unfolllow " << user_to_unfollow.length() << std::endl;
+            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
+                char cstr[user_to_unfollow.length() + 1];
+                std::strcpy(cstr, user_to_unfollow.c_str());
+                std::cout << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
+                    std::cout << "Line 243" << std::endl;
                     continue;
                 }
                 else
                 {
+                    std::cout << "Line 248" << std::endl;
                     followers.push_back(buffer);
                 }
                 close(fileread);
@@ -253,13 +256,14 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
+                std::cout << "Vector contains : " << followers[i] << std::endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
                 write(fileread, buff, user_to_unfollow.length());
                 close(fileread);
             }
-
+            std::cout << "Line 264" << std::endl;
             return "SUCCESS";
         }
         else
@@ -268,9 +272,9 @@ public:
             return "FAILURE";
         }
     }
-    string List( string from_user, IReply * reply)
+    string List(string from_user, IReply *reply)
     {
-        ListRequest listreq;  // data sending to the server
+        ListRequest listreq; // data sending to the server
         ListReply listreply; // data recieving from the server
         listreq.set_from_user(from_user);
 
@@ -308,8 +312,6 @@ private:
     // You can have an instance of the client stub as a member variable.
     std::unique_ptr<Social::Stub> stub_;
 };
-
-
 
 Client *myc;
 int main(int argc, char **argv)

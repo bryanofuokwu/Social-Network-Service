@@ -80,8 +80,7 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        std::cout << "who to follow : " << (frequest->to_follow()).length() << std::endl;
-        // this while loop checks if the user does exist in the file system database
+        std::cout << "who to follow : " << (frequest->to_follow()) << std::endl;
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -97,7 +96,7 @@ public:
         return Status::CANCELLED;
     }
 
-    /*Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
+    Status Unfollow(ServerContext *context, const UnfollowRequest *ufrequest,
                     UnfollowReply *ufreply) override
     {
 
@@ -105,6 +104,7 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
+        std::cout << "who to unfollow : " << (ufrequest->to_unfollow()) << std::endl;
         while (inlen = read(fileread, buffer, (ufrequest->to_unfollow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -119,6 +119,7 @@ public:
         close(fileread);
         return Status::CANCELLED;
     }
+
 */
     Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
@@ -147,9 +148,10 @@ public:
 
         lreply->set_following_users(follow_users);
 
-       int file_all = open("user_data/users.txt", O_RDONLY);
+        int file_all = open("user_data/users.txt", O_RDONLY);
         std::string net_users;
-       while(inlen = read(file_all, buffer, 2) > 0) {
+
+        while(inlen = read(file_all, buffer, 2) > 0) {
            net_users.append(buffer);
            net_users.append(",");
        }
