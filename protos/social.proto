@@ -42,7 +42,7 @@ message User {
 message FollowRequest {
   User from_user = 1;
   string to_follow = 2;
-  TimeStamp fr_timestamp = 3;
+  google.protobuf.Timestamp fr_timestamp = 3;
 }
 
 message FollowReply {
@@ -54,7 +54,7 @@ message FollowReply {
 message Post {
   string from_user = 1;
   string message = 2;
-  TimeStamp post_timestamp = 3;
+  google.protobuf.Timestamp post_timestamp = 3;
 }
 
 message PostReply {
