@@ -40,10 +40,12 @@
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
+using grpc::ClientReaderWriter;
 using social::FollowReply;
 using social::FollowRequest;
 using social::ListReply;
 using social::ListRequest;
+using social::Post;
 using social::PostReply;
 using social::Social;
 using social::SocialNetwork;
@@ -300,7 +302,7 @@ public:
         }
     }
     void Timeline(IReply *reply){
-        std::shared_ptr<ClientReaderWriter<PostReply, Post> > stream(
+        std::shared_ptr<ClientReaderWriter<PostReply, Post>> stream(
                 stub_->Timeline(&context));
 
     }
