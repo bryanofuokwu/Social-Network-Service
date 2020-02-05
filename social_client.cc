@@ -53,6 +53,7 @@ using social::TimelineRequest;
 using social::UnfollowReply;
 using social::UnfollowRequest;
 using social::User;
+using social::TimeStamp;
 
 using namespace std;
 string trim(string input)
@@ -177,7 +178,11 @@ public:
         FollowRequest followreq; // data sending to the server
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
-
+        ::google::protobuf::Timestamp* timestamp = new ::google::protobuf::Timestamp();
+        timestamp->set_seconds(NULL);
+        timestamp->set_nanos(0);
+        followreq.set_allocated_fr_timestamp(timestamp);
+        std::cout << followreq.fr_timestamp() << std::endl;
 
         /* TODO: update the current user's following text file
          * The reply already has the user name it just followed.
