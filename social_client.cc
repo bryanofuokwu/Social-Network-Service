@@ -235,11 +235,11 @@ public:
             char buffer[MAX_DATA];
             ssize_t inlen;
             int fileread = open(fname_f, O_RDONLY);
-            cout << "Line 238" << endl;
             while (inlen = read(fileread, buffer, user_following.length() > 0))
             {
                 if ((strcmp(cstr, buffer)) == 0)
                 {
+                    cout << "Line 242" << endl;
                     continue;
                 }
                 else
