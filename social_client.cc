@@ -235,9 +235,9 @@ public:
             int fileread = open(fname_f, O_RDONLY);
             while (inlen = read(fileread, buffer, user_to_unfollow.length() > 0))
             {
-                cout << "Line 238 " << endl;
                 char cstr[user_to_unfollow.length() + 1];
                 strcpy(cstr, user_to_unfollow.c_str());
+                cout << "Line 240 " << endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     cout << "Line 242" << endl;
