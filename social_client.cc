@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(string user)
+    void Timeline(std::string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
