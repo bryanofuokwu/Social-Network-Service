@@ -336,6 +336,7 @@ public:
             std::thread writer([stream]() {
                 while (1)
                 {
+                    std::string user = "u1";
                     std::string message = getPostMessage();
                     Post preq;
                     preq.set_from_user(user);
