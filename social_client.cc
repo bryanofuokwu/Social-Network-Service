@@ -17,6 +17,8 @@
 #include <iostream>
 #include <memory>
 #include <grpc++/grpc++.h>
+#include <sstream>
+
 
 #include <chrono>
 #include <iostream>
@@ -182,6 +184,10 @@ public:
         followreq.set_to_follow(user_to_follow);
         ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
 
+        timestamp->set_seconds(time(NULL));
+        timestamp->set_nanos(0);
+        followreq.set_allocated_fr_timestamp(timestamp);
+        std::cout << followreq.fr_timestamp().seconds() << std::endl;
         //        startMovie.set_allocated_start_time(timestamp);
         //        startMovie.set_movie_name("my happy movie");
         //        timestamp->set_seconds(time(NULL));
@@ -189,9 +195,7 @@ public:
         //        followreq.set_allocated_fr_timestamp(timestamp);
         //        std::cout << followreq.fr_timestamp().s << std::endl;
 
-        /* TODO: update the current user's following text file
-         * The reply already has the user name it just followed.
-        */
+
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -204,10 +208,24 @@ public:
             user_following.append("_following.txt");
             std::cout << "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
-            strcpy(fname_f, user_following.c_str());
+            std::strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
+            memset(buff, 0, sizeof(buff));
             //user_to_follow.append(" ");
-            strcpy(buff, user_to_follow.c_str());
+
+            // handle the file to put in
+            if(user_to_follow.length() <= 2){
+                user_to_follow.append(" :");
+            }
+            else{
+                user_to_follow.append(":");
+            }
+            std::stringstream ss;
+            ss << followreq.fr_timestamp().seconds();
+            std::string ts = ss.str();
+            user_to_follow.append(ts);
+            cout << user_to_follow <<endl;
+            std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
             return "SUCCESS";
