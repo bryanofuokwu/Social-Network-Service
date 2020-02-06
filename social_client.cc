@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(string user)
+    void Timeline(IReply *reply, string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
@@ -371,6 +371,15 @@ public:
             //Wait for the threads to finish
             writer.join();
             reader.join();
+        }
+
+        if (status.ok())
+        {
+            reply->grpc_status = Status::OK;
+        }
+        else
+        {
+            reply->grpc_status = Status::CANCELLED;
         }
     }
 
@@ -590,5 +599,7 @@ void Client::processTimeline()
     // and you can terminate the client program by pressing
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
-    myc->Timeline(myc->get_user());
+    IReply ire;
+    myc->Timeline(&ire, myc->get_user());
+    return ire;
 }
