@@ -326,12 +326,11 @@ public:
         }
     }
 
-    void Timeline(std::string user)
+    void Timeline(string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
-        string user;
         while (1)
         {
             std::thread writer([stream]() {
