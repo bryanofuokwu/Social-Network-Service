@@ -365,28 +365,27 @@ public:
             //         t = (time_t)atoll(time);
 
             //         displayPostMessage(sender, message, t);
-        }
-    });
+            //     }
+            // });
 
-    //Wait for the threads to finish
-    writer.join();
-    reader.join();
-}
-}
+            // //Wait for the threads to finish
+            // writer.join();
+            // reader.join();
+        }
+    }
 
 protected:
-virtual int connectTo();
-virtual IReply processCommand(std::string &input);
-virtual void processTimeline();
+    virtual int connectTo();
+    virtual IReply processCommand(std::string &input);
+    virtual void processTimeline();
 
 private:
-std::string hostname;
-std::string username;
-std::string port;
-// You can have an instance of the client stub as a member variable.
-std::unique_ptr<Social::Stub> stub_;
-}
-;
+    std::string hostname;
+    std::string username;
+    std::string port;
+    // You can have an instance of the client stub as a member variable.
+    std::unique_ptr<Social::Stub> stub_;
+};
 
 Client *myc;
 int main(int argc, char **argv)
