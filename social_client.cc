@@ -591,4 +591,5 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
     myc->Timeline(myc->get_user());
+    ire.comm_status = IStatus::SUCCESS;
 }
