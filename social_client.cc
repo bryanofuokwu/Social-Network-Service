@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(string from_user)
+    void Timeline(string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
@@ -339,7 +339,7 @@ public:
                 {
                     std::string message = getPostMessage();
                     Post preq;
-                    preq.set_from_user(from_user);
+                    preq.set_from_user(user);
                     preq.set_message(message);
                     ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
                     timestamp->set_seconds(time(NULL));
