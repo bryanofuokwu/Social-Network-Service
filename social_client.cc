@@ -305,11 +305,42 @@ public:
             return "FAILURE";
         }
     }
-    void Timeline(IReply *reply)
+    void Timeline(IReply *reply, string from_user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
+
+        while (1)
+        {
+            std::string message = getPostMessage;
+            std::thread writer([stream]() {
+                while (1)
+                {
+                    Post preq;
+                    preq.set_from_user(from_user);
+                    preq.set_message(message);
+                    ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
+                    timestamp->set_seconds(time(NULL));
+                    timestamp->set_nanos(0);
+                    preq.set_allocated_post_timestamp(timestamp);
+                    stream->Write(message);
+                }
+                stream->WritesDone();
+            });
+
+            std::thread reader([stream]() {
+                PostReply preply;
+                while (stream->Read(&preply))
+                {
+                    std::cout << p.content() << std::endl;
+                }
+            });
+
+            //Wait for the threads to finish
+            writer.join();
+            reader.join();
+        }
     }
 
 protected:
@@ -454,11 +485,6 @@ IReply Client::processCommand(std::string &input)
         response = myc->List(user, &ire);
     }
 
-    else if (command[0] == "TIMELINE")
-    {
-        response = "SUCCESS";
-    }
-
     // ------------------------------------------------------------
     // GUIDE 2:
     // Then, you should create a variable of IReply structure
@@ -533,4 +559,31 @@ void Client::processTimeline()
     // and you can terminate the client program by pressing
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
+    IReply ire;
+
+    if (command[0] == "TIMELINE")
+    {
+        response = myc->Timeline(&ire, myc->get_user());
+    }
+
+    if (response == "SUCCESS")
+    {
+        ire.comm_status = IStatus::SUCCESS;
+    }
+    else if (response == "FAILURE_ALREADY_EXISTS")
+    {
+        ire.comm_status = IStatus::FAILURE_ALREADY_EXISTS;
+    }
+    else if (response == "FAILURE_NOT_EXISTS")
+    {
+        ire.comm_status = IStatus::FAILURE_NOT_EXISTS;
+    }
+    else if (response == "FAILURE_INVALID")
+    {
+        ire.comm_status = IStatus::FAILURE_INVALID;
+    }
+    else if (response == "FAILURE_UNKNOWN")
+    {
+        ire.comm_status = IStatus::FAILURE_UNKNOWN;
+    }
 }
