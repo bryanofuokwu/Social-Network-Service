@@ -199,7 +199,7 @@ public:
             strcpy(semi, msg.c_str());
             size_t nbytes = msg.length();
             ssize_t write_bytes;
-            write(fd_user, semi, strlen(semi));
+            write(fd_time, semi, strlen(semi));
 
             //TODO: check if it is following anyone if not then continue
             std::string user_following = "users_following/";
@@ -210,25 +210,16 @@ public:
 
             int fd_follow = open(fname_following, O_RDONLY);
 
-            // this checks if the file is empty if it is then continue
-            if (NULL != fp) {
-                fseek (fd_follow, 0, SEEK_END);
-                size = ftell(fd_follow);
-
-                if (0 == size) {
-                    printf("file is empty\n");
-                }
+            // read the following lines in the following txt file
+            char buffer[MAX_DATA];
+            memset(buffer, 0, sizeof(buffer));
+            ssize_t inlen;
+            while(inlen = read(fd_follow, buffer, 14) > 0) {
+                // we want to make a char* of the string to follow
+                std::cout << "read buffer " << buffer;
             }
 
-            else {
-                // read the following lines in the following txt file
-                char buffer[MAX_DATA];
-                memset(buffer, 0, sizeof(buffer));
-                while(inlen = read(fd_follow, buffer, 14) > 0) {
-                    // we want to make a char* of the string to follow
-                    std::cout<< "read buffer " << buffer ;
-                }
-            }
+
 
 //            PostReply post_reply;
 //            post_reply.set_message("");

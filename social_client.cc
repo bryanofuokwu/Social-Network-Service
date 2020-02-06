@@ -216,7 +216,7 @@ public:
             ss << followreq.fr_timestamp().seconds();
             std::string ts = ss.str();
             user_to_follow.append(ts);
-            cout << user_to_follow <<endl;
+            std::cout << user_to_follow << std::endl;
             std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
