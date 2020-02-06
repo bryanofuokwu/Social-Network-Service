@@ -24,6 +24,8 @@
 #include <random>
 #include <string>
 #include <thread>
+#include <cstring>
+#include <string>
 
 #include <grpc/grpc.h>
 #include <grpc++/channel.h>
@@ -339,10 +341,12 @@ public:
                     // message is a string
                     std::string message = preply.message();
                     // covert time
-                    std::string date_time = preply.time_date();
-                    // time is time_t
+                    const char *time;
+                    time = preply.time_date().c_str();
+                    time_t t;
+                    t = (time_t)atoll(time);
 
-                    displayPostMessage(sender, message, time);
+                    displayPostMessage(sender, message, t);
                 }
             });
 
