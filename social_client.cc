@@ -333,11 +333,11 @@ public:
             stub_->Timeline(&context));
         while (1)
         {
-            std::thread writer([stream]() {
+            //std::string user = "u1";
+            std::string message = getPostMessage();
+            std::thread writer([stream, user, message]() {
                 while (1)
                 {
-                    std::string user = "u1";
-                    std::string message = getPostMessage();
                     Post preq;
                     preq.set_from_user(user);
                     preq.set_message(message);
