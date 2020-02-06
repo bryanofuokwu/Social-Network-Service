@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(IReply *reply, string &from_user)
+    void Timeline(string from_user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
@@ -591,9 +591,5 @@ void Client::processTimeline()
     // and you can terminate the client program by pressing
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
-    IReply ire;
-    std::string response;
-
-    std::string user = this->get_user();
-    myc->Timeline(&ire, user);
+    myc->Timeline(myc->get_user());
 }
