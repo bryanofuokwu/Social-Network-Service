@@ -333,7 +333,16 @@ public:
                 PostReply preply;
                 while (stream->Read(&preply))
                 {
-                    std::cout << p.content() << std::endl;
+                    // parse string
+                    // sender is a string
+                    std::string sender = preply.author();
+                    // message is a string
+                    std::string message = preply.message();
+                    // covert time
+                    std::string date_time = preply.time_date();
+                    // time is time_t
+
+                    displayPostMessage(sender, message, time);
                 }
             });
 
