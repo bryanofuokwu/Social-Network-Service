@@ -19,7 +19,6 @@
 #include <grpc++/grpc++.h>
 #include <sstream>
 
-
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -195,7 +194,6 @@ public:
         //        followreq.set_allocated_fr_timestamp(timestamp);
         //        std::cout << followreq.fr_timestamp().s << std::endl;
 
-
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -214,17 +212,19 @@ public:
             //user_to_follow.append(" ");
 
             // handle the file to put in
-            if(user_to_follow.length() <= 2){
+            if (user_to_follow.length() <= 2)
+            {
                 user_to_follow.append(" :");
             }
-            else{
+            else
+            {
                 user_to_follow.append(":");
             }
             std::stringstream ss;
             ss << followreq.fr_timestamp().seconds();
             std::string ts = ss.str();
             user_to_follow.append(ts);
-            cout << user_to_follow <<endl;
+            cout << user_to_follow << endl;
             std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -333,7 +333,7 @@ public:
 
         while (1)
         {
-            std::string message = getPostMessage;
+            std::string message = getPostMessage();
             std::thread writer([stream]() {
                 while (1)
                 {
@@ -591,11 +591,9 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
     IReply ire;
+    std::string response;
 
-    if (command[0] == "TIMELINE")
-    {
-        response = myc->Timeline(&ire, myc->get_user());
-    }
+    response = myc->Timeline(&ire, myc->get_user());
 
     if (response == "SUCCESS")
     {
