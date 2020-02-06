@@ -333,7 +333,7 @@ public:
             stub_->Timeline(&context));
         while (1)
         {
-            std::thread writer([stream]() {
+            std::thread writer([stream](user) {
                 while (1)
                 {
                     std::string message = getPostMessage();
