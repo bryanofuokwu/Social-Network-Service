@@ -334,10 +334,10 @@ public:
 
         while (1)
         {
-            std::string message = getPostMessage();
             std::thread writer([stream]() {
                 while (1)
                 {
+                    std::string message = getPostMessage();
                     Post preq;
                     preq.set_from_user(from_user);
                     preq.set_message(message);
@@ -345,7 +345,7 @@ public:
                     timestamp->set_seconds(time(NULL));
                     timestamp->set_nanos(0);
                     preq.set_allocated_post_timestamp(timestamp);
-                    stream->Write(message);
+                    stream->Write(preq);
                 }
                 stream->WritesDone();
             });
