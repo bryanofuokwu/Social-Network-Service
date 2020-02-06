@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(IReply *reply, string from_user)
+    void Timeline(IReply *reply, string &from_user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
