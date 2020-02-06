@@ -325,6 +325,7 @@ public:
             return "FAILURE";
         }
     }
+
     void Timeline(IReply *reply, string from_user)
     {
         ClientContext context;
@@ -593,26 +594,6 @@ void Client::processTimeline()
     IReply ire;
     std::string response;
 
-    response = myc->Timeline(&ire, myc->get_user());
-
-    if (response == "SUCCESS")
-    {
-        ire.comm_status = IStatus::SUCCESS;
-    }
-    else if (response == "FAILURE_ALREADY_EXISTS")
-    {
-        ire.comm_status = IStatus::FAILURE_ALREADY_EXISTS;
-    }
-    else if (response == "FAILURE_NOT_EXISTS")
-    {
-        ire.comm_status = IStatus::FAILURE_NOT_EXISTS;
-    }
-    else if (response == "FAILURE_INVALID")
-    {
-        ire.comm_status = IStatus::FAILURE_INVALID;
-    }
-    else if (response == "FAILURE_UNKNOWN")
-    {
-        ire.comm_status = IStatus::FAILURE_UNKNOWN;
-    }
+    std::string user = this->get_user();
+    myc->Timeline(&ire, user);
 }
