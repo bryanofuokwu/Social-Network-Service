@@ -36,6 +36,9 @@ social_server: social.pb.o social.grpc.pb.o social_server.o
 
 clean:
 	rm -f *.o *.pb.cc *.pb.h social_client social_server
+clean-files:
+    rm -f user_data/*.txt users_following/*.txt users_timeline/*.txt
+
 
 
 PROTOC_CMD = which $(PROTOC)
