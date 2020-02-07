@@ -13,6 +13,8 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <iterator>
+#include <map>
 
 #include <algorithm>
 #include <chrono>
@@ -157,92 +159,7 @@ public:
         Post p;
 
         while(stream->Read(&p)) {
-            std::string msg = p.message();
-            client_streams.push_back(std::make_pair(p.from_user(), stream));
-            std::cout << "got a message from client: " << msg << " " << msg.length() << std::endl;
-
-            // open the file of the user that sent this
-            std::string user_timeline = "users_timeline/";
-            std::string from_user = p.from_user();
-
-            user_timeline.append(from_user);
-            user_timeline.append("_timeline.txt");
-            char *fname_timeline = new char[user_timeline.length() + 1];
-            std::strcpy(fname_timeline, (user_timeline).c_str());
-
-            if (msg.length() == 3){
-                msg = msg.substr(0, 2);
-                msg.append(" :");
-            }
-            else if (msg.length() == 4){
-                msg = msg.substr(0, 3);
-                msg.append(":");
-            }
-            char charTime[14];
-
-            time_t seconds = p.post_timestamp().seconds();
-            sprintf(charTime,"%d", seconds);
-            std::stringstream ss;
-            ss << seconds;
-            std::string ts = ss.str();
-            msg.append(ts);
-            std::cout << "message to write to file: " << msg << std::endl;
-
-            int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);
-            char semi[MAX_DATA];
-            memset(semi, 0, sizeof(semi));
-            strcpy(semi, msg.c_str());
-            size_t nbytes = msg.length();
-            ssize_t write_bytes;
-            write(fd_time, semi, strlen(semi));
-
-            //TODO: check if it is following anyone if not then continue
-            std::string user_following = "users_following/";
-            user_following.append(from_user);
-            user_following.append("_following.txt");
-            char *fname_following = new char[user_following.length() + 1];
-            std::strcpy(fname_following, user_following.c_str());
-            std::cout << "user following text file " << fname_following << std::endl;
-
-            int fd_follow = open(fname_following, O_RDONLY);
-
-            // read the following
-            char buffer[MAX_DATA];
-            memset(buffer, 0, sizeof(buffer));
-            ssize_t inlen;
-            int indexer = 0;
-            while((inlen = read(fd_follow, buffer, 14) > 0)) {
-                // we want to make a char* of the string to follow
-                std::cout << "read buffer " << buffer << std::endl;
-                std::string buffer_string = std::string(buffer);
-                std::string buffer_user = buffer_string.substr(0, 2);
-                std::string buffer_time = buffer_string.substr(4, 14);
-
-                //TODO: open the following file up to 20
-                std::string user_following = "users_timeline/";
-                user_following.append(buffer_user);
-                user_following.append("_timeline.txt");
-                char *fname_following = new char[user_following.length() + 1];
-                std::strcpy(fname_following, user_following.c_str());
-                std::cout << "user following text file " << fname_following << std::endl;
-                ssize_t inlen_2;
-                int fd_follow = open(fname_following, O_RDONLY);
-                char buffer_2[MAX_DATA];
-                memset(buffer_2, 0, sizeof(buffer));
-                while((inlen_2 = read(fd_follow, buffer_2, 14) > 0)) {
-                    std::cout << "read buffer2 " << buffer_2 << std::endl;
-                    std::string buffer_string_2 = std::string(buffer_2);
-                    std::string buffer_post_2 = buffer_string_2.substr(0, 2);
-                    std::string buffer_time_2 = buffer_string_2.substr(4, 14);
-                    PostReply post_reply;
-                    post_reply.set_message(buffer_post_2);
-                    post_reply.set_time_date(buffer_time_2);
-                    post_reply.set_author(buffer_user);
-                    stream->Write(post_reply);
-                }
-                //indexer++;
-            }
-
+            client_streams.insert(std::make_pair(p.from_user(), stream));
 
 
 
@@ -262,7 +179,7 @@ private:
     std::map<std::string, std::vector<std::string>> user_following_posts;
     //map of user to the posts of itself
     std::map<std::string, std::vector<std::string>> user_own_post;
-    std::vector<pair<std::string, ServerReaderWriter<PostReply, Post>* >> client_streams;
+    std::map<std::string, ServerReaderWriter<PostReply, Post>* > client_streams;
 };
 
 void RunServer(std::string port)
