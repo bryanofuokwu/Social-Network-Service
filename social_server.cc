@@ -78,7 +78,7 @@ public:
         bool active_user = false;
         for (std::vector<std::string>::iterator vec_it = actives.begin(); vec_it != actives.end(); vec_it++){
             if (*vec_it == frequest->from_user()){
-                cout << "user is active" << endl;
+                std::cout << "user is active" << std::endl;
                 active_user = true;
             }
         }
