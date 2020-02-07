@@ -87,6 +87,7 @@ public:
             }
         }
         close(fileread);
+        users_followers[frequest->to_follow()].push_back(frequest->from_user());
         return Status::CANCELLED;
     }
 
@@ -159,9 +160,48 @@ public:
         Post p;
 
         while(stream->Read(&p)) {
-            client_streams.insert(std::make_pair(p.from_user(), stream));
+            if ( m.find(p.from_user()) == m.end() ) {
+                client_streams.insert(std::pair(p.from_user(), stream));
+            }
+            else{
+                continue;
+            }
+            std::string message_from_user = p.message();
 
+            std::string user_timeline = "users_timeline/";
+            std::string from_user = p.from_user();
 
+            user_timeline.append(from_user);
+            user_timeline.append("_timeline.txt");
+            char *fname_timeline = new char[user_timeline.length() + 1];
+            std::strcpy(fname_timeline, (user_timeline).c_str());
+
+            if (msg.length() == 3){
+                msg = msg.substr(0, 2);
+                msg.append(" :");
+            }
+            else if (msg.length() == 4){
+                msg = msg.substr(0, 3);
+                msg.append(":");
+            }
+            char charTime[14];
+
+            // writing to file system
+            time_t seconds = p.post_timestamp().seconds();
+            sprintf(charTime,"%d", seconds);
+            std::stringstream ss;
+            ss << seconds;
+            std::string ts = ss.str();
+            msg.append(ts);
+            std::cout << "message to write to file: " << msg << std::endl;
+
+            int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);
+            char semi[MAX_DATA];
+            memset(semi, 0, sizeof(semi));
+            strcpy(semi, msg.c_str());
+            size_t nbytes = msg.length();
+            ssize_t write_bytes;
+            write(fd_time, semi, strlen(semi));
 
 
         }
@@ -173,12 +213,10 @@ public:
 
 private:
     // used for follow and unfollow
-    //std::map<std::string, std::vector<std::string>> user_followers;
+    std::map<std::string, std::vector<std::string>> users_followers;
     // used for timelines
     //map of user to the posts of who it follows
     std::map<std::string, std::vector<std::string>> user_following_posts;
-    //map of user to the posts of itself
-    std::map<std::string, std::vector<std::string>> user_own_post;
     std::map<std::string, ServerReaderWriter<PostReply, Post>* > client_streams;
 };
 
