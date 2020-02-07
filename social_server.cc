@@ -228,17 +228,23 @@ public:
                 char buffer_2[MAX_DATA];
                 memset(buffer_2, 0, sizeof(buffer));
                 while((inlen_2 = read(fd_follow, buffer_2, 14) > 0)) {
-                    std::cout << "read buffer " << buffer_2 << std::endl;
+                    std::cout << "read buffer2 " << buffer_2 << std::endl;
+                    std::string buffer_string_2 = std::string(buffer_2);
+                    std::string buffer_post_2 = buffer_string_2.substr(0, 2);
+                    std::string buffer_time_2 = buffer_string_2.substr(4, 14);
+                    PostReply post_reply;
+                    post_reply.set_message(buffer_post_2);
+                    post_reply.set_time_date(buffer_time_2);
+                    post_reply.set_author(from_user);
+                    stream->Write(post_reply);
                 }
                 //indexer++;
             }
 
 
 
-//            PostReply post_reply;
-//            post_reply.set_message("");
 
-            //stream->Write(post_reply);
+
         }
 
 

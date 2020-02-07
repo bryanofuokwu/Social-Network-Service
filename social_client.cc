@@ -332,7 +332,6 @@ public:
             {
                 Post preq;
                 std::string message = getPostMessage();
-                std::cout << message.length()<< std::endl;
                 preq.set_from_user(user);
                 preq.set_message(message);
                 ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
