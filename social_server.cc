@@ -66,11 +66,7 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
-    std::string remove_spaces(string str)
-    {
-        str.erase(remove(str.begin(), str.end(), ' '), str.end());
-        return str;
-    }
+
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -201,8 +197,9 @@ public:
                 if (it->first == p_1.from_user()){
                     for (auto follow : it->second) {
                         auto stream_to_write_to = client_streams.find(p_1.from_user());
-                        std::string following_full = follow.substr(0,3);
-                        std::string following = remove_spaces(following_full);
+                        std::string following = follow.substr(0,3);
+                        //std::string following = remove_spaces(following_full);
+                        following.erase(remove(following.begin(), following.end(), ' '), following.end());
                         std::string time_followed = follow.substr(4,14);
                         std::cout << it->first <<  " follows: "<< following <<" at: " << time_followed << std::endl;
                         if (users_own_timeline[following].size() >=20){
