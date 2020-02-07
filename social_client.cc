@@ -485,7 +485,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 

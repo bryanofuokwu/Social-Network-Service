@@ -103,6 +103,30 @@ public:
             }
         }
         close(fileread);
+
+
+        bool already_follow_self = false;
+        std::string follow_msg;
+        // iterating through all of the users
+        for (std::map<std::string, std::vector<std::string>>::iterator it = users_followers.begin(); it != users_followers.end(); it++){
+            std::vector<std::string> listOfMsgs = it->second;
+            if (it->first == frequest->from_user()){
+                for (std::vector<std::string>::iterator vec_it = listOfMsgs.begin(); vec_it != listOfMsgs.end(); vec_it++){
+                    std::string follower = (*(vec_it));
+                    std::cout << "its follower" << follower << std::endl;
+                    if (frequest->from_user() == follower ){
+                        std::cout << "user already follows self " << follow_msg << std::endl;
+                        already_follow_self = true;
+                        break;
+                    }
+                    else{
+                        std::cout << "user DOES NOT follows self " << follow_msg << std::endl;
+                    }
+
+                }
+
+            }
+        }
         return Status::CANCELLED;
     }
 
@@ -127,13 +151,10 @@ public:
                 close(fileread);
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
-                    //std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
                     if ((it->first) == unfollow_from_user){
-                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
                             std::string unfollow = (*(vec_it)).substr(0,3);
-                            //std::cout << "user to unfollow  " << unfollow << std::endl;
                             unfollow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow){
                                 vec_it_remove = vec_it;
@@ -143,7 +164,6 @@ public:
                             }
                         }
                         listOfMsgs->erase(vec_it_remove);
-                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
 
                     }
                 }
