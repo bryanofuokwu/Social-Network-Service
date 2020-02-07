@@ -170,6 +170,7 @@ public:
 
         while(stream->Read(&p)) {
             if ( client_streams.find(p.from_user()) == client_streams.end() ) {
+                std::cout << "need to add to stream map " << endl;
                 client_streams.insert(std::make_pair(p.from_user(), stream));
             }
             else{
