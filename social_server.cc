@@ -84,7 +84,7 @@ public:
             {
                 close(fileread);
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
-                users_following[frequest->from_user()].push_back(frequest->to_follow());
+                //users_following[frequest->from_user()].push_back(frequest->to_follow());
                 std::string user_follow_time;
                 if(frequest->to_follow().length() ==2){
                     user_follow_time.append(frequest->to_follow());
@@ -100,13 +100,8 @@ public:
                 std::string ts = ss.str();
                 user_follow_time.append(ts);
                 std::cout << "user follow time " << user_follow_time <<std::endl;
-                users_following_time[frequest->from_user()].push_back(user_follow_time);
+                users_following[frequest->from_user()].push_back(user_follow_time);
 
-//                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-//                    for (auto follower : it->second) {
-//                    }
-//                    std::cout << std::endl;
-//                }
                 return Status::OK;
             }
         }
@@ -199,12 +194,14 @@ public:
 
             for (auto it = users_following.begin(); it != users_following.end(); ++it) {
                 if (it->first == p_1.from_user()){
-                    for (auto following : it->second) {
+                    for (auto follow : it->second) {
                         auto stream_to_write_to = client_streams.find(p_1.from_user());
-                        std::cout << it->first <<  " follows: "<< following << std::endl;
+                        string following_full = follow.substr(0,3);
+                        string following = remove_spaces(following_full);
+                        string time_followed = follow.substr(4,14)
+                        std::cout << it->first <<  " follows: "<< following " at: " << time_followed << std::endl;
                         if (users_own_timeline[following].size() >=20){
                             int indexer = users_own_timeline[following].size()-1;
-                            // TODO: do a while loop instead of a for loop
                             int last_to_read = users_own_timeline[following].size() -20 ;
                             for (int i = indexer; i >= last_to_read ; i--){
                                 //std::cout << users_own_timeline[following][i] << std::endl;
@@ -214,17 +211,17 @@ public:
                                 post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
-//                                    //std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
-//                                    const char *time_followed = followed_time.c_str();
-//                                    time_t t_followed;
-//                                    t_followed= (time_t)atoll(time_followed);
-//                                    std::cout << "time user followed" <<  t_followed << std::endl;
-//
-//                                    const char *time;
-//                                    time = read_msg.substr(4, 14).c_str();
-//                                    time_t t;
-//                                    t = (time_t)atoll(time);
-//                                    std::cout << "time post made" <<  t << std::endl;
+                                    //std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
+                                    const char *time_followed_char = time_followed;
+                                    time_t t_followed;
+                                    t_followed= (time_t)atoll(time_followed_char);
+                                    std::cout << "time user followed" <<  t_followed << std::endl;
+
+                                    const char *time;
+                                    time = read_msg.substr(4, 14).c_str();
+                                    time_t t;
+                                    t = (time_t)atoll(time);
+                                    std::cout << "time post made" <<  t << std::endl;
                                     stream_to_write_to->second->Write(post_reply);
                                 }
                             }
@@ -306,6 +303,12 @@ public:
 
 
         return Status::OK;
+    }
+
+    string remove_spaces(string str)
+    {
+        str.erase(remove(str.begin(), str.end(), ' '), str.end());
+        return str;
     }
 
 
