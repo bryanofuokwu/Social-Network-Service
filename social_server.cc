@@ -167,10 +167,7 @@ public:
         Post p;
 
         while(stream->Read(&p)) {
-            if ( client_streams.find(p.from_user()) == client_streams.end() ) {
-                std::cout << "need to add to stream map " << std::endl;
-                client_streams.insert(std::make_pair(p.from_user(), stream));
-            }
+
 
             std::string msg = p.message();
 
@@ -210,6 +207,35 @@ public:
 
             users_own_timeline[from_user].push_back(msg);
 
+            if ( client_streams.find(p.from_user()) == client_streams.end() ) {
+                std::cout << "need to add to stream map " << std::endl;
+                client_streams.insert(std::make_pair(p.from_user(), stream));
+
+                if (users_own_timeline[from_user].size() >=20){
+                    int indexer = users_own_timeline[from_user].size() -1;
+                    for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+                        if (it->first == p.from_user()){
+                            for (auto follower : it->second) {
+                                std::cout << it->first <<  " is followed by: "<< follower << std::endl;
+                                auto stream_to_write_to = client_streams.find(follower);
+                                for (int i = indexer; i >=0 ; i--){
+                                    PostReply post_reply;
+                                    post_reply.set_message(p.message());
+                                    post_reply.set_time_date(ts);
+                                    post_reply.set_author(p.from_user());
+                                    if (stream_to_write_to != client_streams.end()) { // if exists
+                                        stream_to_write_to->second->Write(post_reply);
+                                    }
+                                }
+
+                            }
+                            break;
+                        }
+                        std::cout << std::endl;
+                    }
+
+                }
+            }
 
             PostReply post_reply;
             post_reply.set_message(p.message());
@@ -231,30 +257,7 @@ public:
             }
 
             std::cout << "this is the user's post size: " << users_own_timeline[from_user].size() << std::endl;
-            if (users_own_timeline[from_user].size() >=20){
-                int indexer = users_own_timeline[from_user].size() -1;
-                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-                    if (it->first == p.from_user()){
-                        for (auto follower : it->second) {
-                            std::cout << it->first <<  " is followed by: "<< follower << std::endl;
-                            auto stream_to_write_to = client_streams.find(follower);
-                            for (int i = indexer; i >=0 ; i--){
-                                PostReply post_reply;
-                                post_reply.set_message(p.message());
-                                post_reply.set_time_date(ts);
-                                post_reply.set_author(p.from_user());
-                                if (stream_to_write_to != client_streams.end()) { // if exists
-                                    stream_to_write_to->second->Write(post_reply);
-                                }
-                            }
 
-                        }
-                        break;
-                    }
-                    std::cout << std::endl;
-                }
-
-            }
 
 
 
