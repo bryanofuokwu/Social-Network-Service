@@ -128,15 +128,17 @@ public:
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
-                std::cout << "following size " << users_following.size()<< std::endl;
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
                     std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
                     if ((it->first) == unfollow_from_user){
-                        std::cout << "unfollow from user found!! " << std::endl;
+                        std::cout << "unfollow from user found!! " << std::endl;                std::cout << "following size " << users_following.size()<< std::endl;
+                        std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
+
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
                             std::string unfollow = (*(vec_it)).substr(0,3);
+                            std::cout << "user to unfollow  " << unfollow << std::endl;
                             unfollow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow){
                                 vec_it_remove = vec_it;
@@ -146,6 +148,8 @@ public:
                             }
                         }
                         listOfMsgs->erase(vec_it_remove);
+                        std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
+
                     }
                 }
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_followers.begin(); it != users_followers.end(); it++){
