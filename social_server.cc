@@ -80,11 +80,24 @@ public:
             if (*vec_it == frequest->from_user()){
                 std::cout << "user is active" << std::endl;
                 active_user = true;
+                break;
             }
         }
         if(!active_user){
+            std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
             users_followers[frequest->from_user()].push_back(frequest->from_user());
+
+            std::string follow_msg;
+            follow_msg.append(frequest->from_user());
+            if ((frequest->from_user()).length() == 2){
+                follow_msg.append(" :0000000000");
+            }
+            else {
+                follow_msg.append(":0000000000");
+            }
+            std::cout << "follow msg to make it follow self " << follow_msg << std::endl;
+            users_following[frequest->from_user()].push_back(follow_msg);
 
         }
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
