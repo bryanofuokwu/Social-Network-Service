@@ -75,7 +75,6 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        std::cout << "who to follow : " << (frequest->to_follow()) << std::endl;
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -102,13 +101,10 @@ public:
                 user_follow_time.append(ts);
                 std::cout << "user follow time " << user_follow_time <<std::endl;
                 users_following[frequest->from_user()].push_back(user_follow_time);
-
                 return Status::OK;
             }
         }
         close(fileread);
-
-
         return Status::CANCELLED;
     }
 
@@ -120,15 +116,47 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        std::cout << "who to unfollow : " << (ufrequest->to_unfollow()) << std::endl;
         while (inlen = read(fileread, buffer, (ufrequest->to_unfollow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
             char cstr[(ufrequest->to_unfollow()).length() + 1];
             strcpy(cstr, (ufrequest->to_unfollow()).c_str());
+            string user_to_unfollow = ufrequest->to_unfollow());
+            string unfollow_from_user = ufrequest->from_user());
+
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
+                for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
+                    std::vector<std::string> *listOfMsgs = &(it->second);
+                    if ((it->first) == unfollow_from_user){
+                        std::vector<std::string>::iterator vec_it_remove;
+                        for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
+                            if (*(vec_it) == user_to_unfollow){
+                                vec_it_remove = vec_it;
+                            }
+                            else {
+                                continue;
+                            }
+                        }
+                        listOfMsgs->erase(vec_it_remove);
+                    }
+                }
+                for (std::map<std::string, std::vector<std::string>>::iterator it = users_followers.begin(); it != users_followers.end(); it++){
+                    std::vector<std::string> *listOfMsgs = &(it->second);
+                    if ((it->first) == user_to_unfollow){
+                        std::vector<std::string>::iterator vec_it_remove;
+                        for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
+                            if (*(vec_it) == unfollow_from_user){
+                                vec_it_remove = vec_it;
+                            }
+                            else {
+                                continue;
+                            }
+                        }
+                        listOfMsgs->erase(vec_it_remove);
+                    }
+                }
                 return Status::OK;
             }
         }
@@ -174,7 +202,6 @@ public:
         Post p_1;
         stream->Read(&p_1);
         if ( client_streams.find(p_1.from_user()) == client_streams.end() ) {
-            std::cout << "need to add to stream map " << std::endl;
             client_streams.insert(std::make_pair(p_1.from_user(), stream));
 
             for (auto it = users_following.begin(); it != users_following.end(); ++it) {
@@ -182,34 +209,28 @@ public:
                     for (auto follow : it->second) {
                         auto stream_to_write_to = client_streams.find(p_1.from_user());
                         std::string following = follow.substr(0,3);
-                        //std::string following = remove_spaces(following_full);
                         following.erase(remove(following.begin(), following.end(), ' '), following.end());
                         std::string time_followed = follow.substr(4,14);
-                        std::cout << it->first <<  " follows: "<< following <<" at: " << time_followed << std::endl;
                         if (users_own_timeline[following].size() >=20){
                             int indexer = users_own_timeline[following].size()-1;
                             int last_to_read = users_own_timeline[following].size() -20 ;
                             for (int i = indexer; i >= last_to_read ; i--){
-                                //std::cout << users_own_timeline[following][i] << std::endl;
                                 PostReply post_reply;
                                 std::string read_msg = users_own_timeline[following][i];
                                 post_reply.set_message(read_msg.substr(0, 3));
                                 post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
-                                    //std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
                                     const char *time_followed_char = time_followed.c_str();
                                     time_t t_followed;
                                     t_followed= (time_t)atoll(time_followed_char);
                                     ctime(&t_followed);
-                                    std::cout << "time user followed" <<  t_followed << std::endl;
 
                                     const char *time;
                                     time = read_msg.substr(4, 14).c_str();
                                     time_t t_message;
                                     t_message = (time_t)atoll(time);
                                     ctime(&t_message);
-                                    std::cout << "time post made" <<  t_message << std::endl;
                                     if( difftime(t_message,t_followed ) > 0){
                                         stream_to_write_to->second->Write(post_reply);
                                     }
@@ -262,7 +283,6 @@ public:
             write(fd_time, semi, strlen(semi));
 
             users_own_timeline[from_user].push_back(msg);
-            std::cout << "adding to map:" << from_user << " " <<   msg<< std::endl;
 
 
             PostReply post_reply;
@@ -302,7 +322,6 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::vector<std::string>> users_following_time;
     std::map<std::string, std::vector<std::string>> users_own_timeline;
     std::map<std::string, ServerReaderWriter<PostReply, Post>* > client_streams;
 };
