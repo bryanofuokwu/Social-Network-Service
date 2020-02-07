@@ -202,7 +202,8 @@ public:
             }
             ////////////////////////////////////////////////////////////////////
 
-            else {
+            else
+            {
                 std::string user_following = "users_following/";
                 user_following.append(from_user);
                 user_following.append("_following.txt");
@@ -213,9 +214,12 @@ public:
                 //user_to_follow.append(" ");
 
                 // handle the file to put in
-                if (user_to_follow.length() <= 2) {
+                if (user_to_follow.length() <= 2)
+                {
                     user_to_follow.append(" :");
-                } else {
+                }
+                else
+                {
                     user_to_follow.append(":");
                 }
                 std::stringstream ss;
@@ -284,6 +288,7 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
+                cout << "Following vector " << followers << endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
@@ -461,13 +466,15 @@ int main(int argc, char **argv)
     int fd_follow = open(fname_following, O_WRONLY | O_CREAT | O_APPEND, 0666);
     std::string follow_self;
     follow_self.append(username);
-    if (username.length() == 2) {
+    if (username.length() == 2)
+    {
         follow_self.append(" :0000000000");
     }
-    else{
+    else
+    {
         follow_self.append(":0000000000");
     }
-    std::cout<< "first follow " << follow_self << std::endl;
+    std::cout << "first follow " << follow_self << std::endl;
     char follow_self_buff[MAX_DATA];
     memset(follow_self_buff, 0, sizeof(follow_self_buff));
     strcpy(follow_self_buff, follow_self.c_str());
@@ -600,5 +607,4 @@ void Client::processTimeline()
 
     // we handle the while loop inside this timeline function
     myc->Timeline(myc->get_user());
-
 }
