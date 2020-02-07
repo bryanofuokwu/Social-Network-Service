@@ -216,14 +216,14 @@ public:
             for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                 if (it->first == p.from_user()){
                     for (auto follower : it->second) {
-                        cout << it->first <<  " is followed by: "<< follower << endl;
+                        std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                         auto stream_to_write_to = client_streams.find(follower);
-                            stream_to_write_to->second->Write(post);
+                            stream_to_write_to->second->Write(post_reply);
                     }
                     break;
                 }
 
-                cout << endl;
+                std::cout << std::endl;
             }
 
 
