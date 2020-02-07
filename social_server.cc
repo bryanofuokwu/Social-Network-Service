@@ -193,8 +193,9 @@ public:
                             for (int i = indexer; i >= last_to_read ; i--){
                                 std::cout << users_own_timeline[following][i] << std::endl;
                                 PostReply post_reply;
-                                post_reply.set_message(users_own_timeline[following][i]);
-                                post_reply.set_time_date(ts);
+                                std::string read_msg = users_own_timeline[following][i];
+                                post_reply.set_message(read_msg.substr(0, 2));
+                                post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists
                                     stream_to_write_to->second->Write(post_reply);
