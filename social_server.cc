@@ -205,11 +205,6 @@ public:
 
             PostReply post_reply;
             post_reply.set_message(msg);
-            time_t seconds = p.post_timestamp().seconds();
-            sprintf(charTime,"%d", seconds);
-            std::stringstream ss;
-            ss << seconds;
-            std::string ts = ss.str();
             post_reply.set_time_date(ts);
             post_reply.set_author(p.from_user());
 
