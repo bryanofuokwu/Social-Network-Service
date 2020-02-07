@@ -306,7 +306,7 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::map<std::string,  std::string > users_following_time;
+    std::map<std::string, std::map<std::string, std::string>> users_followers_time;
 
     // used for timelines
     //map of user to the posts of who it follows
