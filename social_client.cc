@@ -195,6 +195,12 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            ////////////////////////// ERROR CHECKING //////////////////////////////
+            if (user_to_follow == from_user)
+            {
+                return "FAILURE_INVALID_USERNAME";
+            }
+            ////////////////////////////////////////////////////////////////////
             std::string user_following = "users_following/";
             user_following.append(from_user);
             user_following.append("_following.txt");
@@ -227,8 +233,7 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
+            return "FAILURE_INVALID_USERNAME";
         }
     }
     string Unfollow(string user_to_unfollow, IReply *reply, string from_user)
@@ -250,6 +255,12 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            ////////////////////////// ERROR CHECKING //////////////////////////////
+            if (user_to_unfollow == from_user)
+            {
+                return "FAILURE_INVALID_USERNAME";
+            }
+            ////////////////////////////////////////////////////////////////////
             std::vector<string> followers;
             std::string user_following = "users_following/";
             user_following.append(from_user);
@@ -274,6 +285,7 @@ public:
                 }
                 close(fileread);
             }
+            close(fileread);
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
@@ -289,8 +301,7 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
+            return "FAILURE_INVALID_USERNAME";
         }
     }
     string List(string from_user, IReply *reply)
@@ -529,9 +540,9 @@ IReply Client::processCommand(std::string &input)
     {
         ire.comm_status = IStatus::FAILURE_NOT_EXISTS;
     }
-    else if (response == "FAILURE_INVALID")
+    else if (response == "FAILURE_INVALID_USERNAME")
     {
-        ire.comm_status = IStatus::FAILURE_INVALID;
+        ire.comm_status = IStatus::FAILURE_INVALID_USERNAME;
     }
     else if (response == "FAILURE_UNKNOWN")
     {
