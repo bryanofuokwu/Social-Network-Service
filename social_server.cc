@@ -211,27 +211,50 @@ public:
             ssize_t write_bytes;
             write(fd_time, semi, strlen(semi));
 
+            users_own_timeline[from_user].push_back(p.message());
+
+
             PostReply post_reply;
-            post_reply.set_message(msg);
+            post_reply.set_message(p.message());
             post_reply.set_time_date(ts);
             post_reply.set_author(p.from_user());
+
 
             for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                 if (it->first == p.from_user()){
                     for (auto follower : it->second) {
                         std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                         auto stream_to_write_to = client_streams.find(follower);
-                        std::cout << "hiii" << std::endl;
                         if (stream_to_write_to != client_streams.end()) { // if exists
-                            std::cout << "hello" << std::endl;
                             stream_to_write_to->second->Write(post_reply);
                         }
                     }
                     break;
                 }
-
                 std::cout << std::endl;
             }
+
+            if (users_own_timeline[from_user].size() >=20){
+                int indexer = users_own_timeline[from_user].size() -1;
+                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+                    if (it->first == p.from_user()){
+                        for (auto follower : it->second) {
+                            std::cout << it->first <<  " is followed by: "<< follower << std::endl;
+                            auto stream_to_write_to = client_streams.find(follower);
+                            for (int i = indexer; i >=0 ; i--){
+                                if (stream_to_write_to != client_streams.end()) { // if exists
+                                    stream_to_write_to->second->Write(users_own_timeline[from_user][i]);
+                                }
+                            }
+
+                        }
+                        break;
+                    }
+                    std::cout << std::endl;
+                }
+
+            }
+
 
 
         }
@@ -246,7 +269,7 @@ private:
     std::map<std::string, std::vector<std::string>> users_followers;
     // used for timelines
     //map of user to the posts of who it follows
-    std::map<std::string, std::vector<std::string>> user_following_posts;
+    std::map<std::string, std::vector<std::string>> users_own_timeline;
     std::map<std::string, ServerReaderWriter<PostReply, Post>* > client_streams;
 };
 
