@@ -199,7 +199,7 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
-        for (auto it = users_following.begin(); it != users_following.end(); ++it) {
+        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
             if (it->first == user) {
                 for (auto following : it->second) {
                     std::string follow = following.substr(0,3);
