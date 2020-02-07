@@ -187,12 +187,6 @@ public:
         timestamp->set_nanos(0);
         followreq.set_allocated_fr_timestamp(timestamp);
         std::cout << followreq.fr_timestamp().seconds() << std::endl;
-        //        startMovie.set_allocated_start_time(timestamp);
-        //        startMovie.set_movie_name("my happy movie");
-        //        timestamp->set_seconds(time(NULL));
-        //        timestamp->set_nanos(0);
-        //        followreq.set_allocated_fr_timestamp(timestamp);
-        //        std::cout << followreq.fr_timestamp().s << std::endl;
 
         ClientContext context;
 
@@ -224,7 +218,8 @@ public:
             ss << followreq.fr_timestamp().seconds();
             std::string ts = ss.str();
             user_to_follow.append(ts);
-            cout << user_to_follow << endl;
+            std::cout << user_to_follow << std::endl;
+
             std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -472,6 +467,7 @@ int main(int argc, char **argv)
     char buff[MAX_DATA];
     std::string smc = " ";
     char semi[MAX_DATA];
+    memset(semi, 0, sizeof(semi));
     strcpy(buff, username.c_str());
     //strcpy(semi, smc.c_str());
     size_t nbytes = username.length();

@@ -12,6 +12,7 @@
 #include <string.h>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include <algorithm>
 #include <chrono>
@@ -63,15 +64,6 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
-    /*SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
-            std::map<std::string, std::vector<std::string> > user_following_posts_,
-            std::map<std::string , std::vector<std::string>> user_own_post_)
-            : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_){}
-*/
-    //    void createMaps(std::map<std::string, std::vector<std::string>> m1,  std::map<std::string, std::vector<std::string> > m4,
-    //            std::map<std::string, std::vector<std::string> > m3){
-    //        user_followers
-    //    }
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -167,11 +159,66 @@ public:
             std::string msg = p.message();
             std::cout << "got a message from client: " << msg << std::endl;
 
-            //TODO: set the timeline post for user here and add to vector
-            PostReply post_reply;
-            post_reply.set_message("");
+            // open the file of the user that sent this
+            std::string user_timeline = "users_timeline/";
+            std::string from_user = p.from_user();
 
-            stream->Write(post_reply);
+            user_timeline.append(from_user);
+            user_timeline.append("_timeline.txt");
+            char *fname_timeline = new char[user_timeline.length() + 1];
+            std::strcpy(fname_timeline, (user_timeline).c_str());
+
+            if (msg.length() == 2){
+                msg.append(" :");
+            }
+            else{
+                msg.append(":");
+            }
+             char charTime[MAX_DATA];
+
+            time_t seconds = p.post_timestamp().seconds();
+            sprintf(charTime,"%d", seconds);
+            std::stringstream ss;
+            ss << seconds;
+            std::string ts = ss.str();
+            msg.append(ts);
+            std::cout << "message to write to file: " << msg << std::endl;
+
+            int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);
+            char semi[MAX_DATA];
+            memset(semi, 0, sizeof(semi));
+            strcpy(semi, msg.c_str());
+            size_t nbytes = msg.length();
+            ssize_t write_bytes;
+            write(fd_time, semi, strlen(semi));
+
+            //TODO: check if it is following anyone if not then continue
+            std::string user_following = "users_following/";
+            user_following.append(from_user);
+            user_following.append("_following.txt");
+            char *fname_following = new char[user_following.length() + 1];
+            std::strcpy(fname_following, user_following.c_str());
+            std::cout << "user following text file " << fname_following << std::endl;
+
+            int fd_follow = open(fname_following, O_RDONLY);
+
+            // read the following
+            char buffer[MAX_DATA];
+            memset(buffer, 0, sizeof(buffer));
+            ssize_t inlen;
+            int indexer = 0;
+            while((inlen = read(fd_follow, buffer, 14) > 0) && indexer < 20) {
+                // we want to make a char* of the string to follow
+                std::cout << "read buffer " << buffer << std::endl;
+                indexer++;
+            }
+
+
+
+//            PostReply post_reply;
+//            post_reply.set_message("");
+
+            //stream->Write(post_reply);
         }
 
 
