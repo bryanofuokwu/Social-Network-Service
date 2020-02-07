@@ -288,7 +288,7 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
-                cout << "Following vector " << followers << endl;
+                cout << "Following vector " << followers[i] << endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
