@@ -83,11 +83,9 @@ public:
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
-                std::cout << "before the auto for loops" << std::endl;
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
                 for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                     for (auto follower : it->second) {
-                        std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                     }
                     std::cout << std::endl;
                 }
@@ -201,7 +199,6 @@ public:
             ss << seconds;
             std::string ts = ss.str();
             msg.append(ts);
-            std::cout << "message to write to file: " << msg << std::endl;
 
             int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);
             char semi[MAX_DATA];
@@ -223,7 +220,6 @@ public:
             for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                 if (it->first == p.from_user()){
                     for (auto follower : it->second) {
-                        std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                         auto stream_to_write_to = client_streams.find(follower);
                         if (stream_to_write_to != client_streams.end()) { // if exists
                             stream_to_write_to->second->Write(post_reply);
@@ -234,6 +230,7 @@ public:
                 std::cout << std::endl;
             }
 
+            std::cout << "this is the user's post size: " << users_own_timeline[from_user].size() << std::endl;
             if (users_own_timeline[from_user].size() >=20){
                 int indexer = users_own_timeline[from_user].size() -1;
                 for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
