@@ -339,6 +339,10 @@ public:
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
 
+        Post preq;
+        // first write will just be the user who wrote this
+        preq.set_from_user(get_user());
+        stream->Write(preq);
         std::thread writer([stream, user]() {
             while (1)
             {

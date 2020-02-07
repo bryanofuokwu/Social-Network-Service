@@ -175,8 +175,39 @@ public:
     Status Timeline(ServerContext* context,
             ServerReaderWriter<PostReply, Post>* stream) override {
 
-        Post p;
+        Post p_1;
+        stream->Read(&p_1);
+        if ( client_streams.find(p_1.from_user()) == client_streams.end() ) {
+            std::cout << "need to add to stream map " << std::endl;
+            client_streams.insert(std::make_pair(p_1.from_user(), stream));
 
+            for (auto it = users_following.begin(); it != users_following.end(); ++it) {
+                if (it->first == p_1.from_user()){
+                    for (auto following : it->second) {
+                        auto stream_to_write_to = client_streams.find(p_1.from_user());
+                        std::cout << it->first <<  " follows: "<< following << std::endl;
+                        if (users_own_timeline[following].size() >=20){
+                            int indexer = users_own_timeline[following].size()-1;
+                            // TODO: do a while loop instead of a for loop
+                            int last_to_read = users_own_timeline[following].size() -20 ;
+                            for (int i = indexer; i >= last_to_read ; i--){
+                                std::cout << users_own_timeline[following][i] << std::endl;
+                                PostReply post_reply;
+                                post_reply.set_message(users_own_timeline[following][i]);
+                                post_reply.set_time_date(ts);
+                                post_reply.set_author(following);
+                                if (stream_to_write_to != client_streams.end()) { // if exists
+                                    stream_to_write_to->second->Write(post_reply);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+
+        }
+        Post p;
         while(stream->Read(&p)) {
 
             std::string msg = p.message();
@@ -218,37 +249,6 @@ public:
             users_own_timeline[from_user].push_back(msg);
             std::cout << "adding to map:" << from_user << " " <<   msg<< std::endl;
 
-            if ( client_streams.find(p.from_user()) == client_streams.end() ) {
-                std::cout << "need to add to stream map " << std::endl;
-                client_streams.insert(std::make_pair(p.from_user(), stream));
-
-                // TODO: check if the users it follows post sizes ARE above 20
-                for (auto it = users_following.begin(); it != users_following.end(); ++it) {
-                    if (it->first == p.from_user()){
-                        for (auto following : it->second) {
-                            auto stream_to_write_to = client_streams.find(p.from_user());
-                            std::cout << it->first <<  " follows: "<< following << std::endl;
-                            if (users_own_timeline[following].size() >=20){
-                                int indexer = users_own_timeline[following].size()-1;
-                                // TODO: do a while loop instead of a for loop
-                                int last_to_read = users_own_timeline[following].size() -19 ;
-                                for (int i = indexer; i >= last_to_read ; i--){
-                                    std::cout << users_own_timeline[following][indexer] << std::endl;
-                                    PostReply post_reply;
-                                    post_reply.set_message(users_own_timeline[following][i]);
-                                    post_reply.set_time_date(ts);
-                                    post_reply.set_author(following);
-                                    if (stream_to_write_to != client_streams.end()) { // if exists
-                                        stream_to_write_to->second->Write(post_reply);
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-
-            }
 
             PostReply post_reply;
             post_reply.set_message(p.message());
