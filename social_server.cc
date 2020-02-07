@@ -75,6 +75,29 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
+
+        bool already_follow_self = false;
+        std::string follow_msg;
+        for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
+            std::vector<std::string> listOfMsgs = it->second;
+            for (std::vector<std::string>::iterator vec_it = listOfMsgs.begin(); vec_it != listOfMsgs.end(); vec_it++){
+                std::string following = (*(vec_it)).substr(0,3);
+                following.erase(remove(following.begin(), following.end(), ' '), following.end());
+                if (it->first == following){
+                    follow_msg = (*(vec_it));
+                    cout << "they already follow each other" << (*(vec_it)) << endl;
+                    already_follow_self = true;
+                    break;
+                }
+
+            }
+        }
+        if (!already_follow_self){
+            users_followers[frequest->from_user()].push_back(frequest->from_user());
+            users_following[frequest->from_user()].push_back(follow_msg);
+
+        }
+
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -178,7 +201,7 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
-        for (auto it = users_following.begin(); it != users_following.end(); ++it) {
+        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
             if (it->first == user) {
                 for (auto following : it->second) {
                     std::string follow = following.substr(0,3);
@@ -313,9 +336,6 @@ public:
 
         return Status::OK;
     }
-
-
-
 
 private:
     // used for follow and unfollow
