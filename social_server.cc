@@ -123,6 +123,8 @@ public:
             strcpy(cstr, (ufrequest->to_unfollow()).c_str());
             std::string user_to_unfollow = ufrequest->to_unfollow();
             std::string unfollow_from_user = ufrequest->from_user();
+            std::cout << "user "<< unfollow_from_user << " will unfollow " << user_to_unfollow<< std::endl;
+
 
             if ((strcmp(cstr, buffer)) == 0)
             {
