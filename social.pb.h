@@ -356,6 +356,20 @@ class FollowRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // string from_user = 1;
+  void clear_from_user();
+  static const int kFromUserFieldNumber = 1;
+  const ::std::string& from_user() const;
+  void set_from_user(const ::std::string& value);
+  #if LANG_CXX11
+  void set_from_user(::std::string&& value);
+  #endif
+  void set_from_user(const char* value);
+  void set_from_user(const char* value, size_t size);
+  ::std::string* mutable_from_user();
+  ::std::string* release_from_user();
+  void set_allocated_from_user(::std::string* from_user);
+
   // string to_follow = 2;
   void clear_to_follow();
   static const int kToFollowFieldNumber = 2;
@@ -370,15 +384,6 @@ class FollowRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_to_follow();
   void set_allocated_to_follow(::std::string* to_follow);
 
-  // .social.User from_user = 1;
-  bool has_from_user() const;
-  void clear_from_user();
-  static const int kFromUserFieldNumber = 1;
-  const ::social::User& from_user() const;
-  ::social::User* release_from_user();
-  ::social::User* mutable_from_user();
-  void set_allocated_from_user(::social::User* from_user);
-
   // .google.protobuf.Timestamp fr_timestamp = 3;
   bool has_fr_timestamp() const;
   void clear_fr_timestamp();
@@ -392,8 +397,8 @@ class FollowRequest : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr from_user_;
   ::google::protobuf::internal::ArenaStringPtr to_follow_;
-  ::social::User* from_user_;
   ::google::protobuf::Timestamp* fr_timestamp_;
   mutable int _cached_size_;
   friend struct ::protobuf_social_2eproto::TableStruct;
@@ -1768,53 +1773,56 @@ User::post() const {
 
 // FollowRequest
 
-// .social.User from_user = 1;
-inline bool FollowRequest::has_from_user() const {
-  return this != internal_default_instance() && from_user_ != NULL;
-}
+// string from_user = 1;
 inline void FollowRequest::clear_from_user() {
-  if (GetArenaNoVirtual() == NULL && from_user_ != NULL) {
-    delete from_user_;
-  }
-  from_user_ = NULL;
+  from_user_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::social::User& FollowRequest::from_user() const {
-  const ::social::User* p = from_user_;
+inline const ::std::string& FollowRequest::from_user() const {
   // @@protoc_insertion_point(field_get:social.FollowRequest.from_user)
-  return p != NULL ? *p : *reinterpret_cast<const ::social::User*>(
-      &::social::_User_default_instance_);
+  return from_user_.GetNoArena();
 }
-inline ::social::User* FollowRequest::release_from_user() {
+inline void FollowRequest::set_from_user(const ::std::string& value) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:social.FollowRequest.from_user)
+}
+#if LANG_CXX11
+inline void FollowRequest::set_from_user(::std::string&& value) {
+  
+  from_user_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:social.FollowRequest.from_user)
+}
+#endif
+inline void FollowRequest::set_from_user(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:social.FollowRequest.from_user)
+}
+inline void FollowRequest::set_from_user(const char* value, size_t size) {
+  
+  from_user_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:social.FollowRequest.from_user)
+}
+inline ::std::string* FollowRequest::mutable_from_user() {
+  
+  // @@protoc_insertion_point(field_mutable:social.FollowRequest.from_user)
+  return from_user_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* FollowRequest::release_from_user() {
   // @@protoc_insertion_point(field_release:social.FollowRequest.from_user)
   
-  ::social::User* temp = from_user_;
-  from_user_ = NULL;
-  return temp;
+  return from_user_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::social::User* FollowRequest::mutable_from_user() {
-  
-  if (from_user_ == NULL) {
-    from_user_ = new ::social::User;
-  }
-  // @@protoc_insertion_point(field_mutable:social.FollowRequest.from_user)
-  return from_user_;
-}
-inline void FollowRequest::set_allocated_from_user(::social::User* from_user) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete from_user_;
-  }
-  if (from_user) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      from_user = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, from_user, submessage_arena);
-    }
+inline void FollowRequest::set_allocated_from_user(::std::string* from_user) {
+  if (from_user != NULL) {
     
   } else {
     
   }
-  from_user_ = from_user;
+  from_user_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from_user);
   // @@protoc_insertion_point(field_set_allocated:social.FollowRequest.from_user)
 }
 
