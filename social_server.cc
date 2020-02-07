@@ -155,8 +155,10 @@ public:
             ServerReaderWriter<PostReply, Post>* stream) override {
 
         Post p;
+
         while(stream->Read(&p)) {
             std::string msg = p.message();
+            client_streams.push_back(std::make_pair(p.from_user(), stream));
             std::cout << "got a message from client: " << msg << " " << msg.length() << std::endl;
 
             // open the file of the user that sent this
@@ -260,6 +262,7 @@ private:
     std::map<std::string, std::vector<std::string>> user_following_posts;
     //map of user to the posts of itself
     std::map<std::string, std::vector<std::string>> user_own_post;
+    std::vector<pair<std::string, ServerReaderWriter<PostReply, Post>* >> client_streams;
 };
 
 void RunServer(std::string port)
