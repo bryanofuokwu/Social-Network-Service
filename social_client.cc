@@ -181,6 +181,7 @@ public:
         FollowRequest followreq; // data sending to the server
         FollowReply followreply; // data recieving from the server
         followreq.set_to_follow(user_to_follow);
+        followreq.set_from_user(get_user());
         ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
 
         timestamp->set_seconds(time(NULL));
