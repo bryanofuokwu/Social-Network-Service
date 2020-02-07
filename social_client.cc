@@ -255,10 +255,7 @@ public:
             {
                 return "FAILURE_INVALID_USERNAME";
             }
-            else
-            {
-                continue;
-            }
+
             std::vector<string> users;
             std::string user_file = "user_data/users.txt";
             char *fname = new char[user_file.length() + 1];
@@ -291,10 +288,7 @@ public:
             {
                 return "FAILURE_INVALID_USERNAME";
             }
-            else
-            {
-                continue;
-            }
+
             ////////////////////////////////////////////////////////////////////
             std::vector<string> followers;
             std::string user_following = "users_following/";
