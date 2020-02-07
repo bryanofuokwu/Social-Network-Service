@@ -272,6 +272,7 @@ public:
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
+                std::cout << "This is what is in the buffer: " << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
@@ -288,7 +289,6 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
-                cout << "Following vector " << followers[i] << endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
