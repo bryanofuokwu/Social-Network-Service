@@ -76,15 +76,15 @@ public:
         char buffer[MAX_DATA];
         ssize_t inlen;
         bool active_user = false;
-        for (std::vector<std::string>::iterator vec_it = users_active.begin(); vec_it != users_active.end(); vec_it++){
-            if (*vec_it == frequest->from_user()){
-                std::cout << "user is active" << std::endl;
-                active_user = true;
-                break;
-            }
-        }
-        std::cout << "active or no: " << active_user << std::endl;
-        if(!active_user){
+//        for (std::vector<std::string>::iterator vec_it = users_active.begin(); vec_it != users_active.end(); vec_it++){
+//            if (*vec_it == frequest->from_user()){
+//                std::cout << "user is active" << std::endl;
+//                active_user = true;
+//                break;
+//            }
+//        }
+//        std::cout << "active or no: " << active_user << std::endl;
+        if(frequest->to_follow() == frequest->from_user()){
             std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
             users_followers[frequest->from_user()].push_back(frequest->from_user());
@@ -101,31 +101,30 @@ public:
             users_following[frequest->from_user()].push_back(follow_msg);
 
         }
-        while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
-        {
-            // we want to make a char* of the string to follow
-            char cstr[(frequest->to_follow()).length() + 1];
-            strcpy(cstr, (frequest->to_follow()).c_str());
-            if ((strcmp(cstr, buffer)) == 0)
-            {
-                close(fileread);
-                users_followers[frequest->to_follow()].push_back(frequest->from_user());
-                std::string user_follow_time;
-                if(frequest->to_follow().length() ==2){
-                    user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(" :");
+        else {
+            while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
+                // we want to make a char* of the string to follow
+                char cstr[(frequest->to_follow()).length() + 1];
+                strcpy(cstr, (frequest->to_follow()).c_str());
+                if ((strcmp(cstr, buffer)) == 0) {
+                    close(fileread);
+                    users_followers[frequest->to_follow()].push_back(frequest->from_user());
+                    std::string user_follow_time;
+                    if (frequest->to_follow().length() == 2) {
+                        user_follow_time.append(frequest->to_follow());
+                        user_follow_time.append(" :");
 
+                    } else {
+                        user_follow_time.append(frequest->to_follow());
+                        user_follow_time.append(":");
+                    }
+                    std::stringstream ss;
+                    ss << frequest->fr_timestamp().seconds();
+                    std::string ts = ss.str();
+                    user_follow_time.append(ts);
+                    users_following[frequest->from_user()].push_back(user_follow_time);
+                    return Status::OK;
                 }
-                else{
-                    user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(":");
-                }
-                std::stringstream ss;
-                ss << frequest->fr_timestamp().seconds();
-                std::string ts = ss.str();
-                user_follow_time.append(ts);
-                users_following[frequest->from_user()].push_back(user_follow_time);
-                return Status::OK;
             }
         }
         close(fileread);
