@@ -132,6 +132,7 @@ public:
                 std::cout << "following size " << users_following.size()<< std::endl;
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
+                    std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
                     if ((it->first) == unfollow_from_user){
                         std::cout << "unfollow from user found!! " << std::endl;
                         std::vector<std::string>::iterator vec_it_remove;
