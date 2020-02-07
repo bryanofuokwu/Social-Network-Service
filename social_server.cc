@@ -141,12 +141,21 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
-       while(inlen = read(file_follow_read, buffer, 2) > 0) {
-           // we want to make a char* of the string to follow
-           std::cout<< "read buffer " << buffer ;
-           follow_users.append(buffer);
-           follow_users.append(",");
-       }
+//       while(inlen = read(file_follow_read, buffer, 2) > 0) {
+//           // we want to make a char* of the string to follow
+//           std::cout<< "read buffer " << buffer ;
+//           follow_users.append(buffer);
+//           follow_users.append(",");
+//       }
+        for (auto it = users_following.begin(); it != users_following.end(); ++it) {
+            if (it->first == user) {
+                for (auto following : it->second) {
+                    follow_users.append(following);
+                    follow_users.append(",");
+                }
+            }
+        }
+
         std::cout<< " " << std::endl;
         std::cout<< " follow_users " << follow_users ;
 
@@ -169,7 +178,6 @@ public:
         Post p;
 
         while(stream->Read(&p)) {
-
 
             std::string msg = p.message();
 
@@ -217,7 +225,7 @@ public:
                 for (auto it = users_following.begin(); it != users_following.end(); ++it) {
                     if (it->first == p.from_user()){
                         for (auto following : it->second) {
-                            auto stream_to_write_to = client_streams.find(following);
+                            auto stream_to_write_to = client_streams.find(p.from_user());
                             std::cout << it->first <<  " follows: "<< following << std::endl;
                             if (users_own_timeline[following].size() >=20){
                                 int indexer = users_own_timeline[following].size();
