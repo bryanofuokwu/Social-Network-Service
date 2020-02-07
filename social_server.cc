@@ -125,7 +125,6 @@ public:
             std::string unfollow_from_user = ufrequest->from_user();
             std::cout << "user "<< unfollow_from_user << " will unfollow " << user_to_unfollow<< std::endl;
 
-
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);

@@ -242,6 +242,7 @@ public:
         UnfollowRequest unfollowreq; // data sending to the server
         UnfollowReply unfollowreply; // data recieving from the server
         unfollowreq.set_to_unfollow(user_to_unfollow);
+        unfollowreq.set_from_user(from_user);
 
         ClientContext context;
         /* TODO: update the current user's following text file
