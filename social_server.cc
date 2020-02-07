@@ -157,7 +157,7 @@ public:
         Post p;
         while(stream->Read(&p)) {
             std::string msg = p.message();
-            std::cout << "got a message from client: " << msg << std::endl;
+            std::cout << "got a message from client: " << msg << " " << msg.length() << std::endl;
 
             // open the file of the user that sent this
             std::string user_timeline = "users_timeline/";
