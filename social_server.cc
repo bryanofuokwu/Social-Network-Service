@@ -121,8 +121,8 @@ public:
             // we want to make a char* of the string to follow
             char cstr[(ufrequest->to_unfollow()).length() + 1];
             strcpy(cstr, (ufrequest->to_unfollow()).c_str());
-            std::string user_to_unfollow = ufrequest->to_unfollow());
-            std::string unfollow_from_user = ufrequest->from_user());
+            std::string user_to_unfollow = ufrequest->to_unfollow();
+            std::string unfollow_from_user = ufrequest->from_user();
 
             if ((strcmp(cstr, buffer)) == 0)
             {
