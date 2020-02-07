@@ -66,6 +66,7 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
+    std::map<std::string, std::map<std::string, std::string>> users_followers_time;
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -306,7 +307,6 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::map<std::string, std::string>> users_followers_time;
 
     // used for timelines
     //map of user to the posts of who it follows
