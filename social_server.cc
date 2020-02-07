@@ -87,6 +87,7 @@ public:
             }
         }
         close(fileread);
+        std::cout << "before the auto for loops" << std::endl;
         users_followers[frequest->to_follow()].push_back(frequest->from_user());
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
             for (auto follower : it->second) {
