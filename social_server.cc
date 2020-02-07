@@ -85,7 +85,10 @@ public:
                 close(fileread);
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
                 users_following[frequest->from_user()].push_back(frequest->to_follow());
-                users_following_time[frequest->from_user()][frequest->to_follow()] = frequest->fr_timestamp();
+                std::stringstream ss;
+                ss << frequest->fr_timestamp().seconds();
+                std::string ts = ss.str();
+                users_following_time[frequest->from_user()][frequest->to_follow()] = ts;
 
                 for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                     for (auto follower : it->second) {
@@ -199,11 +202,17 @@ public:
                                 post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
-                                    ::google::protobuf::Timestamp timestamp =users_following_time[p_1.from_user][following];
-                                    std::stringstream ss;
-                                    ss << timestamp()->seconds();
-                                    std::string ts = ss.str();
-                                    std::cout << "time followed" <<  ts << std::endl;
+//                                    ::google::protobuf::Timestamp timestamp = users_following_time[p_1.from_user][following];
+//                                    std::stringstream ss;
+//                                    ss << timestamp().seconds();
+//                                    std::string ts = ss.str();
+//                                    std::cout << "time followed" <<  ts << std::endl;
+                                    std::string followed_time = users_following_time[p_1.from_user][following];
+                                    const char *time_followed = followed_time.c_str();
+                                    time_t t_followed;
+                                    t_followed= (time_t)atoll(time_followed);
+                                    std::cout << "time user followed" <<  t_followed << std::endl;
+
                                     const char *time;
                                     time = read_msg.substr(4, 14).c_str();
                                     time_t t;
@@ -297,7 +306,7 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::map<std::string, ::google::protobuf::Timestamp>> users_following_time;
+    std::map<std::string, std::map<std::string,  std::string > users_following_time;
 
     // used for timelines
     //map of user to the posts of who it follows
