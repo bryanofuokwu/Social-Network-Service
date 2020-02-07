@@ -66,6 +66,11 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
+    std::string remove_spaces(string str)
+    {
+        str.erase(remove(str.begin(), str.end(), ' '), str.end());
+        return str;
+    }
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -199,7 +204,7 @@ public:
                         std::string following_full = follow.substr(0,3);
                         std::string following = remove_spaces(following_full);
                         std::string time_followed = follow.substr(4,14);
-                        std::cout << it->first <<  " follows: "<< following " at: " << time_followed << std::endl;
+                        std::cout << it->first <<  " follows: "<< following <<" at: " << time_followed << std::endl;
                         if (users_own_timeline[following].size() >=20){
                             int indexer = users_own_timeline[following].size()-1;
                             int last_to_read = users_own_timeline[following].size() -20 ;
@@ -212,7 +217,7 @@ public:
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
                                     //std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
-                                    const char *time_followed_char = time_followed;
+                                    const char *time_followed_char = time_followed.c_str();
                                     time_t t_followed;
                                     t_followed= (time_t)atoll(time_followed_char);
                                     std::cout << "time user followed" <<  t_followed << std::endl;
@@ -305,11 +310,7 @@ public:
         return Status::OK;
     }
 
-    string remove_spaces(string str)
-    {
-        str.erase(remove(str.begin(), str.end(), ' '), str.end());
-        return str;
-    }
+
 
 
 private:
