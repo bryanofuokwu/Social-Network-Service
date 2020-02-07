@@ -270,7 +270,7 @@ public:
             ssize_t inlen;
             std::string adj = " :";
             user_to_unfollow.append(adj);
-            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
+            while (inlen = read(fileread, buffer, 256) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
@@ -469,10 +469,12 @@ int main(int argc, char **argv)
     // for creating to the user_following.txt file
     int fd_follow = open(fname_following, O_WRONLY | O_CREAT | O_APPEND, 0666);
     std::string user_own_follow = username;
-    if (username.length() ==2 ){
+    if (username.length() == 2)
+    {
         user_own_follow.append(" :0000000000");
     }
-    else {
+    else
+    {
         user_own_follow.append(":0000000000");
     }
     char buffer_own_follow[MAX_DATA];
