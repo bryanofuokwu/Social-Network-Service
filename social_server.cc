@@ -76,7 +76,7 @@ public:
         char buffer[MAX_DATA];
         ssize_t inlen;
         bool active_user = false;
-        for (std::vector<std::string>::iterator vec_it = actives.begin(); vec_it != actives.end(); vec_it++){
+        for (std::vector<std::string>::iterator vec_it = users_active.begin(); vec_it != users_active.end(); vec_it++){
             if (*vec_it == frequest->from_user()){
                 std::cout << "user is active" << std::endl;
                 active_user = true;
