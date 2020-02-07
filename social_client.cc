@@ -505,7 +505,6 @@ IReply Client::processCommand(std::string &input)
         response = myc->Unfollow(command[1], &ire, myc->get_user());
     }
 
-    //TODO: comment this out once unfollow and follow work perfectly
     else if (command[0] == "LIST")
     {
         std::string user = this->get_user();

@@ -174,7 +174,7 @@ public:
             else{
                 msg.append(":");
             }
-             char charTime[MAX_DATA];
+            char charTime[14];
 
             time_t seconds = p.post_timestamp().seconds();
             sprintf(charTime,"%d", seconds);
