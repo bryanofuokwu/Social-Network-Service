@@ -153,16 +153,12 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
-//       while(inlen = read(file_follow_read, buffer, 2) > 0) {
-//           // we want to make a char* of the string to follow
-//           std::cout<< "read buffer " << buffer ;
-//           follow_users.append(buffer);
-//           follow_users.append(",");
-//       }
         for (auto it = users_following.begin(); it != users_following.end(); ++it) {
             if (it->first == user) {
                 for (auto following : it->second) {
-                    follow_users.append(following);
+                    std::string follow = following.substr(0,3);
+                    follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
+                    follow_users.append(follow);
                     follow_users.append(",");
                 }
             }
@@ -170,6 +166,7 @@ public:
 
         std::cout<< " " << std::endl;
         std::cout<< " follow_users " << follow_users ;
+        following.erase(remove(following.begin(), following.end(), ' '), following.end());
 
         lreply->set_following_users(follow_users);
 
