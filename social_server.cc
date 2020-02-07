@@ -209,10 +209,28 @@ public:
             memset(buffer, 0, sizeof(buffer));
             ssize_t inlen;
             int indexer = 0;
-            while((inlen = read(fd_follow, buffer, 14) > 0) && indexer < 20) {
+            while((inlen = read(fd_follow, buffer, 14) > 0)) {
                 // we want to make a char* of the string to follow
                 std::cout << "read buffer " << buffer << std::endl;
-                indexer++;
+                std::string buffer_string = std::string(buffer);
+                std::string buffer_user = buffer_string.substr(0, 2);
+                std::string buffer_time = buffer_string.substr(4, 14);
+
+                //TODO: open the following file up to 20
+                std::string user_following = "users_timeline/";
+                user_following.append(buffer_user);
+                user_following.append("_timeline.txt");
+                char *fname_following = new char[user_following.length() + 1];
+                std::strcpy(fname_following, user_following.c_str());
+                std::cout << "user following text file " << fname_following << std::endl;
+                ssize_t inlen_2;
+                int fd_follow = open(fname_following, O_RDONLY);
+                char buffer_2[MAX_DATA];
+                memset(buffer_2, 0, sizeof(buffer));
+                while((inlen_2 = read(fd_follow, buffer_2, 14) > 0)) {
+                    std::cout << "read buffer " << buffer_2 << std::endl;
+                }
+                //indexer++;
             }
 
 
