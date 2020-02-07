@@ -140,15 +140,6 @@ public:
     Status List(ServerContext* context, const ListRequest* lrequest,
                   ListReply* lreply) override {
        std::string user = lrequest->from_user();
-       std::string user_following = "users_following/";
-       //std::cout<< "size in list user " << user.length() << std::endl;
-       user_following.append(user);
-       user_following.append("_following.txt");
-       char *fname_following = new char[user_following.length() + 1];
-       std::strcpy(fname_following, (user_following).c_str());
-       int file_follow_read = open(fname_following, O_RDONLY);
-       //std::cout<< "file_follow_read " << fname_following<< std::endl;
-
        char buffer[2];
        ssize_t inlen;
 
@@ -163,10 +154,6 @@ public:
                 }
             }
         }
-
-        std::cout<< " " << std::endl;
-        std::cout<< " follow_users " << follow_users ;
-        following.erase(remove(following.begin(), following.end(), ' '), following.end());
 
         lreply->set_following_users(follow_users);
 
