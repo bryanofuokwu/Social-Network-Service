@@ -307,15 +307,9 @@ public:
                     }
                     break;
                 }
-                std::cout << std::endl;
             }
 
-
-
-
-
         }
-
 
         return Status::OK;
     }
