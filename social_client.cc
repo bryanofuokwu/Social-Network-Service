@@ -428,8 +428,6 @@ int main(int argc, char **argv)
     memset(semi, 0, sizeof(semi));
     strcpy(buff, username.c_str());
     //strcpy(semi, smc.c_str());
-    size_t nbytes = username.length();
-    ssize_t write_bytes;
     write(fd_user, buff, strlen(buff));
     //write(fd_user, semi, strlen(semi));
     close(fd_user);
@@ -473,7 +471,6 @@ int main(int argc, char **argv)
     char follow_self_buff[MAX_DATA];
     memset(follow_self_buff, 0, sizeof(follow_self_buff));
     strcpy(follow_self_buff, follow_self.c_str());
-    size_t nbytes = username.length();
     write(fd_follow, follow_self_buff, strlen(follow_self_buff));
     close(fd_follow);
 
@@ -497,7 +494,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 
