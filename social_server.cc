@@ -161,7 +161,7 @@ public:
 
         while(stream->Read(&p)) {
             if ( client_streams.find(p.from_user()) == client_streams.end() ) {
-                client_streams.insert(std::pair(p.from_user(), stream));
+                client_streams.insert(std::make_pair(p.from_user(), stream));
             }
             else{
                 continue;
