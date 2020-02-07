@@ -19,13 +19,14 @@
 #include <grpc++/grpc++.h>
 #include <sstream>
 
-
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <random>
 #include <string>
 #include <thread>
+#include <cstring>
+#include <string>
 
 #include <grpc/grpc.h>
 #include <grpc++/channel.h>
@@ -187,7 +188,6 @@ public:
         followreq.set_allocated_fr_timestamp(timestamp);
         std::cout << followreq.fr_timestamp().seconds() << std::endl;
 
-
         ClientContext context;
 
         Status status = stub_->Follow(&context, followreq, &followreply);
@@ -206,10 +206,12 @@ public:
             //user_to_follow.append(" ");
 
             // handle the file to put in
-            if(user_to_follow.length() <= 2){
+            if (user_to_follow.length() <= 2)
+            {
                 user_to_follow.append(" :");
             }
-            else{
+            else
+            {
                 user_to_follow.append(":");
             }
             std::stringstream ss;
@@ -217,6 +219,7 @@ public:
             std::string ts = ss.str();
             user_to_follow.append(ts);
             std::cout << user_to_follow << std::endl;
+
             std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
             write(filewrite, buff, user_to_follow.length());
@@ -317,11 +320,53 @@ public:
             return "FAILURE";
         }
     }
-    void Timeline(IReply *reply)
+
+    void Timeline(string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
+        while (1)
+        {
+            std::string message = getPostMessage();
+            std::thread writer([stream, user, message]() {
+                while (1)
+                {
+                    Post preq;
+                    preq.set_from_user(user);
+                    preq.set_message(message);
+                    ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
+                    timestamp->set_seconds(time(NULL));
+                    timestamp->set_nanos(0);
+                    preq.set_allocated_post_timestamp(timestamp);
+                    stream->Write(preq);
+                }
+                stream->WritesDone();
+            });
+
+            std::thread reader([stream]() {
+                PostReply preply;
+                while (stream->Read(&preply))
+                {
+                    // parse string
+                    // sender is a string
+                    std::string sender = preply.author();
+                    // message is a string
+                    std::string message = preply.message();
+                    // covert time
+                    const char *time;
+                    time = preply.time_date().c_str();
+                    time_t t;
+                    t = (time_t)atoll(time);
+
+                    displayPostMessage(sender, message, t);
+                }
+            });
+
+            //Wait for the threads to finish
+            writer.join();
+            reader.join();
+        }
     }
 
 protected:
@@ -467,11 +512,6 @@ IReply Client::processCommand(std::string &input)
         response = myc->List(user, &ire);
     }
 
-    else if (command[0] == "TIMELINE")
-    {
-        response = "SUCCESS";
-    }
-
     // ------------------------------------------------------------
     // GUIDE 2:
     // Then, you should create a variable of IReply structure
@@ -546,4 +586,6 @@ void Client::processTimeline()
     // and you can terminate the client program by pressing
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
+
+    myc->Timeline(myc->get_user());
 }
