@@ -40,7 +40,7 @@ message User {
 
 }
 message FollowRequest {
-  User from_user = 1;
+  string from_user = 1;
   string to_follow = 2;
   google.protobuf.Timestamp fr_timestamp = 3;
 }

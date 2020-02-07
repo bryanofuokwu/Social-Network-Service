@@ -87,7 +87,7 @@ public:
             }
         }
         close(fileread);
-        users_followers[frequest->to_follow()].push_back(frequest->from_user());
+        //users_followers[frequest->to_follow()].push_back(frequest->from_user());
         return Status::CANCELLED;
     }
 
@@ -160,13 +160,13 @@ public:
         Post p;
 
         while(stream->Read(&p)) {
-            if ( m.find(p.from_user()) == m.end() ) {
+            if ( client_streams.find(p.from_user()) == client_streams.end() ) {
                 client_streams.insert(std::pair(p.from_user(), stream));
             }
             else{
                 continue;
             }
-            std::string message_from_user = p.message();
+            std::string msg = p.message();
 
             std::string user_timeline = "users_timeline/";
             std::string from_user = p.from_user();
