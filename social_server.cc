@@ -137,7 +137,7 @@ public:
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
                             std::string unfollow = (*(vec_it)).substr(0,3);
-                            follow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
+                            unfollow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow){
                                 vec_it_remove = vec_it;
                             }
