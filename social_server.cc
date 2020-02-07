@@ -214,17 +214,17 @@ public:
                                 post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
-                                    std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
-                                    const char *time_followed = followed_time.c_str();
-                                    time_t t_followed;
-                                    t_followed= (time_t)atoll(time_followed);
-                                    std::cout << "time user followed" <<  t_followed << std::endl;
-
-                                    const char *time;
-                                    time = read_msg.substr(4, 14).c_str();
-                                    time_t t;
-                                    t = (time_t)atoll(time);
-                                    std::cout << "time post made" <<  t << std::endl;
+//                                    //std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
+//                                    const char *time_followed = followed_time.c_str();
+//                                    time_t t_followed;
+//                                    t_followed= (time_t)atoll(time_followed);
+//                                    std::cout << "time user followed" <<  t_followed << std::endl;
+//
+//                                    const char *time;
+//                                    time = read_msg.substr(4, 14).c_str();
+//                                    time_t t;
+//                                    t = (time_t)atoll(time);
+//                                    std::cout << "time post made" <<  t << std::endl;
                                     stream_to_write_to->second->Write(post_reply);
                                 }
                             }
