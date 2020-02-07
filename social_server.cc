@@ -225,7 +225,7 @@ public:
                                     time_t t_message;
                                     t_message = (time_t)atoll(time);
                                     ctime(&t_message);
-                                    std::cout << "time post made" <<  t << std::endl;
+                                    std::cout << "time post made" <<  t_message << std::endl;
                                     if( difftime(t_message,t_followed ) > 0){
                                         stream_to_write_to->second->Write(post_reply);
                                     }
