@@ -216,6 +216,7 @@ public:
             write(fd_time, semi, strlen(semi));
 
             users_own_timeline[from_user].push_back(msg);
+            std::cout << "adding to map:" << users_own_timeline[from_user] << " " <<   msg<< std::endl;
 
             if ( client_streams.find(p.from_user()) == client_streams.end() ) {
                 std::cout << "need to add to stream map " << std::endl;
@@ -229,13 +230,14 @@ public:
                             std::cout << it->first <<  " follows: "<< following << std::endl;
                             if (users_own_timeline[following].size() >=20){
                                 int indexer = users_own_timeline[following].size();
+                                // TODO: do a while loop instead of a for loop
                                 int last_to_read = users_own_timeline[following].size() -20 ;
                                 for (int i = indexer; i >= last_to_read ; i--){
                                     std::cout << users_own_timeline[following][indexer] << std::endl;
                                     PostReply post_reply;
                                     post_reply.set_message(users_own_timeline[following][indexer]);
                                     post_reply.set_time_date(ts);
-                                    post_reply.set_author(p.from_user());
+                                    post_reply.set_author(following);
                                     if (stream_to_write_to != client_streams.end()) { // if exists
                                         stream_to_write_to->second->Write(post_reply);
                                     }
