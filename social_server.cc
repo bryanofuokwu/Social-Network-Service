@@ -75,6 +75,18 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
+        bool active_user = false;
+        for (std::vector<std::string>::iterator vec_it = actives.begin(); vec_it != actives.end(); vec_it++){
+            if (*vec_it == frequest->from_user()){
+                cout << "user is active" << endl;
+                active_user = true;
+            }
+        }
+        if(!active_user){
+            users_active.push_back(frequest->from_user());
+            users_followers[frequest->from_user()].push_back(frequest->from_user());
+
+        }
         while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
         {
             // we want to make a char* of the string to follow
@@ -103,30 +115,6 @@ public:
             }
         }
         close(fileread);
-
-
-        bool already_follow_self = false;
-        std::string follow_msg;
-        // iterating through all of the users
-        for (std::map<std::string, std::vector<std::string>>::iterator it = users_followers.begin(); it != users_followers.end(); it++){
-            std::vector<std::string> listOfMsgs = it->second;
-            if (it->first == frequest->from_user()){
-                for (std::vector<std::string>::iterator vec_it = listOfMsgs.begin(); vec_it != listOfMsgs.end(); vec_it++){
-                    std::string follower = (*(vec_it));
-                    std::cout << "its follower" << follower << std::endl;
-                    if (frequest->from_user() == follower ){
-                        std::cout << "user already follows self " << follow_msg << std::endl;
-                        already_follow_self = true;
-                        break;
-                    }
-                    else{
-                        std::cout << "user DOES NOT follows self " << follow_msg << std::endl;
-                    }
-
-                }
-
-            }
-        }
         return Status::CANCELLED;
     }
 
@@ -345,6 +333,7 @@ public:
 
 private:
     // used for follow and unfollow
+    std::vector<std::string> users_active;
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
     std::map<std::string, std::vector<std::string>> users_own_timeline;
