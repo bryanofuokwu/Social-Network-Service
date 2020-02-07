@@ -133,10 +133,10 @@ public:
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
                     if ((it->first) == unfollow_from_user){
-                        cout << "unfollow from user found!! " << endl;
+                        std::cout << "unfollow from user found!! " << std::endl;
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
-                            std::string unfollow = (*(vec_it)_.substr(0,3);
+                            std::string unfollow = (*(vec_it)).substr(0,3);
                             follow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow){
                                 vec_it_remove = vec_it;
