@@ -66,7 +66,6 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
-    std::map<std::string, std::map<std::string, std::string>> users_followers_time;
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -86,10 +85,22 @@ public:
                 close(fileread);
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
                 users_following[frequest->from_user()].push_back(frequest->to_follow());
+                std::string user_follow_time;
+                if(frequest->to_follow().length() ==2){
+                    user_follow_time.append(frequest->to_follow());
+                    user_follow_time.append(" :"));
+
+                }
+                else{
+                    user_follow_time.append(frequest->to_follow());
+                    user_follow_time.append(":"));
+                }
                 std::stringstream ss;
                 ss << frequest->fr_timestamp().seconds();
                 std::string ts = ss.str();
-                users_following_time[frequest->from_user()][frequest->to_follow()] = ts;
+                user_follow_time.append(ts);
+                std::cout << "user follow time " << user_follow_time <<std::endl;
+                users_following_time[frequest->from_user()].push_back(user_follow_time);
 
                 for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                     for (auto follower : it->second) {
@@ -203,12 +214,7 @@ public:
                                 post_reply.set_time_date(read_msg.substr(4, 14));
                                 post_reply.set_author(following);
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
-//                                    ::google::protobuf::Timestamp timestamp = users_following_time[p_1.from_user][following];
-//                                    std::stringstream ss;
-//                                    ss << timestamp().seconds();
-//                                    std::string ts = ss.str();
-//                                    std::cout << "time followed" <<  ts << std::endl;
-                                    std::string followed_time = users_following_time[p_1.from_user][following];
+                                    std::string followed_time = (users_following_time[p_1.from_user][following]).substr(4, 14);
                                     const char *time_followed = followed_time.c_str();
                                     time_t t_followed;
                                     t_followed= (time_t)atoll(time_followed);
@@ -307,6 +313,7 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
+    std::map<std::string, std::vector<std::string>> users_followers_time;
 
     // used for timelines
     //map of user to the posts of who it follows
