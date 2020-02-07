@@ -296,7 +296,6 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::CANCELLED;
             return "FAILURE_INVALID_USERNAME";
         }
     }
