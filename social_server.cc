@@ -201,14 +201,14 @@ public:
                                 if (stream_to_write_to != client_streams.end()) { // if exists;
                                     ::google::protobuf::Timestamp *timestamp =users_following_time[p_1.from_user][following];
                                     std::stringstream ss;
-                                    ss << timestamp().seconds();
+                                    ss << timestamp()->seconds();
                                     std::string ts = ss.str();
                                     std::cout << "time followed" <<  ts << std::endl;
                                     const char *time;
                                     time = read_msg.substr(4, 14).c_str();
                                     time_t t;
                                     t = (time_t)atoll(time);
-                                    std::cout << "time post made" <<  t << std::endl
+                                    std::cout << "time post made" <<  t << std::endl;
                                     stream_to_write_to->second->Write(post_reply);
                                 }
                             }
@@ -297,7 +297,7 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::map<std::string, ::google::protobuf::Timestamp *timestamp>> users_following_time;
+    std::map<std::string, std::map<std::string, ::google::protobuf::Timestamp*>> users_following_time;
 
     // used for timelines
     //map of user to the posts of who it follows
