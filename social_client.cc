@@ -326,7 +326,7 @@ public:
         }
     }
 
-    void Timeline(string user, IReply *reply)
+    void Timeline(string user)
     {
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
@@ -372,7 +372,6 @@ public:
             writer.join();
             reader.join();
         }
-        //reply->comm_status = IStatus::SUCCESS;
     }
 
 protected:
@@ -592,6 +591,5 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
 
-    IReply ire;
-    myc->Timeline(myc->get_user(), &ire);
+    myc->Timeline(myc->get_user());
 }
