@@ -196,9 +196,9 @@ public:
                 if (it->first == p_1.from_user()){
                     for (auto follow : it->second) {
                         auto stream_to_write_to = client_streams.find(p_1.from_user());
-                        string following_full = follow.substr(0,3);
-                        string following = remove_spaces(following_full);
-                        string time_followed = follow.substr(4,14)
+                        std::string following_full = follow.substr(0,3);
+                        std::string following = remove_spaces(following_full);
+                        std::string time_followed = follow.substr(4,14);
                         std::cout << it->first <<  " follows: "<< following " at: " << time_followed << std::endl;
                         if (users_own_timeline[following].size() >=20){
                             int indexer = users_own_timeline[following].size()-1;
