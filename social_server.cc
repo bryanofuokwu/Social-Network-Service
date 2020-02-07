@@ -217,14 +217,16 @@ public:
                                     const char *time_followed_char = time_followed.c_str();
                                     time_t t_followed;
                                     t_followed= (time_t)atoll(time_followed_char);
+                                    ctime(&t_followed);
                                     std::cout << "time user followed" <<  t_followed << std::endl;
 
                                     const char *time;
                                     time = read_msg.substr(4, 14).c_str();
-                                    time_t t;
-                                    t = (time_t)atoll(time);
+                                    time_t t_message;
+                                    t_message = (time_t)atoll(time);
+                                    ctime(&t_message);
                                     std::cout << "time post made" <<  t << std::endl;
-                                    if( difftime(ctime(&t), ctime(&t_followed)) > 0){
+                                    if( difftime(t_message,t_followed ) > 0){
                                         stream_to_write_to->second->Write(post_reply);
                                     }
                                 }
