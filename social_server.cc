@@ -83,6 +83,7 @@ public:
                 break;
             }
         }
+        std::cout << "active or no: " << active_user << std::endl;
         if(!active_user){
             std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
