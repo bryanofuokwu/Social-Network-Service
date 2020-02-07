@@ -38,7 +38,7 @@ clean:
 	rm -f *.o *.pb.cc *.pb.h social_client social_server
 
 clean-files:
-    rm -f user_data/*.txt users_following/*.txt users_timeline/*.txt
+	rm -f user_data/*.txt users_following/*.txt users_timeline/*.txt
 
 
 
