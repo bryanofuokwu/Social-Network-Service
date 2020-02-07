@@ -229,13 +229,13 @@ public:
                             auto stream_to_write_to = client_streams.find(p.from_user());
                             std::cout << it->first <<  " follows: "<< following << std::endl;
                             if (users_own_timeline[following].size() >=20){
-                                int indexer = users_own_timeline[following].size();
+                                int indexer = users_own_timeline[following].size()-1;
                                 // TODO: do a while loop instead of a for loop
-                                int last_to_read = users_own_timeline[following].size() -20 ;
+                                int last_to_read = users_own_timeline[following].size() -19 ;
                                 for (int i = indexer; i >= last_to_read ; i--){
                                     std::cout << users_own_timeline[following][indexer] << std::endl;
                                     PostReply post_reply;
-                                    post_reply.set_message(users_own_timeline[following][indexer]);
+                                    post_reply.set_message(users_own_timeline[following][i]);
                                     post_reply.set_time_date(ts);
                                     post_reply.set_author(following);
                                     if (stream_to_write_to != client_streams.end()) { // if exists
