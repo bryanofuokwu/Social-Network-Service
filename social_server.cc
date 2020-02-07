@@ -92,7 +92,7 @@ public:
             for (auto follower : it->second) {
                 cout << it->first <<  " is followed by: "<< follower << endl;
             }
-            cout << endl;
+            std::cout << std::endl;
         }
 
         return Status::CANCELLED;
