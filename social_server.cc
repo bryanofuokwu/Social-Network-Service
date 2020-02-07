@@ -211,7 +211,7 @@ public:
             ssize_t write_bytes;
             write(fd_time, semi, strlen(semi));
 
-            users_own_timeline[from_user].push_back(p.message());
+            users_own_timeline[from_user].push_back(msg);
 
 
             PostReply post_reply;
@@ -242,8 +242,12 @@ public:
                             std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                             auto stream_to_write_to = client_streams.find(follower);
                             for (int i = indexer; i >=0 ; i--){
+                                PostReply post_reply;
+                                post_reply.set_message(p.message());
+                                post_reply.set_time_date(ts);
+                                post_reply.set_author(p.from_user());
                                 if (stream_to_write_to != client_streams.end()) { // if exists
-                                    stream_to_write_to->second->Write(users_own_timeline[from_user][i]);
+                                    stream_to_write_to->second->Write(post_reply);
                                 }
                             }
 
