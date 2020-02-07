@@ -84,7 +84,6 @@ public:
             {
                 close(fileread);
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
-                //users_following[frequest->from_user()].push_back(frequest->to_follow());
                 std::string user_follow_time;
                 if(frequest->to_follow().length() ==2){
                     user_follow_time.append(frequest->to_follow());
@@ -99,7 +98,6 @@ public:
                 ss << frequest->fr_timestamp().seconds();
                 std::string ts = ss.str();
                 user_follow_time.append(ts);
-                std::cout << "user follow time " << user_follow_time <<std::endl;
                 users_following[frequest->from_user()].push_back(user_follow_time);
                 return Status::OK;
             }
@@ -123,22 +121,19 @@ public:
             strcpy(cstr, (ufrequest->to_unfollow()).c_str());
             std::string user_to_unfollow = ufrequest->to_unfollow();
             std::string unfollow_from_user = ufrequest->from_user();
-            std::cout << "user "<< unfollow_from_user << " will unfollow " << user_to_unfollow<< std::endl;
 
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
-                    std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
+                    //std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
                     if ((it->first) == unfollow_from_user){
-                        std::cout << "unfollow from user found!! " << std::endl;                std::cout << "following size " << users_following.size()<< std::endl;
-                        std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
-
+                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++){
                             std::string unfollow = (*(vec_it)).substr(0,3);
-                            std::cout << "user to unfollow  " << unfollow << std::endl;
+                            //std::cout << "user to unfollow  " << unfollow << std::endl;
                             unfollow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow){
                                 vec_it_remove = vec_it;
@@ -148,7 +143,7 @@ public:
                             }
                         }
                         listOfMsgs->erase(vec_it_remove);
-                        std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
+                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
 
                     }
                 }
@@ -167,7 +162,6 @@ public:
                         listOfMsgs->erase(vec_it_remove);
                     }
                 }
-                std::cout << "following size " << users_following.size()<< std::endl;
 
                 return Status::OK;
             }
@@ -316,7 +310,6 @@ public:
                 std::cout << std::endl;
             }
 
-            std::cout << "this is the user's post size: " << users_own_timeline[from_user].size() << std::endl;
 
 
 

@@ -245,15 +245,9 @@ public:
         unfollowreq.set_from_user(from_user);
 
         ClientContext context;
-        /* TODO: update the current user's following text file
-        * The reply already has the user name it just unfollowed.
-       */
 
         Status status = stub_->Unfollow(&context, unfollowreq, &unfollowreply);
 
-        // TODO: figure out what other cases we will get
-        // TODO: look at https://github.com/grpc/grpc/blob/master/doc/statuscodes.md
-        // for all the kinds of status we can receive from the server
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
@@ -315,9 +309,6 @@ public:
         ClientContext context;
 
         Status status = stub_->List(&context, listreq, &listreply);
-        /*std::cout<< "returned from stub " << std::endl;
-        std::cout<< "following users " << listreply.following_users() <<  std::endl;
-        std::cout<< "following net " << listreply.network_users() <<  std::endl;*/
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
@@ -497,7 +488,7 @@ int Client::connectTo()
     // a member variable in your own Client class.
     // Please refer to gRpc tutorial how to create a stub.
     // ------------------------------------------------------------
-    //Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
+    Client client(grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     return 1; // return 1 if success, otherwise return -1
 }
 
@@ -601,5 +592,7 @@ void Client::processTimeline()
     // CTRL-C (SIGINT)
     // ------------------------------------------------------------
 
+    // we handle the while loop inside this timeline function
     myc->Timeline(myc->get_user());
+
 }
