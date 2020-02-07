@@ -235,7 +235,7 @@ public:
                     PostReply post_reply;
                     post_reply.set_message(buffer_post_2);
                     post_reply.set_time_date(buffer_time_2);
-                    post_reply.set_author(from_user);
+                    post_reply.set_author(buffer_user);
                     stream->Write(post_reply);
                 }
                 //indexer++;
