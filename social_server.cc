@@ -83,18 +83,19 @@ public:
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
+                std::cout << "before the auto for loops" << std::endl;
+                users_followers[frequest->to_follow()].push_back(frequest->from_user());
+                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+                    for (auto follower : it->second) {
+                        std::cout << it->first <<  " is followed by: "<< follower << std::endl;
+                    }
+                    std::cout << std::endl;
+                }
                 return Status::OK;
             }
         }
         close(fileread);
-        std::cout << "before the auto for loops" << std::endl;
-        users_followers[frequest->to_follow()].push_back(frequest->from_user());
-        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-            for (auto follower : it->second) {
-                std::cout << it->first <<  " is followed by: "<< follower << std::endl;
-            }
-            std::cout << std::endl;
-        }
+
 
         return Status::CANCELLED;
     }
