@@ -127,6 +127,7 @@ public:
             if ((strcmp(cstr, buffer)) == 0)
             {
                 close(fileread);
+                std::cout << "following size " << users_following.size()<< std::endl;
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++){
                     std::vector<std::string> *listOfMsgs = &(it->second);
                     if ((it->first) == unfollow_from_user){
@@ -157,6 +158,8 @@ public:
                         listOfMsgs->erase(vec_it_remove);
                     }
                 }
+                std::cout << "following size " << users_following.size()<< std::endl;
+
                 return Status::OK;
             }
         }
