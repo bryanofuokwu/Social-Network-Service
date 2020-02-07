@@ -187,7 +187,6 @@ public:
         timestamp->set_seconds(time(NULL));
         timestamp->set_nanos(0);
         followreq.set_allocated_fr_timestamp(timestamp);
-        std::cout << followreq.fr_timestamp().seconds() << std::endl;
 
         ClientContext context;
 
@@ -205,7 +204,6 @@ public:
             std::string user_following = "users_following/";
             user_following.append(from_user);
             user_following.append("_following.txt");
-            std::cout << "this is file to write to " << user_following << std::endl;
             char *fname_f = new char[user_following.length() + 1];
             std::strcpy(fname_f, user_following.c_str());
             char buff[MAX_DATA];
@@ -225,7 +223,6 @@ public:
             ss << followreq.fr_timestamp().seconds();
             std::string ts = ss.str();
             user_to_follow.append(ts);
-            std::cout << user_to_follow << std::endl;
 
             std::strcpy(buff, user_to_follow.c_str());
             int filewrite = open(fname_f, O_WRONLY);
