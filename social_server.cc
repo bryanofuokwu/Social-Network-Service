@@ -170,7 +170,7 @@ public:
 
         while(stream->Read(&p)) {
             if ( client_streams.find(p.from_user()) != client_streams.end() ) {
-                std::cout << "need to add to stream map " << endl;
+                std::cout << "need to add to stream map " << std::endl;
                 client_streams.insert(std::make_pair(p.from_user(), stream));
             }
             else{
@@ -224,7 +224,7 @@ public:
                         std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                         auto stream_to_write_to = client_streams.find(follower);
                         std::cout << "hiii" << std::endl;
-                        if (stream_to_write_to != streams.end()) {
+                        if (stream_to_write_to != client_streams.end()) {
                             std::cout << "hello" << std::endl;
                             stream_to_write_to->second->Write(post_reply);
                         }
