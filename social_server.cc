@@ -409,8 +409,11 @@ public:
                     }
                     break;
                 }
-                std::cout << std::endl;
             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
         }
 
         return Status::OK;
