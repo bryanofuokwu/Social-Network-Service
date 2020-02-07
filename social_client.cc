@@ -268,6 +268,8 @@ public:
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
+            std::string adj = " :";
+            user_to_unfollow.append(adj);
             while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
