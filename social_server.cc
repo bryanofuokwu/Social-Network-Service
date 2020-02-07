@@ -222,7 +222,7 @@ public:
                         std::cout << it->first <<  " is followed by: "<< follower << std::endl;
                         auto stream_to_write_to = client_streams.find(follower);
                         std::cout << "hiii" << std::endl;
-                        if (stream_to_write_to = client_streams.end()) {
+                        if (stream_to_write_to != client_streams.end()) { // if exists
                             std::cout << "hello" << std::endl;
                             stream_to_write_to->second->Write(post_reply);
                         }
