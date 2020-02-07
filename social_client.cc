@@ -327,11 +327,11 @@ public:
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
 
-        std::string message = getPostMessage();
-        std::thread writer([stream, user, message]() {
+        std::thread writer([stream, user]() {
             while (1)
             {
                 Post preq;
+                std::string message = getPostMessage();
                 preq.set_from_user(user);
                 preq.set_message(message);
                 ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
