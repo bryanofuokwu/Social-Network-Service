@@ -372,7 +372,7 @@ public:
             writer.join();
             reader.join();
         }
-        reply->grpc_status = Status::OK;
+        reply->comm_status = IStatus::SUCCESS;
     }
 
 protected:
@@ -594,5 +594,4 @@ void Client::processTimeline()
 
     IReply ire;
     myc->Timeline(myc->get_user(), &ire);
-    ire.comm_status = IStatus::SUCCESS;
 }
