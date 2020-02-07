@@ -201,33 +201,37 @@ public:
                 return "FAILURE_INVALID_USERNAME";
             }
             ////////////////////////////////////////////////////////////////////
-            std::string user_following = "users_following/";
-            user_following.append(from_user);
-            user_following.append("_following.txt");
-            char *fname_f = new char[user_following.length() + 1];
-            std::strcpy(fname_f, user_following.c_str());
-            char buff[MAX_DATA];
-            memset(buff, 0, sizeof(buff));
-            //user_to_follow.append(" ");
 
-            // handle the file to put in
-            if (user_to_follow.length() <= 2)
-            {
-                user_to_follow.append(" :");
-            }
             else
             {
-                user_to_follow.append(":");
-            }
-            std::stringstream ss;
-            ss << followreq.fr_timestamp().seconds();
-            std::string ts = ss.str();
-            user_to_follow.append(ts);
+                std::string user_following = "users_following/";
+                user_following.append(from_user);
+                user_following.append("_following.txt");
+                char *fname_f = new char[user_following.length() + 1];
+                std::strcpy(fname_f, user_following.c_str());
+                char buff[MAX_DATA];
+                memset(buff, 0, sizeof(buff));
+                //user_to_follow.append(" ");
 
-            std::strcpy(buff, user_to_follow.c_str());
-            int filewrite = open(fname_f, O_WRONLY);
-            write(filewrite, buff, user_to_follow.length());
-            return "SUCCESS";
+                // handle the file to put in
+                if (user_to_follow.length() <= 2)
+                {
+                    user_to_follow.append(" :");
+                }
+                else
+                {
+                    user_to_follow.append(":");
+                }
+                std::stringstream ss;
+                ss << followreq.fr_timestamp().seconds();
+                std::string ts = ss.str();
+                user_to_follow.append(ts);
+
+                std::strcpy(buff, user_to_follow.c_str());
+                int filewrite = open(fname_f, O_WRONLY);
+                write(filewrite, buff, user_to_follow.length());
+                return "SUCCESS";
+            }
         }
         else
         {
@@ -264,10 +268,13 @@ public:
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
+            std::string adj = " :";
+            user_to_unfollow.append(adj);
             while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
+                std::cout << "This is what is in the buffer: " << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
@@ -429,11 +436,7 @@ int main(int argc, char **argv)
     char semi[MAX_DATA];
     memset(semi, 0, sizeof(semi));
     strcpy(buff, username.c_str());
-    //strcpy(semi, smc.c_str());
-    size_t nbytes = username.length();
-    ssize_t write_bytes;
     write(fd_user, buff, strlen(buff));
-    //write(fd_user, semi, strlen(semi));
     close(fd_user);
 
     // creating following directory
@@ -465,6 +468,21 @@ int main(int argc, char **argv)
 
     // for creating to the user_following.txt file
     int fd_follow = open(fname_following, O_WRONLY | O_CREAT | O_APPEND, 0666);
+    std::string follow_self;
+    follow_self.append(username);
+    if (username.length() == 2)
+    {
+        follow_self.append(" :0000000000");
+    }
+    else
+    {
+        follow_self.append(":0000000000");
+    }
+    std::cout << "first follow " << follow_self << std::endl;
+    char follow_self_buff[MAX_DATA];
+    memset(follow_self_buff, 0, sizeof(follow_self_buff));
+    strcpy(follow_self_buff, follow_self.c_str());
+    write(fd_follow, follow_self_buff, strlen(follow_self_buff));
     close(fd_follow);
 
     social::SocialNetwork socialNetwork;
@@ -595,5 +613,4 @@ void Client::processTimeline()
 
     // we handle the while loop inside this timeline function
     myc->Timeline(myc->get_user());
-
 }
