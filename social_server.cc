@@ -169,7 +169,7 @@ public:
             std::strcpy(fname_timeline, (user_timeline).c_str());
 
             if (msg.length() == 2){
-                msg.append(":");
+                msg.append("::");
             }
             else{
                 msg.append(":");
