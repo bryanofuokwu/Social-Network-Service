@@ -75,15 +75,6 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        bool active_user = false;
-//        for (std::vector<std::string>::iterator vec_it = users_active.begin(); vec_it != users_active.end(); vec_it++){
-//            if (*vec_it == frequest->from_user()){
-//                std::cout << "user is active" << std::endl;
-//                active_user = true;
-//                break;
-//            }
-//        }
-//        std::cout << "active or no: " << active_user << std::endl;
         if(frequest->to_follow() == frequest->from_user()){
             std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
@@ -199,11 +190,21 @@ public:
        ssize_t inlen;
 
        std::string follow_users;
+//        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+//            if (it->first == user) {
+//                for (auto following : it->second) {
+//                    std::string follow = following.substr(0,3);
+//                    follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
+//                    follow_users.append(follow);
+//                    follow_users.append(",");
+//                }
+//            }
+//        }
+
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
             if (it->first == user) {
                 for (auto following : it->second) {
-                    std::string follow = following.substr(0,3);
-                    follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
+                    std::string follow = following;
                     follow_users.append(follow);
                     follow_users.append(",");
                 }
