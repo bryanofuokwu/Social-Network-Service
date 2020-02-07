@@ -87,7 +87,7 @@ public:
                 if (it->first == following)
                 {
                     follow_msg = (*(vec_it));
-                    std::cout << "they already follow each other" << (*(vec_it)) << endl;
+                    std::cout << "they already follow each other" << (*(vec_it)) << std::endl;
                     already_follow_self = true;
                     break;
                 }
