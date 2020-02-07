@@ -224,7 +224,9 @@ public:
                                     time_t t;
                                     t = (time_t)atoll(time);
                                     std::cout << "time post made" <<  t << std::endl;
-                                    stream_to_write_to->second->Write(post_reply);
+                                    if( difftime(ctime(&t), ctime(&time_followed)) > 0){
+                                        stream_to_write_to->second->Write(post_reply);
+                                    }
                                 }
                             }
                         }
