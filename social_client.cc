@@ -195,6 +195,12 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            ////////////////////////// ERROR CHECKING //////////////////////////////
+            if (user_to_follow == from_user)
+            {
+                return "FAILURE_INVALID_USERNAME";
+            }
+            ////////////////////////////////////////////////////////////////////
             std::string user_following = "users_following/";
             user_following.append(from_user);
             user_following.append("_following.txt");
@@ -227,8 +233,7 @@ public:
         }
         else
         {
-            reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
+            return "FAILURE_INVALID_USERNAME";
         }
     }
     string Unfollow(string user_to_unfollow, IReply *reply, string from_user)
