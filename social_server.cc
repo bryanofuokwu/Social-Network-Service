@@ -87,7 +87,7 @@ public:
             }
         }
         close(fileread);
-        //users_followers[frequest->to_follow()].push_back(frequest->from_user());
+        users_followers[frequest->to_follow()].push_back(frequest->from_user());
         return Status::CANCELLED;
     }
 
