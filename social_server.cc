@@ -203,6 +203,29 @@ public:
             ssize_t write_bytes;
             write(fd_time, semi, strlen(semi));
 
+            PostReply post_reply;
+            post_reply.set_message(msg);
+            time_t seconds = p.post_timestamp().seconds();
+            sprintf(charTime,"%d", seconds);
+            std::stringstream ss;
+            ss << seconds;
+            std::string ts = ss.str();
+            post_reply.set_time_date(ts);
+            post_reply.set_author(p.from_user());
+
+            for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+                if (it->first == p.from_user()){
+                    for (auto follower : it->second) {
+                        cout << it->first <<  " is followed by: "<< follower << endl;
+                        auto stream_to_write_to = client_streams.find(follower);
+                            stream_to_write_to->second->Write(post);
+                    }
+                    break;
+                }
+
+                cout << endl;
+            }
+
 
         }
 
