@@ -88,12 +88,12 @@ public:
                 std::string user_follow_time;
                 if(frequest->to_follow().length() ==2){
                     user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(" :"));
+                    user_follow_time.append(" :");
 
                 }
                 else{
                     user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(":"));
+                    user_follow_time.append(":");
                 }
                 std::stringstream ss;
                 ss << frequest->fr_timestamp().seconds();
@@ -102,11 +102,11 @@ public:
                 std::cout << "user follow time " << user_follow_time <<std::endl;
                 users_following_time[frequest->from_user()].push_back(user_follow_time);
 
-                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-                    for (auto follower : it->second) {
-                    }
-                    std::cout << std::endl;
-                }
+//                for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+//                    for (auto follower : it->second) {
+//                    }
+//                    std::cout << std::endl;
+//                }
                 return Status::OK;
             }
         }
@@ -313,10 +313,7 @@ private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
     std::map<std::string, std::vector<std::string>> users_following;
-    std::map<std::string, std::vector<std::string>> users_followers_time;
-
-    // used for timelines
-    //map of user to the posts of who it follows
+    std::map<std::string, std::vector<std::string>> users_following_time;
     std::map<std::string, std::vector<std::string>> users_own_timeline;
     std::map<std::string, ServerReaderWriter<PostReply, Post>* > client_streams;
 };
