@@ -169,6 +169,7 @@ public:
             std::strcpy(fname_timeline, (user_timeline).c_str());
 
             if (msg.length() == 2){
+                std::cout << "message length is 2" << std::endl;
                 msg.append("::");
             }
             else{
