@@ -168,11 +168,12 @@ public:
             char *fname_timeline = new char[user_timeline.length() + 1];
             std::strcpy(fname_timeline, (user_timeline).c_str());
 
-            if (msg.length() == 2){
-                std::cout << "message length is 2" << std::endl;
-                msg.append("::");
+            if (msg.length() == 3){
+                msg = msg.substr(0, 2);
+                msg.append(" :");
             }
-            else{
+            else if (msg.length() == 4){
+                msg = msg.substr(0, 3);
                 msg.append(":");
             }
             char charTime[14];
