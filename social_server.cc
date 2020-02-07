@@ -90,7 +90,7 @@ public:
         users_followers[frequest->to_follow()].push_back(frequest->from_user());
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
             for (auto follower : it->second) {
-                cout << it->first <<  " is followed by: "<< follower << endl;
+                std::cout << it->first <<  " is followed by: "<< follower << std::endl;
             }
             std::cout << std::endl;
         }
