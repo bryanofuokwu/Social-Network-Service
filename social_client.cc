@@ -461,13 +461,15 @@ int main(int argc, char **argv)
 
     // for creating to the user_following.txt file
     int fd_follow = open(fname_following, O_WRONLY | O_CREAT | O_APPEND, 0666);
-    std::string follow_self = username;
+    std::string follow_self;
+    follow_self.append(username);
     if (username.length() == 2) {
         follow_self.append(" :0000000000");
     }
     else{
         follow_self.append(":0000000000");
     }
+    std::cout<< "first follow " << follow_self << std::endl;
     char follow_self_buff[MAX_DATA];
     memset(follow_self_buff, 0, sizeof(follow_self_buff));
     strcpy(follow_self_buff, follow_self.c_str());
