@@ -64,15 +64,6 @@ class SocialService final : public Social::Service
     // The client will invoke this server method and we need to send back if
     // we want to make sure that username exists
 public:
-    /*SocialService( std::map<std::string, std::vector<std::string> > user_followers_,
-            std::map<std::string, std::vector<std::string> > user_following_posts_,
-            std::map<std::string , std::vector<std::string>> user_own_post_)
-            : user_followers(user_followers_), user_following_posts(user_following_posts_), user_own_post(user_own_post_){}
-*/
-    //    void createMaps(std::map<std::string, std::vector<std::string>> m1,  std::map<std::string, std::vector<std::string> > m4,
-    //            std::map<std::string, std::vector<std::string> > m3){
-    //        user_followers
-    //    }
     Status Follow(ServerContext *context, const FollowRequest *frequest,
                   FollowReply *freply) override
     {
@@ -207,16 +198,19 @@ public:
             user_following.append("_following.txt");
             char *fname_following = new char[user_following.length() + 1];
             std::strcpy(fname_following, user_following.c_str());
+            std::cout << "user following text file " << fname_following << std::endl;
 
             int fd_follow = open(fname_following, O_RDONLY);
 
-            // read the following lines in the following txt file
+            // read the following
             char buffer[MAX_DATA];
             memset(buffer, 0, sizeof(buffer));
             ssize_t inlen;
-            while(inlen = read(fd_follow, buffer, 14) > 0) {
+            int indexer = 0;
+            while((inlen = read(fd_follow, buffer, 14) > 0) && i < 20) {
                 // we want to make a char* of the string to follow
-                std::cout << "read buffer " << buffer;
+                std::cout << "read buffer " << buffer << std::endl;
+                i++;
             }
 
 
