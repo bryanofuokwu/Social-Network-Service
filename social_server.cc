@@ -84,6 +84,8 @@ public:
             {
                 close(fileread);
                 users_followers[frequest->to_follow()].push_back(frequest->from_user());
+                users_following[frequest->from_user()].push_back(frequest->to_follow());
+
                 for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
                     for (auto follower : it->second) {
                     }
@@ -211,30 +213,31 @@ public:
                 std::cout << "need to add to stream map " << std::endl;
                 client_streams.insert(std::make_pair(p.from_user(), stream));
 
-                if (users_own_timeline[from_user].size() >=20){
-                    int indexer = users_own_timeline[from_user].size() -1;
-                    for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-                        if (it->first == p.from_user()){
-                            for (auto follower : it->second) {
-                                std::cout << it->first <<  " is followed by: "<< follower << std::endl;
-                                auto stream_to_write_to = client_streams.find(follower);
-                                for (int i = indexer; i >=0 ; i--){
+                // TODO: check if the users it follows post sizes ARE above 20
+                for (auto it = users_following.begin(); it != users_following.end(); ++it) {
+                    if (it->first == p.from_user()){
+                        for (auto following : it->second) {
+                            auto stream_to_write_to = client_streams.find(following);
+                            std::cout << it->first <<  " follows: "<< following << std::endl;
+                            if (users_own_timeline[following].size() >=20){
+                                int indexer = users_own_timeline[following].size();
+                                int last_to_read = users_own_timeline[following].size() -20 ;
+                                for (int i = indexer; i >= last_to_read ; i--){
+                                    std::cout << users_own_timeline[following][indexer] << std::endl;
                                     PostReply post_reply;
-                                    post_reply.set_message(p.message());
+                                    post_reply.set_message(users_own_timeline[following][indexer]);
                                     post_reply.set_time_date(ts);
                                     post_reply.set_author(p.from_user());
                                     if (stream_to_write_to != client_streams.end()) { // if exists
                                         stream_to_write_to->second->Write(post_reply);
                                     }
                                 }
-
                             }
-                            break;
                         }
-                        std::cout << std::endl;
+                        break;
                     }
-
                 }
+
             }
 
             PostReply post_reply;
@@ -271,6 +274,7 @@ public:
 private:
     // used for follow and unfollow
     std::map<std::string, std::vector<std::string>> users_followers;
+    std::map<std::string, std::vector<std::string>> users_following;
     // used for timelines
     //map of user to the posts of who it follows
     std::map<std::string, std::vector<std::string>> users_own_timeline;
