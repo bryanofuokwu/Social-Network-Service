@@ -207,10 +207,10 @@ public:
             memset(buffer, 0, sizeof(buffer));
             ssize_t inlen;
             int indexer = 0;
-            while((inlen = read(fd_follow, buffer, 14) > 0) && i < 20) {
+            while((inlen = read(fd_follow, buffer, 14) > 0) && indexer < 20) {
                 // we want to make a char* of the string to follow
                 std::cout << "read buffer " << buffer << std::endl;
-                i++;
+                indexer++;
             }
 
 
