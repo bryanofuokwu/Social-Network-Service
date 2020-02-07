@@ -332,7 +332,7 @@ public:
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
 
-        std::thread writer([stream, user, message]() {
+        std::thread writer([stream, user]() {
             while (1)
             {
                 Post preq;
