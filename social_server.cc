@@ -309,13 +309,7 @@ public:
                 }
                 std::cout << std::endl;
             }
-
-
-
-
-
         }
-
 
         return Status::OK;
     }
