@@ -331,47 +331,45 @@ public:
         ClientContext context;
         std::shared_ptr<ClientReaderWriter<Post, PostReply>> stream(
             stub_->Timeline(&context));
-        while (1)
-        {
-            std::string message = getPostMessage();
-            std::thread writer([stream, user, message]() {
-                while (1)
-                {
-                    Post preq;
-                    preq.set_from_user(user);
-                    preq.set_message(message);
-                    ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
-                    timestamp->set_seconds(time(NULL));
-                    timestamp->set_nanos(0);
-                    preq.set_allocated_post_timestamp(timestamp);
-                    stream->Write(preq);
-                }
-                stream->WritesDone();
-            });
 
-            std::thread reader([stream]() {
-                PostReply preply;
-                while (stream->Read(&preply))
-                {
-                    // parse string
-                    // sender is a string
-                    std::string sender = preply.author();
-                    // message is a string
-                    std::string message = preply.message();
-                    // covert time
-                    const char *time;
-                    time = preply.time_date().c_str();
-                    time_t t;
-                    t = (time_t)atoll(time);
+        std::string message = getPostMessage();
+        std::thread writer([stream, user, message]() {
+            while (1)
+            {
+                Post preq;
+                preq.set_from_user(user);
+                preq.set_message(message);
+                ::google::protobuf::Timestamp *timestamp = new ::google::protobuf::Timestamp();
+                timestamp->set_seconds(time(NULL));
+                timestamp->set_nanos(0);
+                preq.set_allocated_post_timestamp(timestamp);
+                stream->Write(preq);
+            }
+            stream->WritesDone();
+        });
 
-                    displayPostMessage(sender, message, t);
-                }
-            });
+        std::thread reader([stream]() {
+            PostReply preply;
+            while (stream->Read(&preply))
+            {
+                // parse string
+                // sender is a string
+                std::string sender = preply.author();
+                // message is a string
+                std::string message = preply.message();
+                // covert time
+                const char *time;
+                time = preply.time_date().c_str();
+                time_t t;
+                t = (time_t)atoll(time);
 
-            //Wait for the threads to finish
-            writer.join();
-            reader.join();
-        }
+                displayPostMessage(sender, message, t);
+            }
+        });
+
+        //Wait for the threads to finish
+        writer.join();
+        reader.join();
     }
 
 protected:
