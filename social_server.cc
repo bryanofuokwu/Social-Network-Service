@@ -216,7 +216,7 @@ public:
             write(fd_time, semi, strlen(semi));
 
             users_own_timeline[from_user].push_back(msg);
-            std::cout << "adding to map:" << users_own_timeline[from_user] << " " <<   msg<< std::endl;
+            std::cout << "adding to map:" << from_user << " " <<   msg<< std::endl;
 
             if ( client_streams.find(p.from_user()) == client_streams.end() ) {
                 std::cout << "need to add to stream map " << std::endl;
