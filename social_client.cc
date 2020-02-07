@@ -309,6 +309,8 @@ public:
         if (status.ok())
         {
             reply->grpc_status = Status::OK;
+            cout << "this is my list reply " << std::endl;
+
             vector<string> split_fusers = split(listreply.following_users(), ",");
             vector<string> split_nusers = split(listreply.network_users(), ",");
             reply->following_users = split_fusers;
@@ -470,6 +472,8 @@ int main(int argc, char **argv)
     user->set_name(username);
     myc = new Client(hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
     // You MUST invoke "run_client" function to start business logic
+    IReply ire;
+    myc->Follow(username, &ire, username);
     myc->run_client();
     return 0;
 }
