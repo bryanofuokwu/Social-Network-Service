@@ -88,6 +88,13 @@ public:
         }
         close(fileread);
         users_followers[frequest->to_follow()].push_back(frequest->from_user());
+        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
+            for (auto follower : it->second) {
+                cout << it->first <<  " is followed by: "<< follower << endl;
+            }
+            cout << endl;
+        }
+
         return Status::CANCELLED;
     }
 
