@@ -255,40 +255,6 @@ public:
             {
                 return "FAILURE_INVALID_USERNAME";
             }
-
-            std::vector<string> users;
-            std::string user_file = "user_data/users.txt";
-            char *fname = new char[user_file.length() + 1];
-            std::strcpy(fname, user_file.c_str());
-            char buffy[MAX_DATA];
-            memset(buffy, 0, sizeof(buffy));
-            int fread = open(fname, O_RDONLY);
-            ssize_t len;
-            while (len = read(fread, buffy, user_to_unfollow.length()) > 0)
-            {
-                users.push_back(buffy);
-                close(fread);
-            }
-            close(fread);
-            char unfollow[user_to_unfollow.length() + 1];
-            std::strcpy(unfollow, user_to_unfollow.c_str());
-            int error_check = 0;
-            for (int i = 0; i < users.size(); ++i)
-            {
-                if (users[i] != unfollow)
-                {
-                    ++error_check;
-                }
-                else if (users[i] == unfollow)
-                {
-                    --error_check;
-                }
-            }
-            if (error_check == users.size())
-            {
-                return "FAILURE_INVALID_USERNAME";
-            }
-
             ////////////////////////////////////////////////////////////////////
             std::vector<string> followers;
             std::string user_following = "users_following/";
@@ -331,7 +297,7 @@ public:
         else
         {
             reply->grpc_status = Status::CANCELLED;
-            return "FAILURE";
+            return "FAILURE_INVALID_USERNAME";
         }
     }
     string List(string from_user, IReply *reply)
