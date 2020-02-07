@@ -372,7 +372,7 @@ public:
             writer.join();
             reader.join();
         }
-        reply->comm_status = IStatus::SUCCESS;
+        //reply->comm_status = IStatus::SUCCESS;
     }
 
 protected:
