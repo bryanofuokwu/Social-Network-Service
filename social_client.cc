@@ -268,13 +268,14 @@ public:
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
-            std::string adj = " :";
-            user_to_unfollow.append(adj);
             while (inlen = read(fileread, buffer, sizeof(buffer)) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
                 std::cout << "Here is the buffer " << buffer << std::endl;
+                std::size_t pos = buffer.find(user_to_unfollow);
+                std::string str = buffer.substr(pos, 14);
+                std::cout << "Here is the cut string " << str << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
