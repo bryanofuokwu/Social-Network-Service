@@ -362,7 +362,7 @@ public:
         memset(buffer, 0, sizeof(buffer));
         ssize_t inlen;
         while (inlen = read(file_all_users, buffer, 2) > 0) {
-            std::cout << buffer << endl;
+            std::cout << buffer << std::endl;
         }
         //TODO: restore user's own timeline posts
 
