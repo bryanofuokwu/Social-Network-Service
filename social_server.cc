@@ -355,6 +355,18 @@ public:
     }
 
     void RestoreOldData(){
+        std::cout << "RESTORE!!"  << endl;
+
+        //TODO: restore user's followers and user's followings and change to 3
+        int file_all_users = open("user_data/users.txt", O_RDONLY);
+        char buffer[MAX_DATA];
+        memset(buffer, 0, sizeof(semi));
+        while (inlen = read(file_all_users, buffer, 2) > 0) {
+            std::cout << buffer << endl;
+        }
+        //TODO: restore user's own timeline posts
+
+
 
     }
 
@@ -377,6 +389,7 @@ void RunServer(std::string port)
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
+    service.RestoreOldData();
     std::unique_ptr<Server> server(builder.BuildAndStart());
     std::cout << "Server listening on " << server_address << std::endl;
     server->Wait();
