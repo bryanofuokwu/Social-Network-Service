@@ -355,12 +355,12 @@ public:
     }
 
     void RestoreOldData(){
-        std::cout << "RESTORE!!"  << endl;
-
+        std::cout << "RESTORE!!"  << std::endl;
         //TODO: restore user's followers and user's followings and change to 3
         int file_all_users = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
-        memset(buffer, 0, sizeof(semi));
+        memset(buffer, 0, sizeof(buffer));
+        ssize_t inlen;
         while (inlen = read(file_all_users, buffer, 2) > 0) {
             std::cout << buffer << endl;
         }
