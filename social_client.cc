@@ -270,17 +270,15 @@ public:
             ssize_t inlen;
             while (inlen = read(fileread, buffer, sizeof(buffer)) > 0)
             {
-                char cstr[user_to_unfollow.length() + 1];
-                std::strcpy(cstr, user_to_unfollow.c_str());
-                std::cout << "Here is the buffer " << buffer << std::endl;
                 std::string s = "";
                 for (int i = 0; i < sizeof(buffer); i++)
                 {
                     s = s + buffer[i];
                 }
-                std::size_t pos = s.find(user_to_unfollow);
-                std::string str = s.substr(pos + 14);
-                std::cout << "Here is the cut string " << str << std::endl;
+                int pos = s.find(user_to_unfollow);
+                std::string unfstr = s.substr(pos, 14);
+                char cstr[unfstr.length() + 1];
+                std::strcpy(unfstr, user_to_unfollow.c_str());
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
