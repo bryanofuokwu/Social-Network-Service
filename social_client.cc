@@ -274,6 +274,7 @@ public:
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
+                std::cout << "Here is the buffer: " << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
