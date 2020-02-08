@@ -368,7 +368,7 @@ private:
 void RunServer(std::string port)
 {
     std::string host = "localhost:";
-    std::string s_addr = host.append("3010");
+    std::string s_addr = host.append(port);
     std::string server_address(s_addr);
     SocialService service;
     ServerBuilder builder;
