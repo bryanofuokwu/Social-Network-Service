@@ -290,10 +290,10 @@ public:
             close(fileread);
 
             char buff[MAX_DATA];
-            memset(buff, '\0', sizeof(buff));
+            memset(buff, 0, sizeof(buff));
             strcpy(buff, s.c_str());
             fileread = open(fname_f, O_WRONLY);
-            write(fileread, buff, s.length());
+            write(fileread, buff, strlen(buff));
             close(fileread);
 
             return "SUCCESS";
