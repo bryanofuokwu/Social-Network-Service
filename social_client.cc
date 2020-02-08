@@ -270,7 +270,7 @@ public:
             ssize_t inlen;
             std::string adj = " :";
             user_to_unfollow.append(adj);
-            while (inlen = read(fileread, buffer, user_to_unfollow.length()) > 0)
+            while (inlen = read(fileread, buffer, 256) > 0)
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
