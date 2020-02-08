@@ -354,6 +354,10 @@ public:
         return Status::OK;
     }
 
+    void RestoreOldData(){
+
+    }
+
 private:
     // used for follow and unfollow
     std::vector<std::string> users_active;
@@ -362,6 +366,7 @@ private:
     std::map<std::string, std::vector<std::string>> users_own_timeline;
     std::map<std::string, ServerReaderWriter<PostReply, Post> *> client_streams;
 };
+
 
 void RunServer(std::string port)
 {
