@@ -434,14 +434,23 @@ int main(int argc, char **argv)
 
     char *fname_user = new char[users.length() + 1];
     std::strcpy(fname_user, (users).c_str());
-    int fd_user = open(fname_user, O_WRONLY | O_CREAT | O_APPEND, 0666);
-    char buff[MAX_DATA];
-    std::string smc = " ";
+    int fd_user = open(fname_user, O_RDWR | O_CREAT | O_APPEND, 0666);
+
     char semi[MAX_DATA];
     memset(semi, 0, sizeof(semi));
+    read(fd_user, semi, MAX_DATA);
+    if(strstr(semi,username.c_str()))
+    {
+        cout << " users_data Contains username";
+    }
+
+    char buff[MAX_DATA];
+    memset(buff, 0, sizeof(buff));
     strcpy(buff, username.c_str());
     write(fd_user, buff, strlen(buff));
     close(fd_user);
+
+
 
     // creating following directory
     std::string file_2 = "users_following/";
