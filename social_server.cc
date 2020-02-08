@@ -343,7 +343,10 @@ public:
                         auto stream_to_write_to = client_streams.find(follower);
                         if (stream_to_write_to != client_streams.end())
                         { // if exists
-                            stream_to_write_to->second->Write(post_reply);
+                            if(p.from_user() != follower){
+                                stream_to_write_to->second->Write(post_reply);
+                            }
+                            //stream_to_write_to->second->Write(post_reply);
                         }
                     }
                     break;
