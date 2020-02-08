@@ -439,16 +439,16 @@ int main(int argc, char **argv)
     char semi[MAX_DATA];
     memset(semi, 0, sizeof(semi));
     read(fd_user, semi, MAX_DATA);
-    if(strstr(semi,username.c_str()))
+    if(!(strstr(semi,username.c_str())))
     {
-        cout << " users_data Contains username";
+        char buff[MAX_DATA];
+        memset(buff, 0, sizeof(buff));
+        strcpy(buff, username.c_str());
+        write(fd_user, buff, strlen(buff));
+        close(fd_user);
     }
 
-    char buff[MAX_DATA];
-    memset(buff, 0, sizeof(buff));
-    strcpy(buff, username.c_str());
-    write(fd_user, buff, strlen(buff));
-    close(fd_user);
+
 
 
 
