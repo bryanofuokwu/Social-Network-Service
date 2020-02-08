@@ -279,6 +279,8 @@ public:
                 std::string unf_str = s.substr(pos, 14);
                 char cstr[unf_str.length() + 1];
                 std::strcpy(cstr, unf_str.c_str());
+                std::cout << "Buffer : " << buffer << std::endl;
+                std::cout << "Cstr : " << cstr << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
@@ -468,7 +470,6 @@ int main(int argc, char **argv)
     char *fname_timeline = new char[file_timeline_txt.length() + 1];
     char *fname_following = new char[file_following_txt.length() + 1];
     char *fname_followers = new char[file_followers_txt.length() + 1];
-
 
     std::strcpy(fname_timeline, (file_timeline_txt).c_str());
     std::strcpy(fname_following, (file_following_txt).c_str());
