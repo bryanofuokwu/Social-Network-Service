@@ -364,12 +364,12 @@ public:
         while (inlen = read(file_all_users, buffer, 2) > 0) {
             // what it read in is the user
             std::string username(buffer);
-            std::cout << "user we are on" <<  buffer << std::endl;
+            std::cout << "user we are on: " <<  buffer << std::endl;
             std::string file_2 = "users_following/";
             file_2.append(username);
             file_2.append(".txt");
             char *fname_following = new char[file_2.length() + 1];
-
+            std::strcpy(fname_following, (file_2).c_str());
             int fd_following = open(fname_following, O_RDONLY);
             ssize_t inlen_follow;
             char buffer_follow[MAX_DATA];

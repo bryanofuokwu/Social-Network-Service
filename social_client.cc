@@ -454,10 +454,9 @@ int main(int argc, char **argv)
     std::string file_following = filef.append("_following");
     std::string file_followers = filer.append("_followers");
 
-
     //adding the txt file extenstion
-    std::string file_following_txt = file_timeline.append(".txt");
-    std::string file_timeline_txt = file_following.append(".txt");
+    std::string file_timeline_txt = file_timeline.append(".txt");
+    std::string file_following_txt = file_following.append(".txt");
     std::string file_followers_txt = file_followers.append(".txt");
 
     //creating the file name
