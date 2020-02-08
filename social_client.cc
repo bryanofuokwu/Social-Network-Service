@@ -268,39 +268,29 @@ public:
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
+            std::string s = "";
             while (inlen = read(fileread, buffer, sizeof(buffer)) > 0)
             {
-                std::string s = "";
+
                 for (int i = 0; i < sizeof(buffer); i++)
                 {
                     s = s + buffer[i];
                 }
                 int pos = s.find(user_to_unfollow);
-                std::string unf_str = s.substr(pos, 14);
-                char cstr[unf_str.length() + 1];
-                std::strcpy(cstr, unf_str.c_str());
-                if ((strcmp(cstr, buffer)) == 0)
-                {
-                    continue;
-                }
-                else
-                {
-                    followers.push_back(buffer);
-                }
+                s.erase(pos, 14);
                 close(fileread);
             }
             close(fileread);
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
-            for (int i = 0; i < followers.size(); ++i)
-            {
-                char buff[MAX_DATA];
-                strcpy(buff, followers[i].c_str());
-                fileread = open(fname_f, O_WRONLY);
-                write(fileread, buff, user_to_unfollow.length());
-                close(fileread);
-            }
+            char buff[MAX_DATA];
+            memset(buff, 0, sizeof(buff));
+            strcpy(buff, s.c_str());
+            fileread = open(fname_f, O_WRONLY);
+            write(fileread, buff, strlen(buff));
+            close(fileread);
+
             return "SUCCESS";
         }
         else
@@ -447,8 +437,6 @@ int main(int argc, char **argv)
         write(fd_user, buff, strlen(buff));
         close(fd_user);
     }
-
-
 
 
 
