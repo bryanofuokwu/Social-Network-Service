@@ -93,15 +93,17 @@ public:
         }
 
         else {
-            while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
+            while (inlen = read(fileread, buffer, 3) > 0) {
                 // we want to make a char* of the string to follow
-                char cstr[(frequest->to_follow()).length() + 1];
-                strcpy(cstr, (frequest->to_follow()).c_str());
+                std::string username(buffer);
+                username.erase(remove(username.begin(), username.end(), ' '), username.end());
+                char cstr[(username).length() + 1];
+                strcpy(cstr, (username).c_str());
                 if ((strcmp(cstr, buffer)) == 0) {
                     close(fileread);
                     users_followers[frequest->to_follow()].push_back(frequest->from_user());
                     std::string user_follow_time;
-                    if (frequest->to_follow().length() == 2) {
+                    if (username.length() == 2) {
                         user_follow_time.append(frequest->to_follow());
                         user_follow_time.append(" :");
                     } else {
