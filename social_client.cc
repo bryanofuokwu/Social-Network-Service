@@ -281,30 +281,19 @@ public:
                 std::strcpy(cstr, unf_str.c_str());
                 std::cout << "Buffer : " << buffer << std::endl;
                 std::cout << "Cstr : " << cstr << std::endl;
-                if ((strcmp(cstr, buffer)) == 0)
-                {
-                    std::cout << "YES THEY DO MATCH" << std::endl;
-                    continue;
-                }
-                else
-                {
-                    followers.push_back(buffer);
-                }
+                s.erase(pos, 14);
                 close(fileread);
             }
             close(fileread);
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
-            for (int i = 0; i < followers.size(); ++i)
-            {
-                std::cout << "Vec : " << followers[i] << std::endl;
-                char buff[MAX_DATA];
-                strcpy(buff, followers[i].c_str());
-                fileread = open(fname_f, O_WRONLY);
-                write(fileread, buff, user_to_unfollow.length());
-                close(fileread);
-            }
+            char buff[MAX_DATA];
+            strcpy(buff, s.c_str());
+            fileread = open(fname_f, O_WRONLY);
+            write(fileread, buff, sizeof(buffer));
+            close(fileread);
+
             return "SUCCESS";
         }
         else
