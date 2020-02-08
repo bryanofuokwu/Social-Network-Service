@@ -264,7 +264,7 @@ public:
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
             std::strcpy(fname_f, user_following.c_str());
-            char *buffer = new char[MAX_DATA];
+            char buffer[MAX_DATA];
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
@@ -273,8 +273,13 @@ public:
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
                 std::cout << "Here is the buffer " << buffer << std::endl;
-                std::size_t pos = buffer.find(user_to_unfollow);
-                std::string str = buffer.substr(pos, 14);
+                std::string s = "";
+                for (int i = 0; i < sizeof(buffer); i++)
+                {
+                    s = s + buffer[i];
+                }
+                std::size_t pos = s.find(user_to_unfollow);
+                std::string str = s.substr(pos, 14);
                 std::cout << "Here is the cut string " << str << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
