@@ -375,7 +375,8 @@ public:
             char buffer_follow[MAX_DATA];
             while (inlen_follow = read(fd_following, buffer_follow, 14) > 0) {
                 std::cout << buffer_follow << std::endl;
-                std::string user(buffer_follow.substr(0,3));
+                std::string userr(buffer_follow);
+                user = userr.substr(0,3);
                 user.erase(remove(user.begin(), user.end(), ' '), user.end());
                 std::cout << "is followed by " << user  << "."<< std::endl;
                 std::string string_following(buffer_follow);
