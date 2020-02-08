@@ -78,7 +78,6 @@ public:
         bool already_follow_self = false;
         std::string follow_msg;
         if(frequest->to_follow() == frequest->from_user()){
-            std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
             users_followers[frequest->from_user()].push_back(frequest->from_user());
 
@@ -90,7 +89,6 @@ public:
             else {
                 follow_msg.append(":0000000000");
             }
-            std::cout << "follow msg to make it follow self " << follow_msg << std::endl;
             users_following[frequest->from_user()].push_back(follow_msg);
         }
 
