@@ -102,6 +102,7 @@ public:
                 char cstr2[(username).length() + 1];
                 strcpy(cstr2, (username).c_str());
                 if ((strcmp(cstr, cstr2)) == 0) {
+                    std::cout << "we found the user to follow " << std::endl;
                     close(fileread);
                     users_followers[frequest->to_follow()].push_back(frequest->from_user());
                     std::string user_follow_time;
