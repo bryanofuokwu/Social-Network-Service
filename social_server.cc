@@ -78,7 +78,6 @@ public:
         bool already_follow_self = false;
         std::string follow_msg;
         if(frequest->to_follow() == frequest->from_user()){
-            std::cout << "user NOT YET active" << std::endl;
             users_active.push_back(frequest->from_user());
             users_followers[frequest->from_user()].push_back(frequest->from_user());
 
@@ -90,7 +89,6 @@ public:
             else {
                 follow_msg.append(":0000000000");
             }
-            std::cout << "follow msg to make it follow self " << follow_msg << std::endl;
             users_following[frequest->from_user()].push_back(follow_msg);
         }
 
@@ -356,6 +354,56 @@ public:
         return Status::OK;
     }
 
+    void RestoreOldData(){
+        std::cout << "RESTORE!!"  << std::endl;
+        //TODO: restore user's followers and user's followings and change to 3
+        int file_all_users = open("user_data/users.txt", O_RDONLY);
+        char buffer[MAX_DATA];
+        memset(buffer, 0, sizeof(buffer));
+        ssize_t inlen;
+        while (inlen = read(file_all_users, buffer, 2) > 0) {
+            // what it read in is the user
+            std::string username(buffer);
+            std::cout << "user we are on: " <<  buffer << std::endl;
+            std::string file_2 = "users_following/";
+            file_2.append(username);
+            file_2.append("_following.txt");
+            char *fname_following = new char[file_2.length() + 1];
+            std::strcpy(fname_following, (file_2).c_str());
+            int fd_following = open(fname_following, O_RDONLY);
+            ssize_t inlen_follow;
+            char buffer_follow[MAX_DATA];
+            while (inlen_follow = read(fd_following, buffer_follow, 14) > 0) {
+                std::cout << buffer_follow << std::endl;
+                std::string user(buffer_follow.substr(0,3));
+                user.erase(remove(user.begin(), user.end(), ' '), user.end());
+                std::cout << "is followed by " << user  << "."<< std::endl;
+                std::string string_following(buffer_follow);
+                users_following[username].push_back(string_following);
+                users_followers[user].push_back(username);
+            }
+
+
+            std::string file_4 = "users_timeline/";
+            file_4.append(username);
+            file_4.append("_timeline.txt");
+            char *fname_time = new char[file_4.length() + 1];
+            std::strcpy(fname_time, (file_4).c_str());
+            int fd_time = open(fname_time, O_RDONLY);
+            ssize_t inlen_time;
+            char buffer_time[MAX_DATA];
+            while (inlen_time = read(fd_time, buffer_time, 14) > 0) {
+                std::cout << buffer_time << std::endl;
+                std::string string_time(buffer_time);
+                users_own_timeline[username].push_back(string_time);
+            }
+
+        }
+
+
+
+    }
+
 private:
     // used for follow and unfollow
     std::vector<std::string> users_active;
@@ -365,15 +413,17 @@ private:
     std::map<std::string, ServerReaderWriter<PostReply, Post> *> client_streams;
 };
 
+
 void RunServer(std::string port)
 {
     std::string host = "localhost:";
-    std::string s_addr = host.append("3010");
+    std::string s_addr = host.append(port);
     std::string server_address(s_addr);
     SocialService service;
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
+    service.RestoreOldData();
     std::unique_ptr<Server> server(builder.BuildAndStart());
     std::cout << "Server listening on " << server_address << std::endl;
     server->Wait();
