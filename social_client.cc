@@ -274,7 +274,6 @@ public:
             {
                 char cstr[user_to_unfollow.length() + 1];
                 std::strcpy(cstr, user_to_unfollow.c_str());
-                std::cout << "This is what is in the buffer: " << buffer << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
                     continue;
@@ -478,7 +477,7 @@ int main(int argc, char **argv)
     {
         follow_self.append(":0000000000");
     }
-    std::cout << "first follow " << follow_self << std::endl;
+
     char follow_self_buff[MAX_DATA];
     memset(follow_self_buff, 0, sizeof(follow_self_buff));
     strcpy(follow_self_buff, follow_self.c_str());
