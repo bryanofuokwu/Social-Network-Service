@@ -202,7 +202,9 @@ public:
                 ListReply *lreply) override
     {
         std::string user = lrequest->from_user();
-        char buffer[2];
+        char buffer[3];
+        memset(buffer, 0, sizeof(buffer));
+
         ssize_t inlen;
 
         std::string follow_users;
