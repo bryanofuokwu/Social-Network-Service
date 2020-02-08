@@ -367,7 +367,7 @@ public:
             std::cout << "user we are on: " <<  buffer << std::endl;
             std::string file_2 = "users_following/";
             file_2.append(username);
-            file_2.append(".txt");
+            file_2.append("_following.txt");
             char *fname_following = new char[file_2.length() + 1];
             std::strcpy(fname_following, (file_2).c_str());
             int fd_following = open(fname_following, O_RDONLY);
@@ -375,17 +375,30 @@ public:
             char buffer_follow[MAX_DATA];
             while (inlen_follow = read(fd_following, buffer_follow, 14) > 0) {
                 std::cout << buffer_follow << std::endl;
+                std::string user(buffer_follow.substr(0,3));
+                user.erase(remove(user.begin(), user.end(), ' '), user.end());
+                std::cout << "is followed by " << user  << "."<< std::endl;
                 std::string string_following(buffer_follow);
-                std::cout << string_following.substr(0,3) << std::endl;
+                users_following[username].push_back(string_following);
+                users_followers[user].push_back(username);
             }
 
-            // creating timeline directory
-            std::string file_3 = "users_timeline/";
-            std::string filet = file_3.append(username);
 
+            std::string file_4 = "users_timeline/";
+            file_4.append(username);
+            file_4.append("_timeline.txt");
+            char *fname_time = new char[file_4.length() + 1];
+            std::strcpy(fname_time, (file_4).c_str());
+            int fd_time = open(fname_time, O_RDONLY);
+            ssize_t inlen_time;
+            char buffer_time[MAX_DATA];
+            while (inlen_time = read(fd_time, buffer_time, 14) > 0) {
+                std::cout << buffer_time << std::endl;
+                std::string string_time(buffer_time);
+                users_own_timeline[username].push_back(string_time);
+            }
 
         }
-        //TODO: restore user's own timeline posts
 
 
 
