@@ -293,7 +293,7 @@ public:
             memset(buff, 0, sizeof(buff));
             strcpy(buff, s.c_str());
             fileread = open(fname_f, O_WRONLY);
-            write(fileread, buff, sizeof(buffer));
+            write(fileread, buff, s.length());
             close(fileread);
 
             return "SUCCESS";
