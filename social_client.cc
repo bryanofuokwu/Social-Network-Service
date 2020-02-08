@@ -228,7 +228,7 @@ public:
                 user_to_follow.append(ts);
 
                 std::strcpy(buff, user_to_follow.c_str());
-                int filewrite = open(fname_f, O_WRONLY);
+                int filewrite = open(fname_f, O_WRONLY | O_APPEND);
                 write(filewrite, buff, user_to_follow.length());
                 return "SUCCESS";
             }
