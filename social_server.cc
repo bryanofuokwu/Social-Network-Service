@@ -373,6 +373,7 @@ public:
             int fd_following = open(fname_following, O_RDONLY);
             ssize_t inlen_follow;
             char buffer_follow[MAX_DATA];
+            memset(buffer_follow, 0, sizeof(buffer_follow));
             while (inlen_follow = read(fd_following, buffer_follow, 14) > 0) {
                 std::cout << buffer_follow << std::endl;
                 std::string userr(buffer_follow);
@@ -380,8 +381,11 @@ public:
                 user.erase(remove(user.begin(), user.end(), ' '), user.end());
                 std::cout << "is followed by " << user  << "."<< std::endl;
                 std::string string_following(buffer_follow);
-                users_following[username].push_back(string_following);
-                users_followers[user].push_back(username);
+                if (username != user){
+                    users_following[username].push_back(string_following);
+                    users_followers[user].push_back(username);
+                }
+                //users_followers[user].push_back(username);
             }
 
 
