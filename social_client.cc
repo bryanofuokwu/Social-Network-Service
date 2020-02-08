@@ -289,7 +289,7 @@ public:
             fileread = open(fname_f, O_TRUNC, 0666);
             close(fileread);
 
-            char buff[MAX_DATA];
+            char buff[15];
             memset(buff, 0, sizeof(buff));
             strcpy(buff, s.c_str());
             fileread = open(fname_f, O_WRONLY);
