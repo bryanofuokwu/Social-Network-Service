@@ -441,15 +441,16 @@ int main(int argc, char **argv)
     read(fd_user, semi, MAX_DATA);
     if(!(strstr(semi,username.c_str())))
     {
+        if (username.length() == 2)
+        {
+            username.append(" ");
+        }
         char buff[MAX_DATA];
         memset(buff, 0, sizeof(buff));
         strcpy(buff, username.c_str());
         write(fd_user, buff, strlen(buff));
         close(fd_user);
     }
-
-
-
 
 
     // creating following directory

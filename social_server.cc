@@ -221,7 +221,7 @@ public:
         int file_all = open("user_data/users.txt", O_RDONLY);
         std::string net_users;
 
-        while (inlen = read(file_all, buffer, 2) > 0)
+        while (inlen = read(file_all, buffer, 3) > 0)
         {
             net_users.append(buffer);
             net_users.append(",");
@@ -364,9 +364,10 @@ public:
         char buffer[MAX_DATA];
         memset(buffer, 0, sizeof(buffer));
         ssize_t inlen;
-        while (inlen = read(file_all_users, buffer, 2) > 0) {
+        while (inlen = read(file_all_users, buffer, 3) > 0) {
             // what it read in is the user
             std::string username(buffer);
+            username.erase(remove(username.begin(), username.end(), ' '), username.end());
             std::cout << "user we are on: " <<  buffer << std::endl;
             std::string file_2 = "users_following/";
             file_2.append(username);
