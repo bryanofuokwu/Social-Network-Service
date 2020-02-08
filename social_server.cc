@@ -216,7 +216,7 @@ public:
             {
                 for (auto following : it->second)
                 {
-                    std::cout <<"user has follower" <<  *following << std::endl;
+                    std::cout <<"user has follower" << std::endl;
                     std::string follow = following.substr(0, 3);
                     follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
                     follow_users.append(follow);
