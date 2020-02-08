@@ -268,9 +268,10 @@ public:
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
+            std::string s = "";
             while (inlen = read(fileread, buffer, sizeof(buffer)) > 0)
             {
-                std::string s = "";
+
                 for (int i = 0; i < sizeof(buffer); i++)
                 {
                     s = s + buffer[i];
