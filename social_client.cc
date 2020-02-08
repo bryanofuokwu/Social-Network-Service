@@ -264,7 +264,7 @@ public:
             user_following.append("_following.txt");
             char *fname_f = new char[user_following.length() + 1];
             std::strcpy(fname_f, user_following.c_str());
-            char buffer[MAX_DATA];
+            char *buffer = new char[MAX_DATA];
             memset(buffer, 0, sizeof(buffer));
             int fileread = open(fname_f, O_RDONLY);
             ssize_t inlen;
