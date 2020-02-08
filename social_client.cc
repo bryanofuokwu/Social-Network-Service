@@ -487,8 +487,11 @@ int main(int argc, char **argv)
     social::SocialNetwork socialNetwork;
     User *user = socialNetwork.add_user();
     user->set_name(username);
-    myc = new Client(hostname, username, port, grpc::CreateChannel("localhost:3010", grpc::InsecureChannelCredentials()));
-    // You MUST invoke "run_client" function to start business logic
+    std::string server;
+    server.append(hostname);
+    server.append(":");
+    server.append(port);
+    myc = new Client(hostname, username, port, grpc::CreateChannel(server, grpc::InsecureChannelCredentials()));
     IReply ire;
     myc->Follow(username, &ire, username);
     myc->run_client();
