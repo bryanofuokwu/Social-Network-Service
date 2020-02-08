@@ -283,6 +283,7 @@ public:
                 std::cout << "Cstr : " << cstr << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
                 {
+                    std::cout << "YES THEY DO MATCH" << std::endl;
                     continue;
                 }
                 else
@@ -297,6 +298,7 @@ public:
 
             for (int i = 0; i < followers.size(); ++i)
             {
+                std::cout << "Vec : " << followers[i] << std::endl;
                 char buff[MAX_DATA];
                 strcpy(buff, followers[i].c_str());
                 fileread = open(fname_f, O_WRONLY);
