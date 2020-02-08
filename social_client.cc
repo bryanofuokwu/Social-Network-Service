@@ -277,11 +277,6 @@ public:
                     s = s + buffer[i];
                 }
                 int pos = s.find(user_to_unfollow);
-                std::string unf_str = s.substr(pos, 14);
-                char cstr[unf_str.length() + 1];
-                std::strcpy(cstr, unf_str.c_str());
-                std::cout << "Buffer : " << buffer << std::endl;
-                std::cout << "Cstr : " << cstr << std::endl;
                 s.erase(pos, 14);
                 close(fileread);
             }
