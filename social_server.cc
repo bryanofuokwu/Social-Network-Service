@@ -77,54 +77,46 @@ public:
 
         bool already_follow_self = false;
         std::string follow_msg;
-        for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++)
-        {
-            std::vector<std::string> listOfMsgs = it->second;
-            for (std::vector<std::string>::iterator vec_it = listOfMsgs.begin(); vec_it != listOfMsgs.end(); vec_it++)
-            {
-                std::string following = (*(vec_it)).substr(0, 3);
-                following.erase(remove(following.begin(), following.end(), ' '), following.end());
-                if (it->first == following)
-                {
-                    follow_msg = (*(vec_it));
-                    std::cout << "they already follow each other" << (*(vec_it)) << std::endl;
-                    already_follow_self = true;
-                    break;
-                }
-            }
-        }
-        if (!already_follow_self)
-        {
+        if(frequest->to_follow() == frequest->from_user()){
+            std::cout << "user NOT YET active" << std::endl;
+            users_active.push_back(frequest->from_user());
             users_followers[frequest->from_user()].push_back(frequest->from_user());
+
+            std::string follow_msg;
+            follow_msg.append(frequest->from_user());
+            if ((frequest->from_user()).length() == 2){
+                follow_msg.append(" :0000000000");
+            }
+            else {
+                follow_msg.append(":0000000000");
+            }
+            std::cout << "follow msg to make it follow self " << follow_msg << std::endl;
             users_following[frequest->from_user()].push_back(follow_msg);
         }
 
-        while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0)
-        {
-            // we want to make a char* of the string to follow
-            char cstr[(frequest->to_follow()).length() + 1];
-            strcpy(cstr, (frequest->to_follow()).c_str());
-            if ((strcmp(cstr, buffer)) == 0)
-            {
-                close(fileread);
-                users_followers[frequest->to_follow()].push_back(frequest->from_user());
-                std::string user_follow_time;
-                if (frequest->to_follow().length() == 2)
-                {
-                    user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(" :");
+        else {
+            while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
+                // we want to make a char* of the string to follow
+                char cstr[(frequest->to_follow()).length() + 1];
+                strcpy(cstr, (frequest->to_follow()).c_str());
+                if ((strcmp(cstr, buffer)) == 0) {
+                    close(fileread);
+                    users_followers[frequest->to_follow()].push_back(frequest->from_user());
+                    std::string user_follow_time;
+                    if (frequest->to_follow().length() == 2) {
+                        user_follow_time.append(frequest->to_follow());
+                        user_follow_time.append(" :");
+                    } else {
+                        user_follow_time.append(frequest->to_follow());
+                        user_follow_time.append(":");
+                    }
+                    std::stringstream ss;
+                    ss << frequest->fr_timestamp().seconds();
+                    std::string ts = ss.str();
+                    user_follow_time.append(ts);
+                    users_following[frequest->from_user()].push_back(user_follow_time);
+                    return Status::OK;
                 }
-                else
-                {
-                    user_follow_time.append(frequest->to_follow());
-                    user_follow_time.append(":");
-                }
-                std::stringstream ss;
-                ss << frequest->fr_timestamp().seconds();
-                std::string ts = ss.str();
-                user_follow_time.append(ts);
-                users_following[frequest->from_user()].push_back(user_follow_time);
-                return Status::OK;
             }
         }
         close(fileread);
