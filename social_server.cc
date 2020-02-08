@@ -410,10 +410,7 @@ public:
                     break;
                 }
             }
-<<<<<<< HEAD
 
-=======
->>>>>>> refs/remotes/origin/master
         }
 
         return Status::OK;
