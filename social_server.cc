@@ -211,6 +211,7 @@ public:
         std::string follow_users;
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it)
         {
+            std::cout <<"iterate" <<  following << std::endl;
             if (it->first == user)
             {
                 for (auto following : it->second)
