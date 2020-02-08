@@ -278,7 +278,7 @@ public:
                 {
                     s = s + buffer[i];
                 }
-                std::size_t pos = s.find(user_to_unfollow);
+                std::size_t pos = s.find("u2");
                 std::string str = s.substr(pos, 14);
                 std::cout << "Here is the cut string " << str << std::endl;
                 if ((strcmp(cstr, buffer)) == 0)
