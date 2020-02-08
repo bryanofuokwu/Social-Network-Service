@@ -98,8 +98,10 @@ public:
                 std::string username(buffer);
                 username.erase(remove(username.begin(), username.end(), ' '), username.end());
                 char cstr[(username).length() + 1];
-                strcpy(cstr, (username).c_str());
-                if ((strcmp(cstr, buffer)) == 0) {
+                strcpy(cstr, (frequest->to_follow()).c_str());
+                char cstr2[(username).length() + 1];
+                strcpy(cstr2, (username).c_str());
+                if ((strcmp(cstr, cstr2)) == 0) {
                     close(fileread);
                     users_followers[frequest->to_follow()].push_back(frequest->from_user());
                     std::string user_follow_time;
