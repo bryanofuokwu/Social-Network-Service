@@ -211,12 +211,12 @@ public:
         std::string follow_users;
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it)
         {
-            std::cout <<"iterate" <<  following << std::endl;
+            std::cout <<"iterate"  << std::endl;
             if (it->first == user)
             {
                 for (auto following : it->second)
                 {
-                    std::cout <<"user has follower" << std::endl;
+                    std::cout <<"user has follower" << following << std::endl;
                     std::string follow = following.substr(0, 3);
                     follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
                     follow_users.append(follow);
