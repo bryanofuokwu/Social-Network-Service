@@ -446,20 +446,36 @@ int main(int argc, char **argv)
     std::string file_3 = "users_timeline/";
     std::string filet = file_3.append(username);
 
+    std::string file_4 = "users_followers/";
+    std::string filer = file_4.append(username);
+
     // for appending to the user.txt file
     std::string file_timeline = filet.append("_timeline");
     std::string file_following = filef.append("_following");
+    std::string file_followers = filer.append("_followers");
+
 
     //adding the txt file extenstion
     std::string file_following_txt = file_timeline.append(".txt");
     std::string file_timeline_txt = file_following.append(".txt");
+    std::string file_followers_txt = file_followers.append(".txt");
 
     //creating the file name
     char *fname_timeline = new char[file_timeline_txt.length() + 1];
     char *fname_following = new char[file_following_txt.length() + 1];
+    char *fname_followers = new char[file_followers_txt.length() + 1];
+
 
     std::strcpy(fname_timeline, (file_timeline_txt).c_str());
     std::strcpy(fname_following, (file_following_txt).c_str());
+    std::strcpy(fname_followers, (file_followers_txt).c_str());
+
+    int fd_follower = open(fname_followers, O_WRONLY | O_CREAT | O_APPEND, 0666);
+    char buff_follower[MAX_DATA];
+    memset(buff_follower, 0, sizeof(buff_follower));
+    strcpy(buff_follower, username.c_str());
+    write(fd_follower, buff_follower, strlen(buff_follower));
+    close(fd_follower);
 
     // for creating to the user_timeline.txt file
     int fd_time = open(fname_timeline, O_WRONLY | O_CREAT | O_APPEND, 0666);

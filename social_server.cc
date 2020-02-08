@@ -362,7 +362,28 @@ public:
         memset(buffer, 0, sizeof(buffer));
         ssize_t inlen;
         while (inlen = read(file_all_users, buffer, 2) > 0) {
-            std::cout << buffer << std::endl;
+            // what it read in is the user
+            std::string username(buffer);
+            std::cout << "user we are on" <<  buffer << std::endl;
+            std::string file_2 = "users_following/";
+            file_2.append(username);
+            file_2.append(".txt");
+            char *fname_following = new char[file_2.length() + 1];
+
+            int fd_following = open(fname_following, O_RDONLY);
+            ssize_t inlen_follow;
+            char buffer_follow[MAX_DATA];
+            while (inlen_follow = read(fd_following, buffer_follow, 14) > 0) {
+                std::cout << buffer_follow << std::endl;
+                std::string string_following(buffer_follow);
+                std::cout << string_following.substr(0,3) << std::endl;
+            }
+
+            // creating timeline directory
+            std::string file_3 = "users_timeline/";
+            std::string filet = file_3.append(username);
+
+
         }
         //TODO: restore user's own timeline posts
 
