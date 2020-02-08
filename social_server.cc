@@ -74,47 +74,6 @@ public:
         int fileread = open("user_data/users.txt", O_RDONLY);
         char buffer[MAX_DATA];
         ssize_t inlen;
-        if(frequest->to_follow() == frequest->from_user()){
-            std::cout << "user NOT YET active" << std::endl;
-            users_active.push_back(frequest->from_user());
-            users_followers[frequest->from_user()].push_back(frequest->from_user());
-
-            std::string follow_msg;
-            follow_msg.append(frequest->from_user());
-            if ((frequest->from_user()).length() == 2){
-                follow_msg.append(" :0000000000");
-            }
-            else {
-                follow_msg.append(":0000000000");
-            }
-            std::cout << "follow msg to make it follow self " << follow_msg << std::endl;
-            users_following[frequest->from_user()].push_back(follow_msg);
-
-        }
-        else {
-            while (inlen = read(fileread, buffer, (frequest->to_follow()).length()) > 0) {
-                // we want to make a char* of the string to follow
-                char cstr[(frequest->to_follow()).length() + 1];
-                strcpy(cstr, (frequest->to_follow()).c_str());
-                if ((strcmp(cstr, buffer)) == 0) {
-                    close(fileread);
-                    users_followers[frequest->to_follow()].push_back(frequest->from_user());
-                    std::string user_follow_time;
-                    if (frequest->to_follow().length() == 2) {
-                        user_follow_time.append(frequest->to_follow());
-                        user_follow_time.append(" :");
-
-                    } else {
-                        user_follow_time.append(frequest->to_follow());
-                        user_follow_time.append(":");
-                    }
-                    std::stringstream ss;
-                    ss << frequest->fr_timestamp().seconds();
-                    std::string ts = ss.str();
-                    user_follow_time.append(ts);
-                    users_following[frequest->from_user()].push_back(user_follow_time);
-                    return Status::OK;
-                }
 
         bool already_follow_self = false;
         std::string follow_msg;
@@ -166,7 +125,6 @@ public:
                 user_follow_time.append(ts);
                 users_following[frequest->from_user()].push_back(user_follow_time);
                 return Status::OK;
->>>>>>> 3b36c57beba2a312c3b1c21c677edf34c5a2fbc7
             }
         }
         close(fileread);
@@ -195,12 +153,15 @@ public:
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_following.begin(); it != users_following.end(); it++)
                 {
                     std::vector<std::string> *listOfMsgs = &(it->second);
+                    //std::cout << "it first " << (it->first) << ".unfollow from user " <<unfollow_from_user  << "."<< std::endl;
                     if ((it->first) == unfollow_from_user)
                     {
+                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
                         std::vector<std::string>::iterator vec_it_remove;
                         for (std::vector<std::string>::iterator vec_it = listOfMsgs->begin(); vec_it != listOfMsgs->end(); vec_it++)
                         {
                             std::string unfollow = (*(vec_it)).substr(0, 3);
+                            //std::cout << "user to unfollow  " << unfollow << std::endl;
                             unfollow.erase(remove(unfollow.begin(), unfollow.end(), ' '), unfollow.end());
                             if (unfollow == user_to_unfollow)
                             {
@@ -212,8 +173,7 @@ public:
                             }
                         }
                         listOfMsgs->erase(vec_it_remove);
-
-
+                        //std::cout << "following size " << users_following[unfollow_from_user].size()<< std::endl;
                     }
                 }
                 for (std::map<std::string, std::vector<std::string>>::iterator it = users_followers.begin(); it != users_followers.end(); it++)
@@ -251,18 +211,6 @@ public:
         char buffer[2];
         ssize_t inlen;
 
-<<<<<<< HEAD
-    Status List(ServerContext* context, const ListRequest* lrequest,
-                  ListReply* lreply) override {
-       std::string user = lrequest->from_user();
-       char buffer[2];
-       ssize_t inlen;
-
-       std::string follow_users;
-        for (auto it = users_followers.begin(); it != users_followers.end(); ++it) {
-            if (it->first == user) {
-                for (auto following : it->second) {
-                    std::string follow = following;
         std::string follow_users;
         for (auto it = users_followers.begin(); it != users_followers.end(); ++it)
         {
@@ -270,7 +218,8 @@ public:
             {
                 for (auto following : it->second)
                 {
-                    std::string follow = following
+                    std::string follow = following.substr(0, 3);
+                    follow.erase(remove(follow.begin(), follow.end(), ' '), follow.end());
                     follow_users.append(follow);
                     follow_users.append(",");
                 }
@@ -410,7 +359,6 @@ public:
                     break;
                 }
             }
-
         }
 
         return Status::OK;
